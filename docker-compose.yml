@@ -1,0 +1,8 @@
+version: '2'
+services:
+  api:
+    build: .
+    ports:
+      - "85:80"
+    volumes:
+      - .:/var/www/resmedica.api/

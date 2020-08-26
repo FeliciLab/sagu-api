@@ -6,8 +6,6 @@ use Firebase\JWT\JWT;
 
 class JWTWrapper
 {
-    const KEY = 'Espce_@dmin'; // chave
-
     /**
      * Geracao de um novo token jwt
      */
@@ -22,7 +20,7 @@ class JWTWrapper
             'data' => $options['userdata'], // Dados do usuario logado
         ];
 
-        return JWT::encode($tokenParam, self::KEY);
+        return JWT::encode($tokenParam, env('JWT_KEY'));
     }
 
     /**
@@ -30,6 +28,6 @@ class JWTWrapper
      */
     public static function decode($jwt)
     {
-        return JWT::decode($jwt, self::KEY, ['HS256']);
+        return JWT::decode($jwt, env('JWT_KEY'), ['HS256']);
     }
 }

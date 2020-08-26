@@ -16,7 +16,8 @@ class AuthMiddleware
 
         if ($jwt) {
             try {
-                JWTWrapper::decode($jwt);
+                $jwt = JWTWrapper::decode($jwt);
+                $request->request->add(['usuario' => $jwt->data]);
                 return $next($request);
             } catch (\Exception $ex) {
                 return response()->json([

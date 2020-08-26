@@ -12,7 +12,9 @@ class ConsultaSupervisorController extends Controller
 {
     public function turmasSupervisor(Request $request, AuthService $authService)
     {
-        $jwt = $authService->getJWTDataUser($request);
+
+       // dd($request);
+        $jwt = $request->get('usuario');
 
         $supervisorId = $jwt->supervisorid;
 

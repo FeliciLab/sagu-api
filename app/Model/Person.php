@@ -6,6 +6,7 @@ class Person
 {
     const PERFIL_RESIDENTE = 1;
     const PERFIL_PRECEPTOR = 2;
+    const PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR = 22;
 
     public $id;
     public $name;

@@ -4,6 +4,7 @@ namespace App\DAO;
 
 use App\Model\Person;
 use App\Model\Preceptor;
+use App\Model\ResidenciaMultiprofissional\Supervisor;
 use App\Model\Residente;
 use App\Model\User;
 use Illuminate\Support\Facades\DB;
@@ -56,31 +57,57 @@ class UserDAO
             $residente->setPerson($person);
 
             return $residente;
-        } else {
-            $userMiolo = DB::table('public.miolo_user')
-                        ->join('public.basphysicalperson', 'public.miolo_user.login', 'public.basphysicalperson.miolousername')
-                        ->join('med.preceptoria', 'public.basphysicalperson.personid', 'med.preceptoria.personid')
-                        ->where('public.miolo_user.login', '=', $user->getLogin())
-                        ->where('public.miolo_user.m_password', '=', $user->getSenha())
-                        ->limit(1)
-                        ->get();
+        } 
 
-            if (count($userMiolo) > 0) {
-                $user = $userMiolo[0];
 
-                $person = new Person();
-                $person->setId($user->personid);
-                $person->setName($user->name);
-                $person->setPerfil(Person::PERFIL_PRECEPTOR);
+        $userMiolo = DB::table('public.miolo_user')
+                    ->join('public.basphysicalperson', 'public.miolo_user.login', 'public.basphysicalperson.miolousername')
+                    ->join('med.preceptoria', 'public.basphysicalperson.personid', 'med.preceptoria.personid')
+                    ->where('public.miolo_user.login', '=', $user->getLogin())
+                    ->where('public.miolo_user.m_password', '=', $user->getSenha())
+                    ->limit(1)
+                    ->get();
 
-                $preceptor = new Preceptor();
-                $preceptor->setId($user->preceptorid);
-                $preceptor->setPerson($person);
+        if (count($userMiolo) > 0) {
+            $user = $userMiolo[0];
 
-                return $preceptor;
-            }
+            $person = new Person();
+            $person->setId($user->personid);
+            $person->setName($user->name);
+            $person->setPerfil(Person::PERFIL_PRECEPTOR);
 
+            $preceptor = new Preceptor();
+            $preceptor->setId($user->preceptorid);
+            $preceptor->setPerson($person);
+
+            return $preceptor;
         }
+
+
+        $userMiolo = DB::table('public.miolo_user')
+                    ->join('public.basphysicalperson', 'public.miolo_user.login', 'public.basphysicalperson.miolousername')
+                    ->join('res.supervisores', 'public.basphysicalperson.personid', 'res.supervisores.personid')
+                    ->where('public.miolo_user.login', '=', $user->getLogin())
+                    ->where('public.miolo_user.m_password', '=', $user->getSenha())
+                    ->limit(1)
+                    ->get();
+
+        if (count($userMiolo) > 0) {
+            $user = $userMiolo[0];
+
+            $person = new Person();
+            $person->setId($user->personid);
+            $person->setName($user->name);
+            $person->setPerfil(Person::PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR);
+
+            $supervisor = new Supervisor();
+            $supervisor->setId($user->supervisorid);
+            $supervisor->setPerson($person);
+
+            return $supervisor;
+        }
+
+        
 
         return array();
     }

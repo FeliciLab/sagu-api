@@ -6,6 +6,7 @@ use App\DAO\UserDAO;
 use App\Http\JWT\JWTWrapper;
 use App\Model\Person;
 use App\Model\User;
+use Illuminate\Http\Request;
 
 class AuthService 
 {
@@ -58,4 +59,14 @@ class AuthService
             'userdata' => $this->getUserData($usuario)
         ]);
     }
+
+    public function getJWTDataUser(Request $request)
+    {
+        $authorization = $request->header('Authorization');
+        $jwt = sscanf($authorization, 'Bearer %s');
+
+        $jwt = JWTWrapper::decode($jwt[0]);
+        return $jwt->data;
+    }
+
 }

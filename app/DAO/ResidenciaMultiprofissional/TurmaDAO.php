@@ -31,21 +31,32 @@ class TurmaDAO
         return $turma;
     }
 
-    public function retornaTurmasSupervisor($supervisor)
+    public function buscarTurmasSupervisor($supervisorId)
     {
-        $turmasSelect = DB::table('res.turma')
-                        ->select('res.turma.*')
-                        ->join('res.ofertadeunidadetematica', 'res.ofertadeunidadetematica.turmaid', 'res.turma.turmaid')
-                        ->join('res.ofertadeunidadetematicasupervisoresinstituicoes', 'res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid', 'res.ofertadeunidadetematica.ofertadeunidadetematicaid')
-                        ->where('res.ofertadeunidadetematicasupervisoresinstituicoes.supervisorid', '=', $supervisor->getId())
-                        ->get();
-
-
-        $turmas = array();
-        foreach ($turmasSelect as $turmaSelect) {
-            $turmas[] = $this->get($turmaSelect->turmaid);
-        }
-
-        return $turmas;
+        return DB::table('res.turma')
+                ->distinct()
+                ->select(
+                    'res.turma.turmaid as turmaid',
+                    'res.turma.codigoturma as codigoturma',
+                    'res.turma.descricao as descricao',
+                    'res.turma.datainicio as datainicio',
+                    'res.turma.datafim as datafim',
+                    'res.turma.quantidadeperiodo as quantidadeperiodo',
+                    'res.turma.vagas as vagas'
+                )
+                ->join('res.ofertadeunidadetematica', 'res.ofertadeunidadetematica.turmaid', 'res.turma.turmaid')
+                ->join(
+                    'res.ofertadeunidadetematicasupervisoresinstituicoes',
+                    'res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid',
+                    'res.ofertadeunidadetematica.ofertadeunidadetematicaid'
+                )
+            ->join(
+                'res.supervisores',
+                'res.supervisores.supervisorid',
+                'res.ofertadeunidadetematicasupervisoresinstituicoes.supervisorid'
+            )
+                ->where('res.supervisores.supervisorid', '=', $supervisorId)
+                ->get()
+                ->toArray();
     }
 }

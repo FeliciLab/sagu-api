@@ -10,7 +10,6 @@ class AuthMiddleware
 {
     public function handle($request, Closure $next)
     {
-
         $authorization = $request->header('Authorization');
         list($jwt) = sscanf($authorization, 'Bearer %s');
 

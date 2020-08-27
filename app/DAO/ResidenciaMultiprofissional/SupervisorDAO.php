@@ -9,23 +9,20 @@ use Illuminate\Support\Facades\DB;
 
 class SupervisorDAO
 {
-
     /**
      * @param $id
      * @return Supervisor
      */
-    public function get($id)
+    public function buscarSupervisor($id)
     {
-        $select = DB::select('SELECT * FROM res.supervisores WHERE supervisorid = :supervisorid', ['supervisorid' => $id]);
+        $select = DB::table('res.supervisores')
+            ->where('supervisorid', $id)
+            ->get();
 
         $supervisor = new Supervisor();
-
         if (count($select)) {
             $select = $select[0];
-
             $supervisor->setId($select->supervisorid);
-
-
             $personDao = new PersonDAO();
             $supervisor->setPerson($personDao->get($select->personid));
         }
@@ -33,13 +30,8 @@ class SupervisorDAO
         return $supervisor;
     }
 
-    public function retornaTurmasSupervisor($supervisorId)
+    public function buscarTurmasDoSupervisor($supervisorId)
     {
-        $supervisor = $this->get($supervisorId);
-
-        $turmaDao = new TurmaDAO();
-        $turmasSupervisor = $turmaDao->retornaTurmasSupervisor($supervisor);
-
-        return $turmasSupervisor == null ? [] : $turmasSupervisor;
+        return (new TurmaDAO())->buscarTurmasSupervisor($supervisorId);
     }
 }

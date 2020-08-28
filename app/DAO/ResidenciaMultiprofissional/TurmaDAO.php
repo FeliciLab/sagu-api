@@ -20,7 +20,6 @@ class TurmaDAO
 
         if (count($select)) {
             $select = $select[0];
-
             $turma->setId($select->turmaid);
             $turma->setCodigoTurma($select->codigoturma);
             $turma->setDescricao($select->descricao);
@@ -31,9 +30,9 @@ class TurmaDAO
         return $turma;
     }
 
-    public function buscarTurmasSupervisor($supervisorId)
+    public function buscarTurmasSupervisor($supervisorId, $page = null)
     {
-        return DB::table('res.turma')
+        $query = DB::table('res.turma')
             ->distinct()
             ->select(
                 'res.turma.turmaid as turmaid',
@@ -56,7 +55,12 @@ class TurmaDAO
                 'res.ofertadeunidadetematicasupervisoresinstituicoes.supervisorid'
             )
             ->where('res.supervisores.supervisorid', '=', $supervisorId)
-            ->get()
-            ->toArray();
+            ->limit(25);
+
+        if ($page) {
+            $query->offset(25 * ($page - 1));
+        }
+
+        return $query->get()->toArray();
     }
 }

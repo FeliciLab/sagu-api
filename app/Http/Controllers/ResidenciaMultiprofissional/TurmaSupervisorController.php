@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class TurmaSupervisorController extends Controller
 {
-    public function turmasSupervisor(Request $request, TurmaDAO $turmaDAO)
+    public function turmasSupervisor(Request $request, TurmaDAO $turmaDAO, $page=null)
     {
         return \response()->json([
             'turmas' => $turmaDAO->buscarTurmasSupervisor(
-                $request->get('usuario')->supervisorid
+                $request->get('usuario')->supervisorid,
+                $page
             )
         ]);
     }

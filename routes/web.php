@@ -85,6 +85,8 @@ $app->group(['middleware' => ['auth']], function () use ($app) {
     $app->get('encontro/frequencias/{encontroId}', 'EncontroController@frequenciasDoEncontro');
     $app->put('frequencia/salvar', ['uses' => 'FrequenciaController@salvarFrequencia']);
 
-
+    //** RESIDÊNCIA MULTIPROFISSIONAL - SUPERVISOR */
+    $app->group(['prefix' => 'residencia-multiprofissional'], function () use ($app) {
+        $app->get('/supervisores/turmas[/{page}]', 'ResidenciaMultiprofissional\TurmaSupervisorController@turmasSupervisor');
+    });
 });
-

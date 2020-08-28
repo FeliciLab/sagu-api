@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\JWT\JWTWrapper;
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController

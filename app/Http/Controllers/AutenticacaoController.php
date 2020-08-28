@@ -16,13 +16,11 @@ class AutenticacaoController extends Controller
         $senha = $request->input('senha');
     
         $usuario = $authService->autenticaUsuario($usuario, $senha);
-        if (count($usuario) == 0) {
-
+        if (!$usuario) {
             return \response()->json([
                 'login' => 'false',
                 'message' => 'Login Inválido',
             ], 401);
-
         }
         
         return \response()->json([

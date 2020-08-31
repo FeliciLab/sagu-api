@@ -1,19 +1,24 @@
 <?php
 
+
 namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
-use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
+use App\DAO\ResidenciaMultiprofissional\OfertaModuloSupervisorDAO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\PaginationValidateRequest;
 use Illuminate\Http\Request;
 use function response;
 
-
-class TurmaSupervisorController extends Controller
+class OfertaModuloSupervisorController extends Controller
 {
     use PaginationValidateRequest;
 
-    public function turmasSupervisor(Request $request, TurmaDAO $turmaDAO, $page = null)
+    public function index(
+        Request $request,
+        OfertaModuloSupervisorDAO $ofertaModuloSupervisorDAO,
+        $turma,
+        $page = null
+    )
     {
         if ($this->invalidePageParameter($page)) {
             return $this->responsePaginationError();
@@ -21,8 +26,9 @@ class TurmaSupervisorController extends Controller
 
         return response()->json(
             [
-                'turmas' => $turmaDAO->buscarTurmasSupervisor(
+                'ofertasModulos' => $ofertaModuloSupervisorDAO->buscarOfertasModuloSupervisor(
                     $request->get('usuario')->supervisorid,
+                    $turma,
                     $page
                 )
             ]

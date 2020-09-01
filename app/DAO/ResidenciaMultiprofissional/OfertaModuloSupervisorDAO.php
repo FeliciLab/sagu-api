@@ -4,10 +4,27 @@
 namespace App\DAO\ResidenciaMultiprofissional;
 
 
+use App\DAO\Traits\ArrayMapToModel;
+use App\Model\ResidenciaMultiprofissional\OfertaModulo;
 use Illuminate\Support\Facades\DB;
 
 class OfertaModuloSupervisorDAO
 {
+    use ArrayMapToModel;
+    /**
+     * @var OfertaModulo
+     */
+    public $model;
+
+    /**
+     * OfertaModuloSupervisorDAO constructor.
+     * @param OfertaModulo $model
+     */
+    public function __construct()
+    {
+        $this->model = new OfertaModulo();
+    }
+
     public function buscarOfertasModuloSupervisor($supervisorId, $turmaId, $page = null)
     {
         $query = DB::table('res.ofertadeunidadetematica')
@@ -28,10 +45,10 @@ class OfertaModuloSupervisorDAO
                 "),
                 'res.ofertadeunidadetematica.cargahoraria as cargahoraria',
                 'res.ofertadeunidadetematica.unidadetematicaid as unidadetematicaid',
-                'res.turma.descricao as turma_descricao',
-                'res.turma.codigoturma as turma_codigoturma',
-                'res.modulo.nome as modulo_nome',
-                'res.modulo.moduloid as modulo_moduloid'
+                'res.turma.descricao as turma.descricao',
+                'res.turma.codigoturma as turma.codigoturma',
+                'res.modulo.nome as modulo.nome',
+                'res.modulo.moduloid as modulo.moduloid'
             )
             ->join('res.turma', 'res.ofertadeunidadetematica.turmaid', 'res.turma.turmaid')
             ->join('res.unidadetematica', 'res.unidadetematica.unidadetematicaid', 'res.ofertadeunidadetematica.unidadetematicaid')
@@ -54,6 +71,6 @@ class OfertaModuloSupervisorDAO
             $query->offset(25 * ($page - 1));
         }
 
-        return $query->get()->toArray();
+        return $this->mapToModel($query->get()->toArray());
     }
 }

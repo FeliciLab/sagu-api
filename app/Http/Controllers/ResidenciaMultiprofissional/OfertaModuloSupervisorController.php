@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
-use App\DAO\ResidenciaMultiprofissional\OfertaModuloSupervisorDAO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\PaginationValidateRequest;
+use App\Services\OfertaModuloSurpervisorService;
 use Illuminate\Http\Request;
 use function response;
 
@@ -15,7 +15,7 @@ class OfertaModuloSupervisorController extends Controller
 
     public function index(
         Request $request,
-        OfertaModuloSupervisorDAO $ofertaModuloSupervisorDAO,
+        OfertaModuloSurpervisorService $ofertaModuloSurpervisorService,
         $turma,
         $page = null
     )
@@ -26,7 +26,7 @@ class OfertaModuloSupervisorController extends Controller
 
         return response()->json(
             [
-                'ofertasModulos' => $ofertaModuloSupervisorDAO->buscarOfertasModuloSupervisor(
+                'ofertasModulos' => $ofertaModuloSurpervisorService->buscarOfertaModuloTurmaSupervisor(
                     $request->get('usuario')->supervisorid,
                     $turma,
                     $page

@@ -4,22 +4,22 @@ namespace App\Model\ResidenciaMultiprofissional;
 
 use Faker\Provider\DateTime;
 
-class Turma
+class Turma extends BaseModelResidenciaMultiprofissional
 {
     public $id;
-    public $codigoTurma;
+    public $codigoturma;
     public $descricao;
-    public $dataInicio;
-    public $dataFim;
+    public $datainicio;
+    public $datafim;
 
     public function setId($id)
     {
         $this->id = $id;
     }
 
-    public function setCodigoTurma($codigoTurma)
+    public function setCodigoturma($codigoturma)
     {
-        $this->codigoTurma = $codigoTurma;
+        $this->codigoturma = $codigoturma;
     }
 
     public function setDescricao($descricao)
@@ -27,17 +27,17 @@ class Turma
         $this->descricao = $descricao;
     }
 
-    public function setDataInicio($dataInicio)
+    public function setDatainicio($datainicio)
     {
-        $data = new \DateTime($dataInicio);
-        $this->dataInicio = $data->format('d/m/Y');
+        $data = new \DateTime($datainicio);
+        $this->datainicio = $data->format('d/m/Y');
     }
 
 
-    public function setDataFim($dataFim)
+    public function setDatafim($datafim)
     {
-        $data = new \DateTime($dataFim);
-        $this->dataInicio = $data->format('d/m/Y');
+        $data = new \DateTime($datafim);
+        $this->datainicio = $data->format('d/m/Y');
     }
 
     public function getId()
@@ -45,9 +45,9 @@ class Turma
         $this->id;
     }
 
-    public function getCodigoTurma()
+    public function getCodigoturma()
     {
-        $this->codigoTurma;
+        $this->codigoturma;
     }
 
     public function getDescricao()
@@ -55,14 +55,14 @@ class Turma
         $this->descricao;
     }
 
-    public function getDataInicio()
+    public function getDatainicio()
     {
-        $this->dataInicio;
+        $this->datainicio;
     }
 
 
-    public function getDataFim()
+    public function getDatafim()
     {
-        $this->dataFim;
+        $this->datafim;
     }
 }

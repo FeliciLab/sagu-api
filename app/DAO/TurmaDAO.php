@@ -14,7 +14,8 @@ class TurmaDAO
      */
     public function get($id)
     {
-        $select = DB::select('SELECT * FROM med.turma WHERE turmaid = :turmaid', ['turmaid' => $id]);
+        $select = DB::table('med.turma')
+            ->where('turmaid', $id);
 
         $turma = new Turma();
 

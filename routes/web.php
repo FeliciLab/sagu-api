@@ -88,6 +88,6 @@ $app->group(['middleware' => ['auth']], function () use ($app) {
     //** RESIDÊNCIA MULTIPROFISSIONAL - SUPERVISOR */
     $app->group(['prefix' => 'residencia-multiprofissional'], function () use ($app) {
         $app->get('/supervisores/turmas[/{page}]', 'ResidenciaMultiprofissional\TurmaSupervisorController@turmasSupervisor');
-        $app->get('/supervisores/turma/{turma}/ofertas[/{page}]', 'ResidenciaMultiprofissional\OfertaModuloSupervisorController@index');
+            $app->get('/supervisores/turma/{turma}/ofertas[/{page}]', 'ResidenciaMultiprofissional\OfertaModuloSupervisorController@index');
     });
 });

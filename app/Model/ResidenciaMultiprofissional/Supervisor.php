@@ -4,7 +4,7 @@ namespace App\Model\ResidenciaMultiprofissional;
 
 use App\Model\Person;
 
-class Supervisor
+class Supervisor extends BaseModelSagu
 {
     public $id;
 
@@ -12,6 +12,10 @@ class Supervisor
      * @var $person Person
      */
     public $person;
+
+    protected $mapFieldModel = [
+        'supervisorid' => 'id'
+    ];
 
     /**
      * @return mixed

@@ -6,22 +6,22 @@ namespace App\Model\ResidenciaMultiprofissional;
 
 use App\Serializers\OfertaModuloTurmasSupervisorSerializer;
 
-class OfertaModulo extends BaseModelResidenciaMultiprofissional
+class OfertaModulo extends BaseModelSagu
 {
     /**
      * @var int
      */
-    public $ofertadeunidadetematicaid;
+    public $id;
 
     /**
      * @var date
      */
-    public $inicio;
+    public $dataInicio;
 
     /**
-     * @var date
+     * @var \DateTime
      */
-    public $fim;
+    public $dataFim;
 
     /**
      * @var string
@@ -52,6 +52,12 @@ class OfertaModulo extends BaseModelResidenciaMultiprofissional
      * @var Modulo
      */
     public $modulo;
+
+    protected $mapFieldModel = [
+        'ofertadeunidadetematicaid' => 'id',
+        'inicio' => 'dataInicio',
+        'fim' => 'dataFim'
+    ];
 
     /**
      * OfertaModulo constructor.

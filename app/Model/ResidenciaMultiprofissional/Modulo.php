@@ -4,7 +4,7 @@
 namespace App\Model\ResidenciaMultiprofissional;
 
 
-class Modulo extends BaseModelResidenciaMultiprofissional
+class Modulo extends BaseModelSagu
 {
     /**
      * @var string
@@ -14,5 +14,9 @@ class Modulo extends BaseModelResidenciaMultiprofissional
     /**
      * @var integer
      */
-    public $moduloid;
+    public $id;
+
+    protected $mapFieldModel = [
+        'moduloid' => 'id'
+    ];
 }

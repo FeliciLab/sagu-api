@@ -4,22 +4,29 @@ namespace App\Model\ResidenciaMultiprofissional;
 
 use Faker\Provider\DateTime;
 
-class Turma extends BaseModelResidenciaMultiprofissional
+class Turma extends BaseModelSagu
 {
     public $id;
-    public $codigoturma;
+    public $codigoTurma;
     public $descricao;
-    public $datainicio;
-    public $datafim;
+    public $dataInicio;
+    public $dataFim;
+
+    protected $mapFieldModel = [
+        'turmaid' => 'id',
+        'codigoturma' => 'codigoTurma',
+        'datainicio' => 'dataInicio',
+        'datafim' => 'dataFim'
+    ];
 
     public function setId($id)
     {
         $this->id = $id;
     }
 
-    public function setCodigoturma($codigoturma)
+    public function setCodigoTurma($codigoTurma)
     {
-        $this->codigoturma = $codigoturma;
+        $this->codigoTurma = $codigoTurma;
     }
 
     public function setDescricao($descricao)
@@ -27,17 +34,17 @@ class Turma extends BaseModelResidenciaMultiprofissional
         $this->descricao = $descricao;
     }
 
-    public function setDatainicio($datainicio)
+    public function setDataInicio($dataInicio)
     {
-        $data = new \DateTime($datainicio);
-        $this->datainicio = $data->format('d/m/Y');
+        $data = new \DateTime($dataInicio);
+        $this->dataInicio = $data->format('d/m/Y');
     }
 
 
-    public function setDatafim($datafim)
+    public function setDataFim($dataFim)
     {
-        $data = new \DateTime($datafim);
-        $this->datainicio = $data->format('d/m/Y');
+        $data = new \DateTime($dataFim);
+        $this->dataInicio = $data->format('d/m/Y');
     }
 
     public function getId()
@@ -45,9 +52,9 @@ class Turma extends BaseModelResidenciaMultiprofissional
         $this->id;
     }
 
-    public function getCodigoturma()
+    public function getCodigoTurma()
     {
-        $this->codigoturma;
+        $this->codigoTurma;
     }
 
     public function getDescricao()
@@ -55,14 +62,14 @@ class Turma extends BaseModelResidenciaMultiprofissional
         $this->descricao;
     }
 
-    public function getDatainicio()
+    public function getDataInicio()
     {
-        $this->datainicio;
+        $this->dataInicio;
     }
 
 
-    public function getDatafim()
+    public function getDataFim()
     {
-        $this->datafim;
+        $this->dataFim;
     }
 }

@@ -2,38 +2,42 @@
 
 namespace App\Model;
 
-class Residente
+use App\Model\BaseModel\BaseModelSagu;
+
+class Residente extends BaseModelSagu
 {
     public $id;
+    public $inicio;
+    public $fimPrevisto;
+    public $ofertasDeRodizio;
+
+    protected $mapFieldModel = [
+        'residenteid' => 'id',
+        'fimprevisto' => 'fimPrevisto'
+    ];
 
     /**
-     * @var $person Person
+     * @var Person
      */
     public $person;
 
     /**
-     * @var $especialidade Especialidade
+     * @var Especialidade
      */
     public $especialidade;
 
     /**
-     * @var $categoriaProfissional CategoriaProfissional
+     * @var CategoriaProfissional
      */
     public $categoriaProfissional;
 
-    public $inicio;
-
-    public $fimPrevisto;
-
     /**
-     * @var $turma Turma
+     * @var Turma
      */
     public $turma;
 
-    public $ofertasDeRodizio;
-
     /**
-     * @var $trabalhoDeConclusao TrabalhoDeConclusao
+     * @var TrabalhoDeConclusao
      */
     public $trabalhoDeConclusao;
 

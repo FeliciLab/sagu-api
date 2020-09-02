@@ -4,6 +4,8 @@
 namespace App\Model\ResidenciaMultiprofissional;
 
 
+use App\Model\BaseModel\BaseModelSagu;
+
 class Modulo extends BaseModelSagu
 {
     /**

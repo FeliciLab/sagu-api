@@ -15,19 +15,14 @@ class SupervisorDAO
      */
     public function buscarSupervisor($id)
     {
-        $select = DB::table('res.supervisores')
-            ->where('supervisorid', $id)
-            ->get();
-
-        $supervisor = new Supervisor();
-        if (count($select)) {
-            $select = $select[0];
-            $supervisor->setId($select->supervisorid);
-            $personDao = new PersonDAO();
-            $supervisor->setPerson($personDao->get($select->personid));
-        }
-
-        return $supervisor;
+        return new Supervisor(
+            DB::table('res.supervisores as supervisores')
+                ->join('public.basperson as person', 'person.personid', 'supervisores.supervisorid')
+                ->where('supervisores.supervisorid', $id)
+                ->get()
+                ->first()
+                ->toArray()
+        );
     }
 
     public function buscarTurmasDoSupervisor($supervisorId)

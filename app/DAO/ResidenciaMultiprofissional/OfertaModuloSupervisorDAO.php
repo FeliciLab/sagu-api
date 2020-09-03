@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class OfertaModuloSupervisorDAO
 {
     use ArrayMapToModel;
+
     /**
      * @var OfertaModulo
      */

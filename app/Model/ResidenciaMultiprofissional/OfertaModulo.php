@@ -4,24 +4,33 @@
 namespace App\Model\ResidenciaMultiprofissional;
 
 
-use App\Serializers\OfertaModuloTurmasSupervisorSerializer;
+use App\Model\BaseModel\BaseModelSagu;
 
-class OfertaModulo extends BaseModelResidenciaMultiprofissional
+/**
+ * Class OfertaModulo
+ * @package App\Model\ResidenciaMultiprofissional
+ *
+ * CONFIGURAÇÕES:
+ * protected $camposComposicao variável com os campos internos que são composições de outras classes modelo
+ * protected $mapFieldModel variável que faz referência à uma coluna da tabela que está escrita diferente do modelo.
+ *
+ */
+class OfertaModulo extends BaseModelSagu
 {
     /**
      * @var int
      */
-    public $ofertadeunidadetematicaid;
+    public $id;
 
     /**
      * @var date
      */
-    public $inicio;
+    public $dataInicio;
 
     /**
-     * @var date
+     * @var \DateTime
      */
-    public $fim;
+    public $dataFim;
 
     /**
      * @var string
@@ -54,47 +63,32 @@ class OfertaModulo extends BaseModelResidenciaMultiprofissional
     public $modulo;
 
     /**
-     * OfertaModulo constructor.
-     * @param int $ofertadeunidadetematicaid
-     * @param date $inicio
-     * @param date $fim
-     * @param string $encerramento
-     * @param string $nome
-     * @param int $semestre
-     * @param String $semestre_descricao
+     * Configuração para as variáveis de composição do objeto
+     * OBRIGATÓRIO implementar método set para cada variável da composição
+     * @var array [ 'nome da variável interna da composição' => [ valores do objeto ] ]
      */
-    public function __construct($dados = null)
-    {
-        if (!$dados) {
-            return;
-        }
+    protected $camposComposicao = [
+        'turma' => [],
+        'modulo' => []
+    ];
 
-        parent::__construct($dados);
+    /**
+     * Mapemento entre os cmapos da tabela e as variáveis do objeto.
+     * @var string[]
+     */
+    protected $mapFieldModel = [
+        'ofertadeunidadetematicaid' => 'id',
+        'inicio' => 'dataInicio',
+        'fim' => 'dataFim'
+    ];
+
+    public function setTurma($dados)
+    {
+        $this->turma = new Turma($dados);
     }
 
-    function popularModelo($dados)
+    public function setModulo($dados)
     {
-        $turma = [];
-        $modulo = [];
-        foreach ($dados as $key => $value) {
-            if (strpos($key, 'turma.') !== false) {
-                $joinTurma = explode('.', $key);
-                $turma[$joinTurma[1]] = $value;
-                continue;
-            }
-
-            if (strpos($key, 'modulo.') !== false) {
-                $joinModelo = explode('.', $key);
-                $modulo[$joinModelo[1]] = $value;
-                continue;
-            }
-
-            $this->$key = $value;
-        }
-
-        $this->turma = new Turma($turma);
-        $this->modulo = new Modulo($modulo);
-
-        return $this;
+        $this->modulo = new Modulo($dados);
     }
 }

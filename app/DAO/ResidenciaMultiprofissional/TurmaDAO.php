@@ -2,11 +2,27 @@
 
 namespace App\DAO\ResidenciaMultiprofissional;
 
+use App\DAO\Traits\ArrayMapToModel;
+use App\DAO\Traits\PaginationQuery;
+use App\DAO\Traits\RemoverCamposNulos;
 use App\Model\ResidenciaMultiprofissional\Turma;
 use Illuminate\Support\Facades\DB;
 
 class TurmaDAO
 {
+    use ArrayMapToModel, PaginationQuery, RemoverCamposNulos;
+
+    public $model;
+
+    /**
+     * TurmaDAO constructor.
+     * @param Turma $model
+     */
+    public function __construct()
+    {
+        $this->model = new Turma();
+    }
+
 
     /**
      * @param $id
@@ -14,20 +30,13 @@ class TurmaDAO
      */
     public function get($id)
     {
-        $select = DB::select('SELECT * FROM res.turma WHERE turmaid = :turmaid', ['turmaid' => $id]);
-
-        $turma = new Turma();
-
-        if (count($select)) {
-            $select = $select[0];
-            $turma->setId($select->turmaid);
-            $turma->setCodigoTurma($select->codigoturma);
-            $turma->setDescricao($select->descricao);
-            $turma->setDataInicio($select->datainicio);
-            $turma->setDataFim($select->datafim);
-        }
-
-        return $turma;
+        return new Turma(
+            DB::table($this->model->getTable())
+                ->where('turmaid', $id)
+                ->get()
+                ->first()
+                ->toArray()
+        );
     }
 
     public function buscarTurmasSupervisor($supervisorId, $page = null)
@@ -57,10 +66,10 @@ class TurmaDAO
             ->where('res.supervisores.supervisorid', '=', $supervisorId)
             ->limit(25);
 
-        if ($page) {
-            $query->offset(25 * ($page - 1));
-        }
+        $this->paginate($query, $page);
 
-        return $query->get()->toArray();
+        return $this->removerCamposNulosLista(
+            $this->mapToModel($query->get()->toArray())
+        );
     }
 }

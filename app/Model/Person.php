@@ -36,6 +36,10 @@ class Person extends BaseModelSagu
     public $email;
     private $senha;
 
+    protected $mapFieldModel = [
+        'personid' => 'id'
+    ];
+
     /**
      * @return mixed
      */

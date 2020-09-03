@@ -7,6 +7,16 @@ namespace App\Model\BaseModel;
 abstract class BaseModelSagu
 {
     /**
+     * @var string Schema do modelo
+     */
+    protected $schema = '';
+
+    /**
+     * @var string nome da tabela dentro do schema
+     */
+    protected $table = '';
+
+    /**
      * Mapeamento de valores do banco para variáveis internas oa modelo.
      * Criado para dar melhor legibilidade ao código.
      * @var array [ 'coluna do banco' => 'variável do modelo' ]
@@ -33,6 +43,12 @@ abstract class BaseModelSagu
         }
 
         $this->popularModelo($dados);
+    }
+
+
+    public function getTable()
+    {
+        return $this->schema . '.' . $this->table;
     }
 
     /**
@@ -65,14 +81,13 @@ abstract class BaseModelSagu
         }
     }
 
-    public function mapearCamposComposicao($field, $dado)
+    public function mapearCamposComposicao($columnSelect, $dado)
     {
-        foreach ($this->camposComposicao as $key => $value) {
-            if (strpos($field, $key . '.') !== false) {
-                $composicao = explode('.', $field);
-                $this->camposComposicao[$key][$composicao[1]] = $dado;
-                return true;
-            }
+        $columnName = explode('.', $columnSelect);
+        $modelVariable = $this->getFieldModel($columnName[0]);
+        if (isset($this->camposComposicao[$modelVariable])) {
+            $this->camposComposicao[$modelVariable][$columnName[1]] = $dado;
+            return true;
         }
 
         return false;
@@ -81,20 +96,32 @@ abstract class BaseModelSagu
     function popularModelo($dados)
     {
         foreach ($dados as $key => $value) {
-            $localVariable = $this->getFieldModel($key);
             if ($this->mapearCamposComposicao($key, $value)) {
                 continue;
             };
 
-            if ($this->functionSetExists($localVariable)) {
-                call_user_func([$this, $this->defineMethodSetName($localVariable)], $value);
+            $modelVariable = $this->getFieldModel($key);
+
+            if ($this->functionSetExists($modelVariable)) {
+                call_user_func([$this, $this->defineMethodSetName($modelVariable)], $value);
                 continue;
             }
 
-            $this->$localVariable = $value;
+            $this->$modelVariable = $value;
         }
+
 
         $this->popularCamposComposicoes();
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getCamposComposicao()
+    {
+        return $this->camposComposicao;
+    }
+
+
 }

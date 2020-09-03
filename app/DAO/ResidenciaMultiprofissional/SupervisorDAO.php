@@ -2,8 +2,6 @@
 
 namespace App\DAO\ResidenciaMultiprofissional;
 
-use App\DAO\PersonDAO;
-use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use App\Model\ResidenciaMultiprofissional\Supervisor;
 use Illuminate\Support\Facades\DB;
 

@@ -7,7 +7,7 @@ use function response;
 
 trait PaginationValidateRequest
 {
-    public function validatePageParameter($page)
+    public function invalidePageParameter($page)
     {
         return $page !== null && !ctype_digit($page);
     }

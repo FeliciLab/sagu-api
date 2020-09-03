@@ -21,10 +21,10 @@ class TurmaDAO
         if (count($select)) {
             $select = $select[0];
             $turma->setId($select->turmaid);
-            $turma->setCodigoTurma($select->codigoturma);
+            $turma->setCodigoturma($select->codigoturma);
             $turma->setDescricao($select->descricao);
-            $turma->setDataInicio($select->datainicio);
-            $turma->setDataFim($select->datafim);
+            $turma->setDatainicio($select->datainicio);
+            $turma->setDatafim($select->datafim);
         }
 
         return $turma;

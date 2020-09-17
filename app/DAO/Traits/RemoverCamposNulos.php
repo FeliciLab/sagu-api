@@ -15,19 +15,20 @@ trait RemoverCamposNulos
     {
         $resultado = [];
         foreach ($lista as $objeto) {
-            array_push($resultado, $this->removerCamposNulosToArray($objeto));
+            array_push($resultado, $this->removerCamposNulosObjectToArray($objeto));
         }
         return $resultado;
     }
 
-    public function removerCamposNulosToArray($objeto)
+    public function removerCamposNulosObjectToArray($objeto)
     {
         $resultado = [];
+
         foreach ($objeto as $key => $value) {
             if (array_key_exists($key, $objeto->getCamposComposicao())) {
-                $composicao = $this->removerCamposNulosToArray($value);
+                $composicao = $this->removerCamposNulosObjectToArray($value);
                 if (is_array($composicao) && count($composicao) > 0) {
-                    $resultado[$key] = $this->removerCamposNulosToArray($value);
+                    $resultado[$key] = $this->removerCamposNulosObjectToArray($value);
                 }
 
                 continue;

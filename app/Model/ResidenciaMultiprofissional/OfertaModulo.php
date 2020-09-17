@@ -84,11 +84,11 @@ class OfertaModulo extends BaseModelSagu
 
     public function setTurma($dados)
     {
-        $this->turma = new Turma($dados);
+        $this->setModeloComposto(Turma::class, 'turma', $dados);
     }
 
     public function setModulo($dados)
     {
-        $this->modulo = new Modulo($dados);
+        $this->setModeloComposto(Modulo::class, 'modulo', $dados);
     }
 }

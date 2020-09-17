@@ -96,13 +96,20 @@ $app->group(['middleware' => ['auth']], function () use ($app) {
                         '/turmas[/{page}]',
                         'ResidenciaMultiprofissional\TurmaSupervisorController@turmasSupervisor'
                     );
+
                     $app->get(
                         '/turma/{turma}/ofertas[/{page}]',
                         'ResidenciaMultiprofissional\OfertaModuloSupervisorController@index'
                     );
+
                     $app->get(
                         '/turma/{turma}/oferta/{oferta}/residentes[/{page}]',
                         'ResidenciaMultiprofissional\ResidentesOfertaModuloSupervisorController@index'
+                    );
+
+                    $app->get(
+                        '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/faltas/{faltas}',
+                        'ResidenciaMultiprofissional\AvaliarResidentesPorModuloSupervisorResidenciaMultiprofissionalController@falta'
                     );
                 }
             );

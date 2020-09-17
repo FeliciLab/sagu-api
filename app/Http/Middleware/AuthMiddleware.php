@@ -19,15 +19,20 @@ class AuthMiddleware
                 $request->request->add(['usuario' => $jwt->data]);
                 return $next($request);
             } catch (\Exception $ex) {
-                return response()->json([
-                    'message' => 'Acesso não autorizado'
-                ], Response::HTTP_UNAUTHORIZED);
+                return response()->json(
+                    [
+                        'message' => 'Acesso não autorizado'
+                    ],
+                    Response::HTTP_UNAUTHORIZED
+                );
             }
-
-        } else {
-            return response()->json([
-                'message' => 'Token Inválido'
-            ], Response::HTTP_UNAUTHORIZED);
         }
+
+        return response()->json(
+            [
+                'message' => 'Token Inválido'
+            ],
+            Response::HTTP_UNAUTHORIZED
+        );
     }
 }

@@ -27,7 +27,8 @@ class Supervisor extends BaseModelSagu
      */
     public function setPerson($dados)
     {
-        $this->person = new Person($dados);
+        $this->setModeloComposto(Person::class, 'person', $dados);
+//        $this->person = new Person($dados);
     }
 
     public function getPerson()

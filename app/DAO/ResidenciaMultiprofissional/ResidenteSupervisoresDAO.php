@@ -28,9 +28,10 @@ class ResidenteSupervisoresDAO
         $this->model = new Residente();
     }
 
-    public function buscarResidentesOfertaModuloSupervisores($supervisorId, $turmaId, $ofertaId, $page = null)
+    public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
     {
-        $query = DB::table($this->model->getTable())
+        return DB::table($this->model->getTable())
+            ->distinct()
             ->select(
                 'res.residente.residenteid as residenteid',
                 'res.residente.inicio as inicio',
@@ -44,7 +45,11 @@ class ResidenteSupervisoresDAO
             )
             ->join('public.baslegalperson', 'public.baslegalperson.personid', 'res.residente.instituicaoformadora')
             ->join('public.basphysicalperson', 'public.basphysicalperson.personid', 'res.residente.personid')
-            ->join('res.nucleoprofissional', 'res.nucleoprofissional.nucleoprofissionalid', 'res.residente.nucleoprofissionalid')
+            ->join(
+                'res.nucleoprofissional',
+                'res.nucleoprofissional.nucleoprofissionalid',
+                'res.residente.nucleoprofissionalid'
+            )
             ->join('res.enfase', 'res.enfase.enfaseid', 'res.residente.enfaseid')
             ->join('res.ofertadoresidente', 'res.ofertadoresidente.residenteid', 'res.residente.residenteid')
             ->join(
@@ -65,7 +70,23 @@ class ResidenteSupervisoresDAO
             )
             ->where('res.ofertadeunidadetematica.ofertadeunidadetematicaid', $ofertaId)
             ->where('res.turma.turmaid', $turmaId)
-            ->where('res.supervisores.supervisorid', $supervisorId)
+            ->where('res.supervisores.supervisorid', $supervisorId);
+    }
+
+    public function buscarResidente($supervisorId, $turmaId, $ofertaId, $residenteId)
+    {
+        $resultado = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
+            ->where('res.residente.residenteid', $residenteId)
+            ->select('res.residente.residenteid')
+            ->get()
+            ->first();
+
+        return $resultado ? $resultado : [];
+    }
+
+    public function buscarResidentesOfertaModuloSupervisores($supervisorId, $turmaId, $ofertaId, $page = null)
+    {
+        $query = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
             ->limit(25);
 
         $this->paginate($query, $page);

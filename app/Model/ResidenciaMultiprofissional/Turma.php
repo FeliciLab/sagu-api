@@ -2,67 +2,33 @@
 
 namespace App\Model\ResidenciaMultiprofissional;
 
-use Faker\Provider\DateTime;
+use App\Model\BaseModel\BaseModelSagu;
 
-class Turma extends BaseModelResidenciaMultiprofissional
+class Turma extends BaseModelSagu
 {
     public $id;
-    public $codigoturma;
+    public $codigoTurma;
     public $descricao;
-    public $datainicio;
-    public $datafim;
+    public $dataInicio;
+    public $dataFim;
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    protected $mapFieldModel = [
+        'turmaid' => 'id',
+        'codigoturma' => 'codigoTurma',
+        'datainicio' => 'dataInicio',
+        'datafim' => 'dataFim'
+    ];
 
-    public function setCodigoturma($codigoturma)
+    public function setDataInicio($dataInicio)
     {
-        $this->codigoturma = $codigoturma;
-    }
-
-    public function setDescricao($descricao)
-    {
-        $this->descricao = $descricao;
-    }
-
-    public function setDatainicio($datainicio)
-    {
-        $data = new \DateTime($datainicio);
-        $this->datainicio = $data->format('d/m/Y');
+        $data = new \DateTime($dataInicio);
+        $this->dataInicio = $data->format('d/m/Y');
     }
 
 
-    public function setDatafim($datafim)
+    public function setDataFim($dataFim)
     {
-        $data = new \DateTime($datafim);
-        $this->datainicio = $data->format('d/m/Y');
-    }
-
-    public function getId()
-    {
-        $this->id;
-    }
-
-    public function getCodigoturma()
-    {
-        $this->codigoturma;
-    }
-
-    public function getDescricao()
-    {
-        $this->descricao;
-    }
-
-    public function getDatainicio()
-    {
-        $this->datainicio;
-    }
-
-
-    public function getDatafim()
-    {
-        $this->datafim;
+        $data = new \DateTime($dataFim);
+        $this->dataInicio = $data->format('d/m/Y');
     }
 }

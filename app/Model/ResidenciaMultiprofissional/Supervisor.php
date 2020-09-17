@@ -2,9 +2,10 @@
 
 namespace App\Model\ResidenciaMultiprofissional;
 
+use App\Model\BaseModel\BaseModelSagu;
 use App\Model\Person;
 
-class Supervisor
+class Supervisor extends BaseModelSagu
 {
     public $id;
 
@@ -13,35 +14,29 @@ class Supervisor
      */
     public $person;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $mapFieldModel = [
+        'supervisorid' => 'id'
+    ];
+
+    protected $camposComposicao = [
+        'person' => []
+    ];
 
     /**
-     * @param mixed $id
+     * @param array
      */
-    public function setId($id)
+    public function setPerson($dados)
     {
-        $this->id = $id;
+        $this->person = new Person($dados);
     }
 
-    /**
-     * @return Person
-     */
     public function getPerson()
     {
         return $this->person;
     }
 
-    /**
-     * @param Person $person
-     */
-    public function setPerson(Person $person)
+    public function getId()
     {
-        $this->person = $person;
+        return $this->id;
     }
 }

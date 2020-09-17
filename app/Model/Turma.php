@@ -2,9 +2,10 @@
 
 namespace App\Model;
 
+use App\Model\BaseModel\BaseModelSagu;
 use Faker\Provider\DateTime;
 
-class Turma
+class Turma extends BaseModelSagu
 {
     public $id;
     public $codigoTurma;
@@ -24,6 +25,18 @@ class Turma
     public $dataInicio;
 
     public $dataFim;
+
+    protected $mapFieldModel = [
+        'turmaid' => 'id',
+        'codigoturma' => 'codigoTurma',
+        'nucleoprofissional' => 'categoriaProfissional',
+        'enfase' => 'especialidade'
+    ];
+
+    protected $camposComposicao = [
+        'categoriaProfissional' => [],
+        'especialidade' => []
+    ];
 
     /**
      * @return mixed
@@ -68,9 +81,15 @@ class Turma
     /**
      * @param Especialidade $especialidade
      */
-    public function setEspecialidade(Especialidade $especialidade)
+    public function setEspecialidade($especialidade)
     {
-        $this->especialidade = $especialidade;
+        if ($especialidade instanceof Especialidade) {
+            $this->especialidade = $especialidade;
+        }
+
+        if (is_array($especialidade)) {
+            $this->especialidade = new Especialidade($especialidade);
+        }
     }
 
     /**
@@ -84,9 +103,15 @@ class Turma
     /**
      * @param CategoriaProfissional $categoriaProfissional
      */
-    public function setCategoriaProfissional(CategoriaProfissional $categoriaProfissional)
+    public function setCategoriaProfissional($categoriaProfissional)
     {
-        $this->categoriaProfissional = $categoriaProfissional;
+        if ($categoriaProfissional instanceof CategoriaProfissional) {
+            $this->categoriaProfissional = $categoriaProfissional;
+        }
+
+        if (is_array($categoriaProfissional)) {
+            $this->categoriaProfissional = new CategoriaProfissional($categoriaProfissional);
+        }
     }
 
     /**

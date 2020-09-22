@@ -7,12 +7,12 @@ use function response;
 
 trait PaginationValidateRequest
 {
-    public function invalidePageParameter($page)
+    public function invalidNumberParameter($page)
     {
         return $page !== null && !ctype_digit($page);
     }
 
-    public function responsePaginationError()
+    public function responseNumberParameterError()
     {
         return response()->json(
             [

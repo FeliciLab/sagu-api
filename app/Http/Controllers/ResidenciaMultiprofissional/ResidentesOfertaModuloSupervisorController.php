@@ -22,8 +22,8 @@ class ResidentesOfertaModuloSupervisorController extends Controller
         $page = null
     )
     {
-        if ($this->invalidePageParameter($page)) {
-            return $this->responsePaginationError();
+        if ($this->invalidNumberParameter($page)) {
+            return $this->responseNumberParameterError();
         }
 
         return response()->json(

@@ -25,18 +25,21 @@ class AvaliarResidentesPorModuloSupervisorResidenciaMultiprofissionalController 
         $faltas
     )
     {
-        if ($this->invalidePageParameter($faltas)) {
-            return $this->responsePaginationError();
+        if ($this->invalidNumberParameter($faltas)) {
+            return $this->responseNumberParameterError();
         }
 
+        $result = $faltasResidenteSupervisorService->upsertFaltas(
+            $request->get('usuario')->supervisorid,
+            (int)$turma,
+            (int)$oferta,
+            (int)$residenteId,
+            (int)$faltas
+        );
+
         return response()->json(
-            $faltasResidenteSupervisorService->upsertFaltas(
-                $request->get('usuario')->supervisorid,
-                (int)$turma,
-                (int)$oferta,
-                (int)$residenteId,
-                (int)$faltas
-            )
+            $result,
+            $result['status']
         );
     }
 }

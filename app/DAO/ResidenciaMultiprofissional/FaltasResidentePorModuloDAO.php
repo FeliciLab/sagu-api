@@ -22,7 +22,6 @@ class FaltasResidentePorModuloDAO
             ->where('residenteid', $residenteId)
             ->where('ofertadeunidadetematicaid', $ofertaId)
             ->update(['falta' => $faltas]);
-
     }
 
     public function inserir($residenteId, $ofertaId, $faltas, $username)

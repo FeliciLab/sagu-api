@@ -37,12 +37,19 @@ class FaltasResidenteSupervisorService
     public function upsertFaltas($supervisorId, $turmaId, $ofertaId, $residenteId, $faltas)
     {
         $residente = new Residente(
-            $this->residenteSupervisorDAO->buscarResidente($supervisorId, $turmaId, $ofertaId, $residenteId)
+            $this->residenteSupervisorDAO->buscarResidenteNaOfertaTurma(
+                $supervisorId,
+                $turmaId,
+                $ofertaId,
+                $residenteId
+            )
         );
 
         if (!$residente) {
             return [
-                'status' => 404
+                'error' => true,
+                'status' => 404,
+                'message' => 'Nâo foi possível encontrar residente com os dados enviados.'
             ];
         }
 

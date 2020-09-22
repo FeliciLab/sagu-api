@@ -73,7 +73,7 @@ class ResidenteSupervisoresDAO
             ->where('res.supervisores.supervisorid', $supervisorId);
     }
 
-    public function buscarResidente($supervisorId, $turmaId, $ofertaId, $residenteId)
+    public function buscarResidenteNaOfertaTurma($supervisorId, $turmaId, $ofertaId, $residenteId)
     {
         $resultado = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
             ->where('res.residente.residenteid', $residenteId)

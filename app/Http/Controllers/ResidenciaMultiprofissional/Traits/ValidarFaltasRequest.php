@@ -5,20 +5,20 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional\Traits;
 
 use function response;
 
-trait PaginationValidateRequest
+trait ValidarFaltasRequest
 {
-    public function invalidNumberParameter($page)
+    public function parametroInvalidoFaltas($page)
     {
         return $page !== null && !ctype_digit($page);
     }
 
-    public function responseNumberParameterError()
+    public function respostaParametroInvalidoFaltas()
     {
         return response()->json(
             [
                 'error' => true,
                 'status' => 400,
-                'message' => 'Atributo {page} não é um número inteiro'
+                'message' => 'Atributo {faltas} não é um número inteiro'
             ],
             400
         );

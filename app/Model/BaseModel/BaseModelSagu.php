@@ -45,6 +45,16 @@ abstract class BaseModelSagu
         $this->popularModelo($dados);
     }
 
+    public function setModeloComposto($classe, $variavelNome, $valor)
+    {
+        if ($valor instanceof $classe) {
+            $this->$variavelNome = $valor;
+        }
+
+        if (is_array($valor)) {
+            $this->$variavelNome = new $classe($valor);
+        }
+    }
 
     public function getTable()
     {
@@ -83,7 +93,7 @@ abstract class BaseModelSagu
 
     public function mapearCamposComposicao($columnSelect, $dado)
     {
-        $columnName = explode('.', $columnSelect);
+        $columnName = explode('.', $columnSelect, 2);
         $modelVariable = $this->getFieldModel($columnName[0]);
         if (isset($this->camposComposicao[$modelVariable])) {
             $this->camposComposicao[$modelVariable][$columnName[1]] = $dado;

@@ -15,8 +15,8 @@ class TurmaSupervisorController extends Controller
 
     public function turmasSupervisor(Request $request, TurmaDAO $turmaDAO, $page = null)
     {
-        if ($this->invalidePageParameter($page)) {
-            return $this->responsePaginationError();
+        if ($this->invalidNumberParameter($page)) {
+            return $this->responseNumberParameterError();
         }
 
         return response()->json(

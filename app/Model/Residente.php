@@ -111,13 +111,7 @@ class Residente extends BaseModelSagu
      */
     public function setEspecialidade($especialidade)
     {
-        if (is_array($especialidade)) {
-            $this->especialidade = new Especialidade($especialidade);
-        }
-
-        if ($especialidade instanceof Especialidade) {
-            $this->especialidade = $especialidade;
-        }
+        $this->setModeloComposto(Especialidade::class, 'especialidade', $especialidade);
     }
 
     /**
@@ -133,12 +127,7 @@ class Residente extends BaseModelSagu
      */
     public function setCategoriaProfissional($categoriaProfissional)
     {
-        if (is_array($categoriaProfissional)) {
-            $this->categoriaProfissional = new CategoriaProfissional($categoriaProfissional);
-        }
-
-        if ($categoriaProfissional instanceof CategoriaProfissional)
-            $this->categoriaProfissional = $categoriaProfissional;
+        $this->setModeloComposto(CategoriaProfissional::class, 'categoriaProfissional', $categoriaProfissional);
     }
 
     /**
@@ -186,13 +175,7 @@ class Residente extends BaseModelSagu
      */
     public function setTurma($turma)
     {
-        if ($turma instanceof Turma) {
-            $this->turma = $turma;
-        }
-
-        if (is_array($turma)) {
-            $this->turma = new Turma($turma);
-        }
+        $this->setModeloComposto(Turma::class, 'turma', $turma);
     }
 
     /**
@@ -224,13 +207,7 @@ class Residente extends BaseModelSagu
      */
     public function setTrabalhoDeConclusao($trabalhoDeConclusao)
     {
-        if ($trabalhoDeConclusao instanceof TrabalhoDeConclusao) {
-            $this->trabalhoDeConclusao = $trabalhoDeConclusao;
-        }
-
-        if (is_array($trabalhoDeConclusao)) {
-            $this->trabalhoDeConclusao = new TrabalhoDeConclusao($trabalhoDeConclusao);
-        }
+        $this->setModeloComposto(TrabalhoDeConclusao::class, 'trabalhoDeConclusao', $trabalhoDeConclusao);
     }
 
     /**
@@ -238,14 +215,6 @@ class Residente extends BaseModelSagu
      */
     public function setInstituicaoFormadoraPerson($instituicaoFormadoraPerson)
     {
-        if (is_array($instituicaoFormadoraPerson)) {
-            $this->instituicaoFormadoraPerson = new LegalPerson($instituicaoFormadoraPerson);
-        }
-
-        if ($instituicaoFormadoraPerson instanceof LegalPerson) {
-            $this->instituicaoFormadoraPerson = $instituicaoFormadoraPerson;
-        }
+        $this->setModeloComposto(LegalPerson::class, 'instituicaoFormadoraPerson', $instituicaoFormadoraPerson);
     }
-
-
 }

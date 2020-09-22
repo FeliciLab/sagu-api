@@ -11,15 +11,15 @@ class SupervisorDAO
      * @param $id
      * @return Supervisor
      */
-    public function buscarSupervisor($id)
+    public function buscar($id)
     {
         return new Supervisor(
             DB::table('res.supervisores as supervisores')
-                ->join('public.basperson as person', 'person.personid', 'supervisores.supervisorid')
-                ->where('supervisores.supervisorid', $id)
+                ->distinct()
+                ->join('public.basperson as person', 'person.personid', 'supervisores.personid')
+                ->where('supervisores.supervisorid', '1')
                 ->get()
                 ->first()
-                ->toArray()
         );
     }
 

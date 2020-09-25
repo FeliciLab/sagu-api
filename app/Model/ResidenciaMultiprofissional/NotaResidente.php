@@ -9,6 +9,8 @@ use App\Model\BaseModel\BaseModelSagu;
 class NotaResidente extends BaseModelSagu
 {
     const TIPO_NOTAS = ['final', 'pratica', 'teorica'];
+    const PESO_NOTA_PRATICA = 7;
+    const PESO_NOTA_TEORICA = 3;
 
     protected $table = 'notadoresidentenaofertadeunidadetematica';
     protected $schema = 'aps';

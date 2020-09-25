@@ -5,6 +5,7 @@ namespace App\Services\ResidenciaMultiprofissional;
 
 
 use App\DAO\ResidenciaMultiprofissional\NotaPorModuloSupervisorDAO;
+use App\Model\ResidenciaMultiprofissional\NotaResidente;
 
 class NotasResidenteSupervisorService
 {
@@ -42,5 +43,20 @@ class NotasResidenteSupervisorService
                 $residenteId,
                 $notas
             );
+    }
+
+    public function notasIncoerentes($notaPratica, $notaTeorica, $notaFinal)
+    {
+        return $this->calcNotaFinal($notaPratica, $notaTeorica) != $notaFinal;
+    }
+
+    public function calcNotaFinal($notaPratica, $notaTeorica)
+    {
+        return round(
+            (
+                ($notaPratica * NotaResidente::PESO_NOTA_PRATICA) + ($notaTeorica * NotaResidente::PESO_NOTA_TEORICA)
+            ) / (NotaResidente::PESO_NOTA_PRATICA + NotaResidente::PESO_NOTA_TEORICA),
+            2
+        );
     }
 }

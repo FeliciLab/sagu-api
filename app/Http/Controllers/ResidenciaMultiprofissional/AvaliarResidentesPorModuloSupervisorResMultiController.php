@@ -6,7 +6,6 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ValidarFaltasRequest;
-use App\Model\ResidenciaMultiprofissional\NotaResidente;
 use App\Services\ResidenciaMultiprofissional\FaltasResidenteSupervisorService;
 use App\Services\ResidenciaMultiprofissional\NotasResidenteSupervisorService;
 use Illuminate\Http\Request;
@@ -44,25 +43,38 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
         );
     }
 
-    public function notaPorTipo(
+    public function notas(
         Request $request,
         NotasResidenteSupervisorService $notasResidenteSupervisorService,
         $turma,
         $oferta,
         $residenteId,
-        $tipo,
-        $notas
+        $notaPratica,
+        $notaTeorica,
+        $notaFinal = null
     )
     {
-        if ($this->invalidNumberParameter($notas)) {
-            return $this->responseNumberParameterError();
+        if ($this->invalidNumberParameter($notaPratica)) {
+            return $this->responseNumberParameterError('nota pratica');
         }
 
-        if (!in_array($tipo, NotaResidente::TIPO_NOTAS)) {
+        if ($this->invalidNumberParameter($notaTeorica)) {
+            return $this->responseNumberParameterError('nota teorica');
+        }
+
+        if ($notaFinal != null && $this->invalidNumberParameter($notaFinal)) {
+            return $this->responseNumberParameterError('nota final');
+        }
+
+        if ($notaFinal != null && $notasResidenteSupervisorService->notasIncoerentes(
+                round((float)$notaPratica, 2),
+                round((float)$notaTeorica, 2),
+                round((float)$notaFinal, 2)
+            )) {
             return response()->json(
                 [
-                    'status' => '400',
-                    'message' => 'O tipo da nota é um valor inválido.'
+                    'status' => 400,
+                    'message' => 'As notas enviadas não condizem com o cálculo da nota final. Valor inválido.'
                 ],
                 400
             );
@@ -73,43 +85,11 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
             (int)$turma,
             (int)$oferta,
             (int)$residenteId,
-            [$tipo => (float)$notas]
-        );
-
-        return response()->json(
-            $result,
-            $result['status']
-        );
-    }
-
-    public function notas(
-        Request $request,
-        NotasResidenteSupervisorService $notasResidenteSupervisorService,
-        $turma,
-        $oferta,
-        $residenteId,
-        $notaPratica,
-        $notaTeorica,
-        $notaFinal
-    )
-    {
-        if ($this->invalidNumberParameter($notaPratica)) {
-            return $this->responseNumberParameterError('nota pratica');
-        }
-        if ($this->invalidNumberParameter($notaTeorica)) {
-            return $this->responseNumberParameterError('nota teorica');
-        }
-        if ($this->invalidNumberParameter($notaFinal)) {
-            return $this->responseNumberParameterError('nota final');
-        }
-
-        $result = $notasResidenteSupervisorService->upsertNotas(
-            $request->get('usuario')->supervisorid,
-            (int)$turma,
-            (int)$oferta,
-            (int)$residenteId,
             [
-                'nota' => round((float)$notaFinal, 2),
+                'nota' => $notaFinal === null ? $notasResidenteSupervisorService->calcNotaFinal(
+                    $notaPratica,
+                    $notaTeorica
+                ) : round((float)$notaFinal, 2),
                 'notateorica' => round((float)$notaTeorica, 2),
                 'notapratica' => round((float)$notaPratica, 2),
             ]

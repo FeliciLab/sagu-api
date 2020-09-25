@@ -157,12 +157,7 @@ $app->group(
                         );
 
                         $app->get(
-                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/nota/{tipo}/{nota}',
-                            'AvaliarResidentesPorModuloSupervisorResMultiController@notaPorTipo'
-                        );
-
-                        $app->get(
-                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/notas/{notaPratica}/{notaTeorica}/{notaFinal}',
+                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/notas/{notaPratica}/{notaTeorica}[/{notaFinal}]',
                             'AvaliarResidentesPorModuloSupervisorResMultiController@notas'
                         );
                     }

@@ -4,18 +4,18 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
 use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ResidenciaMultiprofissional\Traits\PaginationValidateRequest;
+use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use Illuminate\Http\Request;
 use function response;
 
 
 class TurmaSupervisorController extends Controller
 {
-    use PaginationValidateRequest;
+    use ParameterValidateRequest;
 
     public function turmasSupervisor(Request $request, TurmaDAO $turmaDAO, $page = null)
     {
-        if ($this->invalidNumberParameter($page)) {
+        if ($this->invalidPageParameter($page)) {
             return $this->responseNumberParameterError();
         }
 

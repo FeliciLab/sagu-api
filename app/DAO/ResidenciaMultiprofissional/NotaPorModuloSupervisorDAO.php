@@ -4,10 +4,11 @@
 namespace App\DAO\ResidenciaMultiprofissional;
 
 
-use App\Model\ResidenciaMultiprofissional\NotaPorModulo;
+use App\DAO\ResidenciaMultiprofissional\Abstracoes\InterfaceAvaliacaoDAO;
+use App\Model\ResidenciaMultiprofissional\NotaResidente;
 use Illuminate\Support\Facades\DB;
 
-class NotaPorModuloSupervisorDAO
+class NotaPorModuloSupervisorDAO implements InterfaceAvaliacaoDAO
 {
     public $model;
     public $residenteSupervisoresDAO;
@@ -18,13 +19,30 @@ class NotaPorModuloSupervisorDAO
      */
     public function __construct()
     {
-        $this->model = new NotaPorModulo();
+        $this->model = new NotaResidente();
         $this->residenteSupervisoresDAO = new ResidenteSupervisoresDAO();
     }
 
-    public function insertFaltas()
+    public function atualizar($residenteId, $ofertaId, $notas)
     {
-        return DB::table($this->model->getTable());
+        return \DB::table($this->model->getTable())
+            ->where('residenteid', $residenteId)
+            ->where('ofertadeunidadetematicaid', $ofertaId)
+            ->update($notas);
     }
 
+    public function inserir($residenteId, $ofertaId, $notas, $username)
+    {
+        return \DB::table($this->model->getTable())
+            ->insert(
+                array_merge(
+                    [
+                        'username' => $username,
+                        'residenteid' => $residenteId,
+                        'ofertadeunidadetematicaid' => $ofertaId
+                    ],
+                    $notas
+                )
+            );
+    }
 }

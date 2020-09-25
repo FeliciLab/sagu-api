@@ -4,7 +4,9 @@
 namespace App\DAO\ResidenciaMultiprofissional;
 
 
-class FaltasResidentePorModuloDAO
+use App\DAO\ResidenciaMultiprofissional\Abstracoes\InterfaceAvaliacaoDAO;
+
+class FaltasResidentePorModuloDAO implements InterfaceAvaliacaoDAO
 {
     public $model;
 

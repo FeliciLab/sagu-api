@@ -5,14 +5,14 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
 use App\DAO\ResidenciaMultiprofissional\ResidenteSupervisoresDAO;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ResidenciaMultiprofissional\Traits\PaginationValidateRequest;
+use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use Illuminate\Http\Request;
 
 use function response;
 
 class ResidentesOfertaModuloSupervisorController extends Controller
 {
-    use PaginationValidateRequest;
+    use ParameterValidateRequest;
 
     public function index(
         Request $request,
@@ -22,7 +22,7 @@ class ResidentesOfertaModuloSupervisorController extends Controller
         $page = null
     )
     {
-        if ($this->invalidNumberParameter($page)) {
+        if ($this->invalidPageParameter($page)) {
             return $this->responseNumberParameterError();
         }
 

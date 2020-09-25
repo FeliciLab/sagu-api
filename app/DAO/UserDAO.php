@@ -131,8 +131,6 @@ class UserDAO
                 $user->getLogin()
             ]
         );
-
         return $user;
     }
-
 }

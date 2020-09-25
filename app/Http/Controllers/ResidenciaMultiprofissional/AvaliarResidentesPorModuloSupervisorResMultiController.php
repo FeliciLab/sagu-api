@@ -80,6 +80,16 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
             );
         }
 
+        if (!$notasResidenteSupervisorService->limitesDasNotasValido($notaPratica, $notaTeorica, $notaFinal)) {
+            return response()->json(
+                [
+                    'status' => 400,
+                    'message' => 'Algum parâmetro de nota está fora dos limites. A nota deve estar entre 0 e 10'
+                ],
+                400
+            );
+        }
+
         $result = $notasResidenteSupervisorService->upsertNotas(
             $request->get('usuario')->supervisorid,
             (int)$turma,

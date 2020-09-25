@@ -59,4 +59,16 @@ class NotasResidenteSupervisorService
             2
         );
     }
+
+    public function limitesDasNotasValido($notaPratica, $notaTeorica, $notaFinal)
+    {
+        return $this->validarRangeDeNota($notaPratica) &&
+            $this->validarRangeDeNota($notaTeorica) &&
+            $this->validarRangeDeNota($notaFinal);
+    }
+
+    private function validarRangeDeNota($nota)
+    {
+        return 0 <= $nota && $nota <= 10;
+    }
 }

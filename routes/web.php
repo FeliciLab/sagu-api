@@ -133,6 +133,7 @@ $app->group(
         $app->group(
             ['prefix' => 'residencia-multiprofissional', 'namespace' => 'ResidenciaMultiprofissional'],
             function () use ($app) {
+                $app->get('carga-horaria/tipos', 'TipoCargaHorariaController@consultarTipos');
                 $app->group(
                     ['prefix' => 'supervisores'],
                     function () use ($app) {

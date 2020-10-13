@@ -6,6 +6,10 @@ namespace App\DAO\Traits;
 
 trait ArrayMapToModel
 {
+    /**
+     * @param $data array
+     * @return array
+     */
     public function mapToModel($data)
     {
         return array_map(function($item) {

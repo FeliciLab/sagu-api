@@ -23,23 +23,34 @@ class NotaPorModuloSupervisorDAO implements InterfaceAvaliacaoDAO
         $this->residenteSupervisoresDAO = new ResidenteSupervisoresDAO();
     }
 
-    public function atualizar($residenteId, $ofertaId, $notas)
+    /**
+     * @param $referenciesIds array<string, int> : residenteId, ofertaId
+     * @param $notas
+     * @return mixed
+     */
+    public function atualizar($referenciesIds, $notas)
     {
         return \DB::table($this->model->getTable())
-            ->where('residenteid', $residenteId)
-            ->where('ofertadeunidadetematicaid', $ofertaId)
+            ->where('residenteid', $referenciesIds['residenteId'])
+            ->where('ofertadeunidadetematicaid', $referenciesIds['ofertaId'])
             ->update($notas);
     }
 
-    public function inserir($residenteId, $ofertaId, $notas, $username)
+    /**
+     * @param $referenciesIds array<string, int> : residenteId, ofertaId
+     * @param $notas
+     * @param $username
+     * @return mixed
+     */
+    public function inserir($referenciesIds, $notas, $username)
     {
         return \DB::table($this->model->getTable())
             ->insert(
                 array_merge(
                     [
                         'username' => $username,
-                        'residenteid' => $residenteId,
-                        'ofertadeunidadetematicaid' => $ofertaId
+                        'residenteid' => $referenciesIds['residenteId'],
+                        'ofertadeunidadetematicaid' => $referenciesIds['ofertaId']
                     ],
                     $notas
                 )

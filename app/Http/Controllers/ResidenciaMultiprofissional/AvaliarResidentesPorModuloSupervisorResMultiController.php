@@ -6,6 +6,7 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ValidarFaltasRequest;
+use App\Services\ResidenciaMultiprofissional\CargaHorariaComplementarSupervisorService;
 use App\Services\ResidenciaMultiprofissional\FaltasResidenteSupervisorService;
 use App\Services\ResidenciaMultiprofissional\NotasResidenteSupervisorService;
 use Illuminate\Http\Request;
@@ -23,8 +24,7 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
         $oferta,
         $residenteId,
         $faltas
-    )
-    {
+    ) {
         if ($this->invalidIntegerParameter($faltas)) {
             return $this->responseNumberParameterError();
         }
@@ -52,8 +52,7 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
         $notaPratica,
         $notaTeorica,
         $notaFinal = null
-    )
-    {
+    ) {
         if ($this->invalidNumberParameter($notaPratica)) {
             return $this->responseNumberParameterError('nota pratica');
         }
@@ -67,10 +66,10 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
         }
 
         if ($notaFinal != null && $notasResidenteSupervisorService->notasIncoerentes(
-                round((float)$notaPratica, 2),
-                round((float)$notaTeorica, 2),
-                round((float)$notaFinal, 2)
-            )) {
+            round((float)$notaPratica, 2),
+            round((float)$notaTeorica, 2),
+            round((float)$notaFinal, 2)
+        )) {
             return response()->json(
                 [
                     'status' => 400,
@@ -103,6 +102,34 @@ class AvaliarResidentesPorModuloSupervisorResMultiController extends Controller
                 'notateorica' => round((float)$notaTeorica, 2),
                 'notapratica' => round((float)$notaPratica, 2),
             ]
+        );
+
+        return response()->json(
+            $result,
+            $result['status']
+        );
+    }
+
+    public function cargaHoraria(
+        Request $request,
+        CargaHorariaComplementarSupervisorService $cargaHorariaComplementarSupervisorService,
+        $turma,
+        $oferta,
+        $residenteId,
+        $tipoCargaHorariaId,
+        $cargaHorariaComplementar
+    ) {
+        if ($this->invalidNumberParameter($cargaHorariaComplementar)) {
+            return $this->responseNumberParameterError('carga horária');
+        }
+
+        $result = $cargaHorariaComplementarSupervisorService->upsertCargaHoraria(
+            $request->get('usuario')->supervisorid,
+            $turma,
+            $oferta,
+            $residenteId,
+            $tipoCargaHorariaId,
+            $cargaHorariaComplementar
         );
 
         return response()->json(

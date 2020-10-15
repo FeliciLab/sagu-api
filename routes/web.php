@@ -161,6 +161,11 @@ $app->group(
                             '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/notas/{notaPratica}/{notaTeorica}[/{notaFinal}]',
                             'AvaliarResidentesPorModuloSupervisorResMultiController@notas'
                         );
+
+                        $app->get(
+                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/carga-horaria-complementar/{tipoCargaHorariaId}/{cargaHorariaComplementar}',
+                            'AvaliarResidentesPorModuloSupervisorResMultiController@cargaHoraria'
+                        );
                     }
                 );
             }

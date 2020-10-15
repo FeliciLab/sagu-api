@@ -34,6 +34,14 @@ class FaltasResidenteSupervisorService
     public function upsertFaltas($supervisorId, $turmaId, $ofertaId, $residenteId, $faltas)
     {
         return $this->avaliacaoResidenciaMultiprofissional
-            ->upsertAvaliacao($supervisorId, $turmaId, $ofertaId, $residenteId, $faltas);
+            ->upsertAvaliacao(
+                [
+                    'supervisorId' => $supervisorId,
+                    'turmaId' => $turmaId,
+                    'ofertaId' => $ofertaId,
+                    'residenteId' => $residenteId,
+                ],
+                $faltas
+            );
     }
 }

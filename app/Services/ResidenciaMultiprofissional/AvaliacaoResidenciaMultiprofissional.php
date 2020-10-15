@@ -31,19 +31,24 @@ class AvaliacaoResidenciaMultiprofissional
     public function __construct(InterfaceAvaliacaoDAO $modelDAO)
     {
         $this->modelDAO = $modelDAO;
-
         $this->residenteService = new ResidenteService();
         $this->supervisorDAO = new SupervisorDAO();
     }
 
 
-    public function upsertAvaliacao($supervisorId, $turmaId, $ofertaId, $residenteId, $avaliacao)
+    /**
+     * @param $referenciesId array<string, int> - obrigatório: supervisorId, turmaId, ofertaId, residenteId
+     * @param $avaliacao
+     * @return array|int[]
+     */
+    public function upsertAvaliacao($referenciesId, $avaliacao)
     {
+
         if (!$this->residenteService->existeResidenteNoModuloDoSupervisor(
-            $supervisorId,
-            $turmaId,
-            $ofertaId,
-            $residenteId
+            $referenciesId['supervisorId'],
+            $referenciesId['turmaId'],
+            $referenciesId['ofertaId'],
+            $referenciesId['residenteId']
         )) {
             return [
                 'error' => true,
@@ -52,11 +57,10 @@ class AvaliacaoResidenciaMultiprofissional
             ];
         }
 
-        if (!$this->modelDAO->atualizar($residenteId, $ofertaId, $avaliacao)) {
-            $supervisor = $this->supervisorDAO->buscar($supervisorId);
+        if (!$this->modelDAO->atualizar($referenciesId, $avaliacao)) {
+            $supervisor = $this->supervisorDAO->buscar($referenciesId['supervisorId']);
             $this->modelDAO->inserir(
-                $residenteId,
-                $ofertaId,
+                $referenciesId,
                 $avaliacao,
                 $supervisor->username
             );

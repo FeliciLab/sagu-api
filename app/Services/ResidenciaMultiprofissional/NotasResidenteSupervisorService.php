@@ -37,10 +37,12 @@ class NotasResidenteSupervisorService
     {
         return $this->avaliacaoResidenciaMultiprofissional
             ->upsertAvaliacao(
-                $supervisorId,
-                $turmaId,
-                $ofertaId,
-                $residenteId,
+                [
+                    'supervisorId' => $supervisorId,
+                    'turmaId' => $turmaId,
+                    'ofertaId' => $ofertaId,
+                    'residenteId' => $residenteId,
+                ],
                 $notas
             );
     }

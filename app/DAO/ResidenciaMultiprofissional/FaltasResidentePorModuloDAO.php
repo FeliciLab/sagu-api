@@ -5,6 +5,7 @@ namespace App\DAO\ResidenciaMultiprofissional;
 
 
 use App\DAO\ResidenciaMultiprofissional\Abstracoes\InterfaceAvaliacaoDAO;
+use App\Services\ResidenciaMultiprofissional\AvaliacaoResidenciaMultiprofissional;
 
 class FaltasResidentePorModuloDAO implements InterfaceAvaliacaoDAO
 {

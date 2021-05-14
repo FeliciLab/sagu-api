@@ -45,6 +45,12 @@ class Residente extends BaseModelSagu
      */
     public $instituicaoFormadoraPerson;
 
+    /**
+     * @var LegalPerson
+     */
+    public $instituicaoExecutoraPerson;
+
+
     protected $mapFieldModel = [
         'residenteid' => 'id',
         'fimprevisto' => 'fimPrevisto',
@@ -57,7 +63,8 @@ class Residente extends BaseModelSagu
         'turma' => [],
         'categoriaProfissional' => [],
         'especialidade' => [],
-        'instituicaoFormadoraPerson' => []
+        'instituicaoFormadoraPerson' => [],
+        'instituicaoExecutoraPerson' => []
     ];
 
     /**
@@ -216,5 +223,13 @@ class Residente extends BaseModelSagu
     public function setInstituicaoFormadoraPerson($instituicaoFormadoraPerson)
     {
         $this->setModeloComposto(LegalPerson::class, 'instituicaoFormadoraPerson', $instituicaoFormadoraPerson);
+    }
+
+    /**
+     * @param LegalPerson $instituicaoExecutoraPerson
+     */
+    public function setInstituicaoExecutoraPerson($instituicaoExecutoraPerson)
+    {
+        $this->setModeloComposto(LegalPerson::class, 'instituicaoExecutoraPerson', $instituicaoExecutoraPerson);
     }
 }

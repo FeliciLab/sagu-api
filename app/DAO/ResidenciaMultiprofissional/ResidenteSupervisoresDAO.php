@@ -40,10 +40,12 @@ class ResidenteSupervisoresDAO
                 'res.nucleoprofissional.descricao as nucleoprofissional.descricao',
                 'res.turma.descricao as turma.descricao',
                 'public.baslegalperson.name as instituicaoFormadoraPerson.name',
+                'baslegalpersonExecutora.name as instituicaoExecutoraPerson.name',
                 'public.basphysicalperson.name as person.name',
                 'public.basphysicalperson.personid as person.personid'
             )
             ->join('public.baslegalperson', 'public.baslegalperson.personid', 'res.residente.instituicaoformadora')
+            ->join('public.baslegalperson as baslegalpersonExecutora', 'baslegalpersonExecutora.personid', 'res.residente.instituicaoexecutora')
             ->join('public.basphysicalperson', 'public.basphysicalperson.personid', 'res.residente.personid')
             ->join(
                 'res.nucleoprofissional',
@@ -67,6 +69,11 @@ class ResidenteSupervisoresDAO
                 'res.supervisores',
                 'res.supervisores.supervisorid',
                 'res.ofertadeunidadetematicasupervisoresinstituicoes.supervisorid'
+            )
+            ->join(
+                'res.ofertadeunidadetematicasupervisoresinstituicoes as supervisorinstituicoes',
+                'baslegalpersonExecutora.personid',
+                'supervisorinstituicoes.instituicaoexecutoraid'
             )
             ->where('res.ofertadeunidadetematica.ofertadeunidadetematicaid', $ofertaId)
             ->where('res.turma.turmaid', $turmaId)

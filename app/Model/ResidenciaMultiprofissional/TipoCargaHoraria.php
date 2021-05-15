@@ -9,9 +9,9 @@ use App\Model\BaseModel\BaseModelSagu;
 class TipoCargaHoraria extends BaseModelSagu
 {
     protected $schema = 'res';
-    protected $table = 'tipodecargahorariacomplementar';
+    protected $table = 'tipodeunidadetematica';
     protected $mapFieldModel = [
-        'tipodecargahorariacomplementarid' => 'id'
+        'tipodeunidadetematicaid' => 'id'
     ];
 
     public $username;

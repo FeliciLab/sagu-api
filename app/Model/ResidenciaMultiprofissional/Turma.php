@@ -29,6 +29,6 @@ class Turma extends BaseModelSagu
     public function setDataFim($dataFim)
     {
         $data = new \DateTime($dataFim);
-        $this->dataInicio = $data->format('d/m/Y');
+        $this->dataFim = $data->format('d/m/Y');
     }
 }

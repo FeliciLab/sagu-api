@@ -50,9 +50,10 @@ class TurmaDAO
                 'res.turma.datainicio as datainicio',
                 'res.turma.datafim as datafim',
                 'res.turma.quantidadeperiodo as quantidadeperiodo',
-                'res.turma.vagas as vagas'
+                'res.componente.descricao as componente'
             )
             ->join('res.ofertadeunidadetematica', 'res.ofertadeunidadetematica.turmaid', 'res.turma.turmaid')
+            ->join('res.componente', 'res.turma.componenteid', 'res.componente.componenteid')
             ->join(
                 'res.ofertadeunidadetematicasupervisoresinstituicoes',
                 'res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid',

@@ -5,17 +5,17 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
-use App\Services\OfertaModuloSurpervisorService;
+use App\Services\ResidenciaMultiprofissional\OfertaModuloService;
 use Illuminate\Http\Request;
 use function response;
 
-class OfertaModuloSupervisorController extends Controller
+class OfertaModuloController extends Controller
 {
     use ParameterValidateRequest;
 
     public function index(
         Request $request,
-        OfertaModuloSurpervisorService $ofertaModuloSurpervisorService,
+        OfertaModuloService $ofertaModuloService,
         $turma,
         $page = null
     )
@@ -26,7 +26,7 @@ class OfertaModuloSupervisorController extends Controller
 
         return response()->json(
             [
-                'ofertasModulos' => $ofertaModuloSurpervisorService->buscarOfertaModuloTurmaSupervisor(
+                'ofertasModulos' => $ofertaModuloService->buscarOfertaModuloTurmaSupervisor(
                     $request->get('usuario')->supervisorid,
                     $turma,
                     $page

@@ -144,7 +144,7 @@ $app->group(
 
                         $app->get(
                             '/turma/{turma}/ofertas[/{page}]',
-                            'OfertaModuloSupervisorController@index'
+                            'OfertaModuloController@index'
                         );
 
                         $app->get(

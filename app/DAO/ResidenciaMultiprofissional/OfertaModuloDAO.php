@@ -6,9 +6,10 @@ namespace App\DAO\ResidenciaMultiprofissional;
 
 use App\DAO\Traits\ArrayMapToModel;
 use App\Model\ResidenciaMultiprofissional\OfertaModulo;
+use App\DAO\ResidenciaMultiprofissional\OfertaModuloTiposCargaHorariaDAO;
 use Illuminate\Support\Facades\DB;
 
-class OfertaModuloSupervisorDAO
+class OfertaModuloDAO
 {
     use ArrayMapToModel;
 
@@ -18,7 +19,7 @@ class OfertaModuloSupervisorDAO
     public $model;
 
     /**
-     * OfertaModuloSupervisorDAO constructor.
+     * OfertaModuloDAO constructor.
      * @param OfertaModulo $model
      */
     public function __construct()
@@ -72,6 +73,18 @@ class OfertaModuloSupervisorDAO
             $query->offset(25 * ($page - 1));
         }
 
-        return $this->mapToModel($query->get()->toArray());
+        $OfertaModuloTiposCargaHorariaDAO = new OfertaModuloTiposCargaHorariaDAO();
+
+        $ofertasArray = [];
+
+        foreach ($query->get()->toArray() as $oferta) {
+
+            $tiposCargaHoraria = $OfertaModuloTiposCargaHorariaDAO->tiposCargaHorariaPorOferta($oferta->ofertadeunidadetematicaid);
+
+           $oferta->tipoCargaHoraria = $tiposCargaHoraria;
+
+           $ofertasArray[] = $oferta;
+        }
+        return $this->mapToModel($ofertasArray);
     }
 }

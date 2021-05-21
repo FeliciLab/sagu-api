@@ -18,6 +18,12 @@ class OfertaModuloDAO
      */
     public $model;
 
+
+     /**
+     * @var OfertaModuloTiposCargaHorariaDAO
+     */
+    private $ofertaModuloTiposCargaHorariaDAO;
+
     /**
      * OfertaModuloDAO constructor.
      * @param OfertaModulo $model
@@ -25,6 +31,7 @@ class OfertaModuloDAO
     public function __construct()
     {
         $this->model = new OfertaModulo();
+        $this->ofertaModuloTiposCargaHorariaDAO = new OfertaModuloTiposCargaHorariaDAO();
     }
 
     public function buscarOfertasModuloSupervisor($supervisorId, $turmaId, $page = null)
@@ -73,17 +80,12 @@ class OfertaModuloDAO
             $query->offset(25 * ($page - 1));
         }
 
-        $OfertaModuloTiposCargaHorariaDAO = new OfertaModuloTiposCargaHorariaDAO();
-
         $ofertasArray = [];
-
         foreach ($query->get()->toArray() as $oferta) {
+            $tiposCargaHoraria = $this->ofertaModuloTiposCargaHorariaDAO->tiposCargaHorariaPorOferta($oferta->ofertadeunidadetematicaid);
+            $oferta->tipoCargaHoraria = $tiposCargaHoraria;
 
-            $tiposCargaHoraria = $OfertaModuloTiposCargaHorariaDAO->tiposCargaHorariaPorOferta($oferta->ofertadeunidadetematicaid);
-
-           $oferta->tipoCargaHoraria = $tiposCargaHoraria;
-
-           $ofertasArray[] = $oferta;
+            $ofertasArray[] = $oferta;
         }
         return $this->mapToModel($ofertasArray);
     }

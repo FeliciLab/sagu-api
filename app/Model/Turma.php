@@ -2,10 +2,9 @@
 
 namespace App\Model;
 
-use App\Model\BaseModel\BaseModelSagu;
 use Faker\Provider\DateTime;
 
-class Turma extends BaseModelSagu
+class Turma
 {
     public $id;
     public $codigoTurma;
@@ -25,18 +24,6 @@ class Turma extends BaseModelSagu
     public $dataInicio;
 
     public $dataFim;
-
-    protected $mapFieldModel = [
-        'turmaid' => 'id',
-        'codigoturma' => 'codigoTurma',
-        'nucleoprofissional' => 'categoriaProfissional',
-        'enfase' => 'especialidade'
-    ];
-
-    protected $camposComposicao = [
-        'categoriaProfissional' => [],
-        'especialidade' => []
-    ];
 
     /**
      * @return mixed
@@ -81,15 +68,9 @@ class Turma extends BaseModelSagu
     /**
      * @param Especialidade $especialidade
      */
-    public function setEspecialidade($especialidade)
+    public function setEspecialidade(Especialidade $especialidade)
     {
-        if ($especialidade instanceof Especialidade) {
-            $this->especialidade = $especialidade;
-        }
-
-        if (is_array($especialidade)) {
-            $this->especialidade = new Especialidade($especialidade);
-        }
+        $this->especialidade = $especialidade;
     }
 
     /**
@@ -103,15 +84,9 @@ class Turma extends BaseModelSagu
     /**
      * @param CategoriaProfissional $categoriaProfissional
      */
-    public function setCategoriaProfissional($categoriaProfissional)
+    public function setCategoriaProfissional(CategoriaProfissional $categoriaProfissional)
     {
-        if ($categoriaProfissional instanceof CategoriaProfissional) {
-            $this->categoriaProfissional = $categoriaProfissional;
-        }
-
-        if (is_array($categoriaProfissional)) {
-            $this->categoriaProfissional = new CategoriaProfissional($categoriaProfissional);
-        }
+        $this->categoriaProfissional = $categoriaProfissional;
     }
 
     /**

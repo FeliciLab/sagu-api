@@ -1,18 +1,18 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\ResidenciaMultiprofissional;
 
 
-use App\DAO\ResidenciaMultiprofissional\OfertaModuloSupervisorDAO;
+use App\DAO\ResidenciaMultiprofissional\OfertaModuloDAO;
 use App\Model\ResidenciaMultiprofissional\OfertaModulo;
 use App\Serializers\OfertaModuloTurmasSupervisorSerializer;
 
-class OfertaModuloSurpervisorService
+class OfertaModuloService
 {
     public function buscarOfertaModuloTurmaSupervisor($supervisorId, $turma, $page = null)
     {
-        $ofertaModuloTurmasDAO = new OfertaModuloSupervisorDAO();
+        $ofertaModuloTurmasDAO = new OfertaModuloDAO();
         return $ofertaModuloTurmasDAO->buscarOfertasModuloSupervisor(
             $supervisorId,
             $turma,

@@ -2,70 +2,40 @@
 
 namespace App\Model;
 
-use App\Model\BaseModel\BaseModelSagu;
-use App\Model\ResidenciaMultiprofissional\LegalPerson;
-
-class Residente extends BaseModelSagu
+class Residente
 {
-    protected $schema = 'res';
-    protected $table = 'residente';
-
     public $id;
-    public $inicio;
-    public $fimPrevisto;
-    public $ofertasDeRodizio;
 
     /**
-     * @var Person
+     * @var $person Person
      */
     public $person;
 
     /**
-     * @var Especialidade
+     * @var $especialidade Especialidade
      */
     public $especialidade;
 
     /**
-     * @var CategoriaProfissional
+     * @var $categoriaProfissional CategoriaProfissional
      */
     public $categoriaProfissional;
 
+    public $inicio;
+
+    public $fimPrevisto;
+
     /**
-     * @var Turma
+     * @var $turma Turma
      */
     public $turma;
 
+    public $ofertasDeRodizio;
+
     /**
-     * @var TrabalhoDeConclusao
+     * @var $trabalhoDeConclusao TrabalhoDeConclusao
      */
     public $trabalhoDeConclusao;
-
-    /**
-     * @var LegalPerson
-     */
-    public $instituicaoFormadoraPerson;
-
-    /**
-     * @var LegalPerson
-     */
-    public $instituicaoExecutoraPerson;
-
-
-    protected $mapFieldModel = [
-        'residenteid' => 'id',
-        'fimprevisto' => 'fimPrevisto',
-        'nucleoprofissional' => 'categoriaProfissional',
-        'enfase' => 'especialidade'
-    ];
-
-    protected $camposComposicao = [
-        'person' => [],
-        'turma' => [],
-        'categoriaProfissional' => [],
-        'especialidade' => [],
-        'instituicaoFormadoraPerson' => [],
-        'instituicaoExecutoraPerson' => []
-    ];
 
     /**
      * @return mixed
@@ -94,15 +64,9 @@ class Residente extends BaseModelSagu
     /**
      * @param Person $person
      */
-    public function setPerson($person)
+    public function setPerson(Person $person)
     {
-        if (is_array($person)) {
-            $this->person = new Person($person);
-        }
-
-        if ($person instanceof Person) {
-            $this->person = $person;
-        }
+        $this->person = $person;
     }
 
     /**
@@ -116,9 +80,9 @@ class Residente extends BaseModelSagu
     /**
      * @param Especialidade $especialidade
      */
-    public function setEspecialidade($especialidade)
+    public function setEspecialidade(Especialidade $especialidade)
     {
-        $this->setModeloComposto(Especialidade::class, 'especialidade', $especialidade);
+        $this->especialidade = $especialidade;
     }
 
     /**
@@ -132,9 +96,9 @@ class Residente extends BaseModelSagu
     /**
      * @param CategoriaProfissional $categoriaProfissional
      */
-    public function setCategoriaProfissional($categoriaProfissional)
+    public function setCategoriaProfissional(CategoriaProfissional $categoriaProfissional)
     {
-        $this->setModeloComposto(CategoriaProfissional::class, 'categoriaProfissional', $categoriaProfissional);
+        $this->categoriaProfissional = $categoriaProfissional;
     }
 
     /**
@@ -180,9 +144,9 @@ class Residente extends BaseModelSagu
     /**
      * @param Turma $turma
      */
-    public function setTurma($turma)
+    public function setTurma(Turma $turma)
     {
-        $this->setModeloComposto(Turma::class, 'turma', $turma);
+        $this->turma = $turma;
     }
 
     /**
@@ -214,22 +178,6 @@ class Residente extends BaseModelSagu
      */
     public function setTrabalhoDeConclusao($trabalhoDeConclusao)
     {
-        $this->setModeloComposto(TrabalhoDeConclusao::class, 'trabalhoDeConclusao', $trabalhoDeConclusao);
-    }
-
-    /**
-     * @param LegalPerson $instituicaoFormadoraPerson
-     */
-    public function setInstituicaoFormadoraPerson($instituicaoFormadoraPerson)
-    {
-        $this->setModeloComposto(LegalPerson::class, 'instituicaoFormadoraPerson', $instituicaoFormadoraPerson);
-    }
-
-    /**
-     * @param LegalPerson $instituicaoExecutoraPerson
-     */
-    public function setInstituicaoExecutoraPerson($instituicaoExecutoraPerson)
-    {
-        $this->setModeloComposto(LegalPerson::class, 'instituicaoExecutoraPerson', $instituicaoExecutoraPerson);
+        $this->trabalhoDeConclusao = $trabalhoDeConclusao;
     }
 }

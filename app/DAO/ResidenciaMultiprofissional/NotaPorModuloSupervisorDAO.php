@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\DB;
 class NotaPorModuloSupervisorDAO implements InterfaceAvaliacaoDAO
 {
     public $model;
-    public $residenteSupervisoresDAO;
+    public $ResidenteDAO;
 
     /**
      * NotaPorModuloSupervisorDAO constructor.
-     * @param $residenteSupervisoresDAO
+     * @param $ResidenteDAO
      */
     public function __construct()
     {
         $this->model = new NotaResidente();
-        $this->residenteSupervisoresDAO = new ResidenteSupervisoresDAO();
+        $this->ResidenteDAO = new ResidenteDAO();
     }
 
     public function atualizar($residenteId, $ofertaId, $notas)

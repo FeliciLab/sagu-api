@@ -7,10 +7,10 @@ namespace App\DAO\ResidenciaMultiprofissional;
 use App\DAO\Traits\ArrayMapToModel;
 use App\DAO\Traits\PaginationQuery;
 use App\DAO\Traits\RemoverCamposNulos;
-use App\Model\Residente;
+use App\Model\ResidenciaMultiprofissional\Residente;
 use Illuminate\Support\Facades\DB;
 
-class ResidenteSupervisoresDAO
+class ResidenteDAO
 {
     use ArrayMapToModel, PaginationQuery, RemoverCamposNulos;
 
@@ -20,7 +20,6 @@ class ResidenteSupervisoresDAO
     public $model;
 
     /**
-     * ResidenteSupervisorDAO constructor.
      * @param Residente $model
      */
     public function __construct()
@@ -36,8 +35,10 @@ class ResidenteSupervisoresDAO
                 'res.residente.residenteid as residenteid',
                 'res.residente.inicio as inicio',
                 'res.residente.fimprevisto as fimprevisto',
+                'res.enfase.enfaseid as enfase.id',
                 'res.enfase.descricao as enfase.descricao',
-                'res.nucleoprofissional.descricao as nucleoprofissional.descricao',
+                'res.nucleoprofissional.nucleoprofissionalid as nucleoProfissional.id',
+                'res.nucleoprofissional.descricao as nucleoProfissional.descricao',
                 'res.turma.descricao as turma.descricao',
                 'public.baslegalperson.name as instituicaoFormadoraPerson.name',
                 'baslegalpersonExecutora.name as instituicaoExecutoraPerson.name',

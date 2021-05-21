@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\ResidenciaMultiprofissional;
 
-class Especialidade
+use App\Model\BaseModel\BaseModelSagu;
+
+class Enfase extends BaseModelSagu
 {
+    protected $schema = 'res';
+    protected $table = 'enfase';
+
     public $id;
     public $descricao;
     public $abreviatura;
+
+    protected $mapFieldModel = [
+        'enfaseid' => 'id'
+    ];
 
     /**
      * @return mixed
@@ -55,4 +64,6 @@ class Especialidade
     {
         $this->abreviatura = $abreviatura;
     }
+
+
 }

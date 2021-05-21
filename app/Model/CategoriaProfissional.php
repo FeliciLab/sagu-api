@@ -2,20 +2,11 @@
 
 namespace App\Model;
 
-use App\Model\BaseModel\BaseModelSagu;
-
-class CategoriaProfissional extends BaseModelSagu
+class CategoriaProfissional
 {
-    protected $schema = 'res';
-    protected $table = 'nucleoprofissional';
-
     public $id;
     public $descricao;
     public $abreviatura;
-
-    protected $mapFieldModel = [
-        'nucleoprofissionalid' => 'id'
-    ];
 
     /**
      * @return mixed

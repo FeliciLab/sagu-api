@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\ResidenciaMultiprofissional;
 
-class Especialidade
+use App\Model\BaseModel\BaseModelSagu;
+
+class NucleoProfissional extends BaseModelSagu
 {
+    protected $schema = 'res';
+    protected $table = 'nucleoprofissional';
+
     public $id;
     public $descricao;
     public $abreviatura;
+
+    protected $mapFieldModel = [
+        'nucleoprofissionalid' => 'id'
+    ];
 
     /**
      * @return mixed

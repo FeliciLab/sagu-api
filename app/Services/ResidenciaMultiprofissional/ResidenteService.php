@@ -4,7 +4,7 @@
 namespace App\Services\ResidenciaMultiprofissional;
 
 
-use App\DAO\ResidenciaMultiprofissional\ResidenteSupervisoresDAO;
+use App\DAO\ResidenciaMultiprofissional\ResidenteDAO;
 use App\Model\Residente;
 
 class ResidenteService
@@ -17,7 +17,7 @@ class ResidenteService
      */
     public function __construct()
     {
-        $this->residenteSupervisorDAO = new ResidenteSupervisoresDAO();
+        $this->residenteSupervisorDAO = new ResidenteDAO();
     }
 
 

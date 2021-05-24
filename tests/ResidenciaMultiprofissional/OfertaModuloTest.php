@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\ResidenciaMultiprofissional;
+
+use TestCase;
+
 class OfertaModuloTest extends TestCase
 {
     public function setUp()

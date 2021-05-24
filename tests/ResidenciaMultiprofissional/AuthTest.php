@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\ResidenciaMultiprofissional;
+
+use TestCase;
+
 class AuthTest extends TestCase
 {
     public function testAuthSemParametroUsuario()

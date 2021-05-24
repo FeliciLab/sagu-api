@@ -2,6 +2,7 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use Symfony\Component\HttpFoundation\Response;
 use TestCase;
 
 class TurmaSupervisorTest extends TestCase
@@ -19,7 +20,7 @@ class TurmaSupervisorTest extends TestCase
             '/residencia-multiprofissional/supervisores/turmas',
             []
         )
-            ->seeStatusCode(401);
+            ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testBuscaTurmasPaginaNumeroFloat()
@@ -30,11 +31,11 @@ class TurmaSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -48,11 +49,11 @@ class TurmaSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -66,7 +67,7 @@ class TurmaSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonStructure(
                 [
                     'turmas' => [

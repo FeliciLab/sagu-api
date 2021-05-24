@@ -3,6 +3,7 @@
 namespace Tests\ResidenciaMultiprofissional;
 
 use TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class OfertaModuloTest extends TestCase
 {
@@ -19,7 +20,7 @@ class OfertaModuloTest extends TestCase
             '/residencia-multiprofissional/supervisores/turma/2/ofertas',
             []
         )
-            ->seeStatusCode(401);
+            ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testBuscaOfertaModulosPaginaNumeroFloat()
@@ -30,11 +31,11 @@ class OfertaModuloTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -48,11 +49,11 @@ class OfertaModuloTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -66,7 +67,7 @@ class OfertaModuloTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonStructure(
                 [
                     'ofertasModulos' => [
@@ -111,7 +112,7 @@ class OfertaModuloTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-        ->seeStatusCode(200)
+        ->seeStatusCode(Response::HTTP_OK)
         ->seeJsonStructure([
             'ofertasModulos'
         ]);

@@ -3,6 +3,7 @@
 namespace Tests\ResidenciaMultiprofissional;
 
 use TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthTest extends TestCase
 {
@@ -12,7 +13,7 @@ class AuthTest extends TestCase
             'senha' => env('USER_TEST_PASSWORD')
         ]);
 
-        $this->seeStatusCode(401);
+        $this->seeStatusCode(Response::HTTP_UNAUTHORIZED);
         $this->seeJsonEquals([
             'login' => 'false',
             'message' => 'Login Inválido',
@@ -25,7 +26,7 @@ class AuthTest extends TestCase
             'usuario' => env('USER_TEST')
         ]);
 
-        $this->seeStatusCode(401);
+        $this->seeStatusCode(Response::HTTP_UNAUTHORIZED);
         $this->seeJsonEquals([
             'login' => 'false',
             'message' => 'Login Inválido',
@@ -36,7 +37,7 @@ class AuthTest extends TestCase
     {
         $this->post('/auth', []);
 
-        $this->seeStatusCode(401);
+        $this->seeStatusCode(Response::HTTP_UNAUTHORIZED);
         $this->seeJsonEquals([
             'login' => 'false',
             'message' => 'Login Inválido',
@@ -50,7 +51,7 @@ class AuthTest extends TestCase
             'senha' => env('USER_TEST_PASSWORD')
         ]);
 
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure([
             'login',
             'access_token'

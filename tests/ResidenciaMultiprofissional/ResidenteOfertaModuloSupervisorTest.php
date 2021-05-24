@@ -2,6 +2,7 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use Symfony\Component\HttpFoundation\Response;
 use TestCase;
 
 class ResidenteOfertaModuloSupervisorTest extends TestCase
@@ -18,7 +19,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
             '/residencia-multiprofissional/supervisores/turma/2/oferta/41/residentes',
             []
         )
-            ->seeStatusCode(401);
+            ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testBuscaOfertaModulosPaginaNumeroFloat()
@@ -29,11 +30,11 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -47,11 +48,11 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(400)
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
             ->seeJsonEquals(
                 [
                     'error' => true,
-                    'status' => 400,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
@@ -65,7 +66,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonStructure(
                 [
                     'residentes'
@@ -81,7 +82,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonEquals(
                 [
                     'residentes' => []
@@ -97,7 +98,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonEquals(
                 [
                     'residentes' => []

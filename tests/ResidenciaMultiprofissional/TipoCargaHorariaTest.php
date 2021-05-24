@@ -2,6 +2,7 @@
 namespace Tests\ResidenciaMultiprofissional;
 
 use TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class TipoCargaHorariaTest extends TestCase
 {
@@ -18,7 +19,7 @@ class TipoCargaHorariaTest extends TestCase
             '/residencia-multiprofissional/carga-horaria/tipos',
             []
         )
-            ->seeStatusCode(401);
+            ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testConsultaTipoDeCargaHorariaOK()
@@ -29,7 +30,7 @@ class TipoCargaHorariaTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(200)
+            ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonStructure([
                 [
                     'id',

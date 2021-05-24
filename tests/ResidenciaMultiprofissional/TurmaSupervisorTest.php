@@ -36,7 +36,7 @@ class TurmaSupervisorTest extends TestCase
             );
     }
 
-    public function testBuscaOfertaModulosPaginaNaoNumero()
+    public function testBuscaTurmasParametroPaginaNaoNumero()
     {
         $this->get(
             '/residencia-multiprofissional/supervisores/turmas/fsdfsdff',

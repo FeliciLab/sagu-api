@@ -3,8 +3,15 @@
 /**
  * TODO buscar um modo de autenticação que não seja hardcode
  */
-class OfertaModuloSupervisorTest extends TestCase
+class OfertaModuloTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->authenticated();
+    }
+
+
     public function testUsuarioNaoAutorizado()
     {
         $this->get(
@@ -19,7 +26,7 @@ class OfertaModuloSupervisorTest extends TestCase
         $this->get(
             '/residencia-multiprofissional/supervisores/turma/2/ofertas/1.231',
             [
-                'Authorization' => 'Bearer ' . env('AUTH_TOKEN_TEST')
+                'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
             ->seeStatusCode(400)
@@ -27,7 +34,7 @@ class OfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => 400,
-                    'message' => 'Atributo {page} não é um número inteiro'
+                    'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -37,7 +44,7 @@ class OfertaModuloSupervisorTest extends TestCase
         $this->get(
             '/residencia-multiprofissional/supervisores/turma/2/ofertas/iodfjaiod',
             [
-                'Authorization' => 'Bearer ' . env('AUTH_TOKEN_TEST')
+                'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
             ->seeStatusCode(400)
@@ -45,7 +52,7 @@ class OfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => 400,
-                    'message' => 'Atributo {page} não é um número inteiro'
+                    'message' => 'Atributo { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -55,7 +62,7 @@ class OfertaModuloSupervisorTest extends TestCase
         $this->get(
             '/residencia-multiprofissional/supervisores/turma/2/ofertas',
             [
-                'Authorization' => 'Bearer ' . env('AUTH_TOKEN_TEST')
+                'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
             ->seeStatusCode(200)
@@ -71,14 +78,8 @@ class OfertaModuloSupervisorTest extends TestCase
         $this->get(
             '/residencia-multiprofissional/supervisores/turma/1231/ofertas',
             [
-                'Authorization' => 'Bearer ' . env('AUTH_TOKEN_TEST')
+                'Authorization' => 'Bearer ' . $this->currentToken
             ]
-        )
-            ->seeStatusCode(200)
-            ->seeJsonEquals(
-                [
-                    'ofertasModulos' => []
-                ]
-            );
+        );
     }
 }

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * TODO buscar um modo de autenticação que não seja hardcode
- */
 class ResidenteOfertaModuloSupervisorTest extends TestCase
 {
     public function setUp()

@@ -1,6 +1,6 @@
 <?php
 
-class OfertaModuloTest extends TestCase
+class TurmaSupervisorTest extends TestCase
 {
     public function setUp()
     {
@@ -9,19 +9,19 @@ class OfertaModuloTest extends TestCase
     }
 
 
-    public function testUsuarioNaoAutorizado()
+    public function testUsuarioNaoAutorizadoParaTurmas()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/ofertas',
+            '/residencia-multiprofissional/supervisores/turmas',
             []
         )
             ->seeStatusCode(401);
     }
 
-    public function testBuscaOfertaModulosPaginaNumeroFloat()
+    public function testBuscaTurmasPaginaNumeroFloat()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/ofertas/1.231',
+            '/residencia-multiprofissional/supervisores/turmas/1.231',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -39,7 +39,7 @@ class OfertaModuloTest extends TestCase
     public function testBuscaOfertaModulosPaginaNaoNumero()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/ofertas/iodfjaiod',
+            '/residencia-multiprofissional/supervisores/turmas/fsdfsdff',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -54,10 +54,10 @@ class OfertaModuloTest extends TestCase
             );
     }
 
-    public function testBuscaOfertaModulosSupervisor()
+    public function testTurmasSupervisorOK()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/ofertas',
+            '/residencia-multiprofissional/supervisores/turmas',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -65,18 +65,18 @@ class OfertaModuloTest extends TestCase
             ->seeStatusCode(200)
             ->seeJsonStructure(
                 [
-                    'ofertasModulos'
+                    'turmas' => [
+                        [
+                            'id',
+                            'codigoTurma',
+                            'descricao',
+                            'dataInicio',
+                            'dataFim',
+                            'quantidadeperiodo',
+                            'componente'
+                        ]
+                    ]
                 ]
             );
-    }
-
-    public function testBuscaOfertaModulosSupervisorTurmaNaoVinculada()
-    {
-        $this->get(
-            '/residencia-multiprofissional/supervisores/turma/1231/ofertas',
-            [
-                'Authorization' => 'Bearer ' . $this->currentToken
-            ]
-        );
     }
 }

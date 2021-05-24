@@ -61,7 +61,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaResidentesMatriculadosNaOfertaDeModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/oferta/41/residentes',
+            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/residentes',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -69,7 +69,34 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
             ->seeStatusCode(Response::HTTP_OK)
             ->seeJsonStructure(
                 [
-                    'residentes'
+                    'residentes' => [
+                        [
+                            'id',
+                            'inicio',
+                            'fimPrevisto',
+                            'person' => [
+                                'id',
+                                'name'
+                            ],
+                            'enfase' => [
+                                'id',
+                                'descricao'
+                            ],
+                            'nucleoProfissional' => [
+                                'id',
+                                'descricao'
+                            ],
+                            'turma' => [
+                                'descricao'
+                            ],
+                            'instituicaoFormadoraPerson' => [
+                                'name'
+                            ],
+                            'instituicaoExecutoraPerson' => [
+                                'name'
+                            ]
+                        ]
+                    ]
                 ]
             );
     }
@@ -90,7 +117,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
             );
     }
 
-    public function testBuscaOfertaModulosSupervisorOrfertaNaoVinculada()
+    public function testBuscaOfertaModulosSupervisorOfertaNaoVinculada()
     {
         $this->get(
             '/residencia-multiprofissional/supervisores/turma/2/oferta/12318/residentes',

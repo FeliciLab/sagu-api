@@ -4,9 +4,9 @@ class AuthTest extends TestCase
 {
     public function testAuthSemParametroUsuario()
     {
-        $this->post('/auth', array(
+        $this->post('/auth', [
             'senha' => env('USER_TEST_PASSWORD')
-        ));
+        ]);
 
         $this->seeStatusCode(401);
         $this->seeJsonEquals([
@@ -17,9 +17,9 @@ class AuthTest extends TestCase
 
     public function testAuthSemParametroSenha()
     {
-        $this->post('/auth', array(
+        $this->post('/auth', [
             'usuario' => env('USER_TEST')
-        ));
+        ]);
 
         $this->seeStatusCode(401);
         $this->seeJsonEquals([
@@ -30,12 +30,26 @@ class AuthTest extends TestCase
 
     public function testAuthSemParametro()
     {
-        $this->post('/auth', array());
+        $this->post('/auth', []);
 
         $this->seeStatusCode(401);
         $this->seeJsonEquals([
             'login' => 'false',
             'message' => 'Login Inválido',
+        ]);
+    }
+
+    public function testAuthOK()
+    {
+        $this->post('/auth', [
+            'usuario' => env('USER_TEST'),
+            'senha' => env('USER_TEST_PASSWORD')
+        ]);
+
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            'login',
+            'access_token'
         ]);
     }
 }

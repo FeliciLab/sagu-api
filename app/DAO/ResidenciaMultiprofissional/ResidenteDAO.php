@@ -78,7 +78,8 @@ class ResidenteDAO
             )
             ->where('res.ofertadeunidadetematica.ofertadeunidadetematicaid', $ofertaId)
             ->where('res.turma.turmaid', $turmaId)
-            ->where('res.supervisores.supervisorid', $supervisorId);
+            ->where('res.supervisores.supervisorid', $supervisorId)
+            ->orderBy('public.basphysicalperson.name');
     }
 
     public function buscarResidenteNaOfertaTurma($supervisorId, $turmaId, $ofertaId, $residenteId)

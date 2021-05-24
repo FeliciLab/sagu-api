@@ -57,7 +57,7 @@ class OfertaModuloTest extends TestCase
     public function testBuscaOfertaModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/ofertas',
+            '/residencia-multiprofissional/supervisores/turma/13/ofertas',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -65,7 +65,36 @@ class OfertaModuloTest extends TestCase
             ->seeStatusCode(200)
             ->seeJsonStructure(
                 [
-                    'ofertasModulos'
+                    'ofertasModulos' => [
+                        [
+                            'id',
+                            'dataInicio',
+                            'dataFim',
+                            'encerramento',
+                            'nome',
+                            'semestre',
+                            'semestre_descricao',
+                            'turma' => [
+                                'id',
+                                'codigoTurma',
+                                'descricao',
+                                'dataInicio',
+                                'dataFim',
+                            ],
+                            'modulo' => [
+                                'nome',
+                                'id'
+                            ],
+                            'cargahoraria',
+                            'unidadetematicaid',
+                            'tipoCargaHoraria' => [
+                                [
+                                    'tipo',
+                                    'cargahoraria'
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
             );
     }
@@ -77,6 +106,10 @@ class OfertaModuloTest extends TestCase
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
-        );
+        )
+        ->seeStatusCode(200)
+        ->seeJsonStructure([
+            'ofertasModulos'
+        ]);
     }
 }

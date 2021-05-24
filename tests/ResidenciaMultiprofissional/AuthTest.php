@@ -27,4 +27,15 @@ class AuthTest extends TestCase
             'message' => 'Login Inválido',
         ]);
     }
+
+    public function testAuthSemParametro()
+    {
+        $this->post('/auth', array());
+
+        $this->seeStatusCode(401);
+        $this->seeJsonEquals([
+            'login' => 'false',
+            'message' => 'Login Inválido',
+        ]);
+    }
 }

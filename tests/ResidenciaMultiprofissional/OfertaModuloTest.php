@@ -62,7 +62,7 @@ class OfertaModuloTest extends TestCase
     public function testBuscaOfertaModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/13/ofertas',
+            '/residencia-multiprofissional/supervisores/turma/14/ofertas',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

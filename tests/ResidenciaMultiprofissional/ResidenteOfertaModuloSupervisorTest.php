@@ -16,7 +16,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testUsuarioNaoAutorizado()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/oferta/41/residentes',
+            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes',
             []
         )
             ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
@@ -25,7 +25,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaOfertaModulosPaginaNumeroFloat()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/oferta/41/residentes/1.1231',
+            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes/1.1231',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -43,7 +43,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaOfertaModulosPaginaNaoNumero()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/2/oferta/41/residentes/dasdasd',
+            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes/dasdasd',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
@@ -61,7 +61,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaResidentesMatriculadosNaOfertaDeModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/residentes',
+            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

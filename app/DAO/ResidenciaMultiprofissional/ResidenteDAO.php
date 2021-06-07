@@ -45,27 +45,49 @@ class ResidenteDAO
                 'public.basphysicalperson.name as person.name',
                 'public.basphysicalperson.personid as person.personid'
             )
-            ->join('public.baslegalperson', 'public.baslegalperson.personid', 'res.residente.instituicaoformadora')
-            ->join('public.baslegalperson as baslegalpersonExecutora', 'baslegalpersonExecutora.personid', 'res.residente.instituicaoexecutora')
-            ->join('public.basphysicalperson', 'public.basphysicalperson.personid', 'res.residente.personid')
+            ->join(
+                'public.baslegalperson',
+                'public.baslegalperson.personid',
+                'res.residente.instituicaoformadora'
+            )
+            ->join(
+                'public.baslegalperson as baslegalpersonExecutora',
+                'baslegalpersonExecutora.personid',
+                'res.residente.instituicaoexecutora'
+            )
+            ->join(
+                'public.basphysicalperson',
+                'public.basphysicalperson.personid',
+                'res.residente.personid')
             ->join(
                 'res.nucleoprofissional',
                 'res.nucleoprofissional.nucleoprofissionalid',
                 'res.residente.nucleoprofissionalid'
             )
-            ->join('res.enfase', 'res.enfase.enfaseid', 'res.residente.enfaseid')
-            ->join('res.ofertadoresidente', 'res.ofertadoresidente.residenteid', 'res.residente.residenteid')
+            ->join(
+                'res.enfase',
+                'res.enfase.enfaseid',
+                'res.residente.enfaseid'
+            )
+            ->join(
+                'res.ofertadoresidente',
+                'res.ofertadoresidente.residenteid',
+                'res.residente.residenteid')
             ->join(
                 'res.ofertadeunidadetematica',
                 'res.ofertadeunidadetematica.ofertadeunidadetematicaid',
                 'res.ofertadoresidente.ofertadeunidadetematicaid'
             )
-            ->join('res.turma', 'res.turma.turmaid', 'res.ofertadeunidadetematica.turmaid')
             ->join(
-                'res.ofertadeunidadetematicasupervisoresinstituicoes',
-                'res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid',
-                'res.ofertadeunidadetematica.ofertadeunidadetematicaid'
+                'res.turma',
+                'res.turma.turmaid',
+                'res.ofertadeunidadetematica.turmaid'
             )
+            ->join(
+                'res.ofertadeunidadetematicasupervisoresinstituicoes', function ($join) {
+                $join->on('res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid', '=', 'res.ofertadeunidadetematica.ofertadeunidadetematicaid');
+                $join->on('res.ofertadeunidadetematicasupervisoresinstituicoes.enfaseid', '=', 'res.residente.enfaseid');
+            })
             ->join(
                 'res.supervisores',
                 'res.supervisores.supervisorid',

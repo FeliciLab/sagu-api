@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
+use App\DAO\ResidenciaMultiprofissional\OfertaModuloDAO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use App\Services\ResidenciaMultiprofissional\OfertaModuloService;
@@ -16,7 +17,6 @@ class OfertaModuloController extends Controller
 
     public function index(
         Request $request,
-        OfertaModuloService $ofertaModuloService,
         $turma,
         $page = null
     )
@@ -25,9 +25,11 @@ class OfertaModuloController extends Controller
             return $this->responseNumberParameterError();
         }
 
+        $ofertaModuloTurmasDAO = new OfertaModuloDAO();
+
         return response()->json(
             [
-                'ofertasModulos' => $ofertaModuloService->buscarOfertaModuloTurmaSupervisor(
+                'ofertasModulos' => $ofertaModuloTurmasDAO->buscarOfertasModuloSupervisor(
                     $request->get('usuario')->supervisorid,
                     $turma,
                     $page

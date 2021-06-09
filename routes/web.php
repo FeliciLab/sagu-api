@@ -211,7 +211,10 @@ $app->group(
                     'enfases',
                     'EnfaseController@index'
                 );
-
+                $app->get(
+                    'nucleos-profissionais',
+                    'NucleoProfissionalController@index'
+                );
                 $app->get(
                     'carga-horaria/tipos',
                     'TipoCargaHorariaController@consultarTipos'

@@ -208,6 +208,11 @@ $app->group(
             ['prefix' => 'residencia-multiprofissional', 'namespace' => 'ResidenciaMultiprofissional'],
             function () use ($app) {
                 $app->get(
+                    'enfases',
+                    'EnfaseController@index'
+                );
+
+                $app->get(
                     'carga-horaria/tipos',
                     'TipoCargaHorariaController@consultarTipos'
                 );

@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\DB;
 
 class EnfaseDAO
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new Enfase();
+    }
+
     public function get($id)
     {
-        $select = DB::select('SELECT * FROM res.enfase WHERE enfaseid = :enfaseid', ['enfaseid' => $id]);
+        $select = DB::select("SELECT * FROM {$this->model->getTable()} WHERE enfaseid = :enfaseid", ['enfaseid' => $id]);
         if (count($select)) {
             $enfase = new Enfase();
 
@@ -24,7 +31,7 @@ class EnfaseDAO
 
     public function getEnfases()
     {
-        $select = DB::select('SELECT * FROM res.enfase ORDER BY descricao');
+        $select = DB::select("SELECT * FROM {$this->model->getTable()} ORDER BY descricao");
         $enfases = array();
         if (count($select)) {
             foreach ($select as $enfase) {

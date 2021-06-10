@@ -20,7 +20,7 @@ class AtividadeModuloDAO
 
     public function get($id)
     {
-        $select = DB::select('SELECT * FROM ' . $this->model->getTable() . ' WHERE unidadetematicaid = :unidadetematicaid', ['unidadetematicaid' => $id]);
+        $select = DB::select("SELECT * FROM  {$this->model->getTable()}  WHERE unidadetematicaid = :unidadetematicaid", ['unidadetematicaid' => $id]);
         if (count($select)) {
             $atividadeModulo = new AtividadeModulo();
 

@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\DB;
 
 class NucleoProfissionalDAO
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new NucleoProfissional();
+    }
+
     public function get($id)
     {
-        $select = DB::select('SELECT * FROM res.nucleoprofissional WHERE nucleoprofissionalid = :nucleoprofissionalid', ['nucleoprofissionalid' => $id]);
+        $select = DB::select("SELECT * FROM {$this->model->getTable()} WHERE nucleoprofissionalid = :nucleoprofissionalid", ['nucleoprofissionalid' => $id]);
         if (count($select)) {
             $nucleo = new NucleoProfissional();
 
@@ -24,7 +31,7 @@ class NucleoProfissionalDAO
 
     public function getNucleos()
     {
-        $select = DB::select('SELECT * FROM res.nucleoprofissional ORDER BY descricao');
+        $select = DB::select("SELECT * FROM {$this->model->getTable()} ORDER BY descricao");
         $nucleos = array();
         if (count($select)) {
             foreach ($select as $nucleo) {

@@ -3,7 +3,6 @@
 namespace App\Services\ResidenciaMultiprofissional;
 
 use App\DAO\ResidenciaMultiprofissional\OfertaModuloFaltaDAO;
-use App\Model\BaseModel\BaseModelSagu;
 use App\Model\ResidenciaMultiprofissional\OfertaModuloFalta;
 use Illuminate\Support\Facades\DB;
 

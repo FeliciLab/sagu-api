@@ -15,7 +15,7 @@ class OfertaModuloFaltaController extends Controller
         $this->ofertaModuloFaltaService = $ofertaModuloFaltaService;
     }
 
-    public function store(Request $request, $turma, $oferta)
+    public function store(Request $request, $oferta)
     {
         try {
             $faltas = $request->input('faltas');

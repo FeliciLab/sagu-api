@@ -20,13 +20,14 @@ class OfertaModuloFaltaController extends Controller
         try {
             $faltas = $request->input('faltas');
             $ok = $this->ofertaModuloFaltaService->salvarFaltas($oferta, $faltas);
-            return response()->json(
-                $ok
-            );
+            return response()->json([
+                'sucesso' => true,
+                'faltas' => $ok
+            ]);
         } catch (\Exception $e) {
             return response()->json(
                 [
-                    'errors' => true,
+                    'sucesso' => false,
                     'message' => $e->getMessage()
                 ]
             );

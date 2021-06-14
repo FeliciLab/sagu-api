@@ -237,14 +237,9 @@ $app->group(
                             'OfertaModuloController@residentes'
                         );
 
-                        $app->get(
-                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/faltas/{faltas}',
-                            'AvaliarResidentesPorModuloSupervisorResMultiController@falta'
-                        );
-
-                        $app->get(
-                            '/turma/{turma}/oferta/{oferta}/residente/{residenteId}/notas/{notaPratica}/{notaTeorica}[/{notaFinal}]',
-                            'AvaliarResidentesPorModuloSupervisorResMultiController@notas'
+                        $app->post(
+                            '/turma/{turma}/oferta/{oferta}/faltas',
+                            'OfertaModuloFaltaController@store'
                         );
                     }
                 );

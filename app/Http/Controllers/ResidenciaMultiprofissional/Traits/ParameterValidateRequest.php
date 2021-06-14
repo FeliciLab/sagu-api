@@ -37,7 +37,7 @@ trait ParameterValidateRequest
             [
                 'error' => true,
                 'status' => 400,
-                'message' => "Atributo { $field } não é um valor número aceitável."
+                    'message' => "Parâmetro { $field } não é um valor número aceitável."
             ],
             400
         );

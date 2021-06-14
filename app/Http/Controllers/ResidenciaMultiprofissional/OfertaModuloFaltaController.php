@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use App\Services\ResidenciaMultiprofissional\OfertaModuloFaltaService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class OfertaModuloFaltaController extends Controller
 {
@@ -29,12 +30,13 @@ class OfertaModuloFaltaController extends Controller
         }
 
         $faltas = $request->input('faltas');
-        if (count($faltas) == 0) {
+        if (isset($faltas) && count($faltas) == 0) {
             return response()->json(
                 [
                     'sucesso' => false,
                     'mensagem' => 'Faltas é obrigatório'
-                ]
+                ],
+                Response::HTTP_BAD_REQUEST
             );
         }
 
@@ -50,7 +52,8 @@ class OfertaModuloFaltaController extends Controller
             [
                 'sucesso' => false,
                 'mensagem' => 'Não foi possível realizar o lançamento de faltas'
-            ]
+            ],
+            Response::HTTP_BAD_REQUEST
         );
     }
 }

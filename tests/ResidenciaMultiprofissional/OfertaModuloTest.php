@@ -36,7 +36,7 @@ class OfertaModuloTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -54,7 +54,7 @@ class OfertaModuloTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -62,7 +62,7 @@ class OfertaModuloTest extends TestCase
     public function testBuscaOfertaModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/13/ofertas',
+            '/residencia-multiprofissional/supervisores/turma/14/ofertas',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

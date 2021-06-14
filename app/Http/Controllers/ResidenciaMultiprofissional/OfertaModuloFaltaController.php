@@ -17,21 +17,21 @@ class OfertaModuloFaltaController extends Controller
 
     public function store(Request $request, $oferta)
     {
-        try {
-            $faltas = $request->input('faltas');
-            $ok = $this->ofertaModuloFaltaService->salvarFaltas($oferta, $faltas);
+        $faltas = $request->input('faltas');
+
+        $faltas = $this->ofertaModuloFaltaService->salvarFaltas($oferta, $faltas);
+        if ($faltas) {
             return response()->json([
                 'sucesso' => true,
-                'faltas' => $ok
+                'faltas' => $faltas
             ]);
-        } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'sucesso' => false,
-                    'message' => $e->getMessage()
-                ]
-            );
         }
 
+        return response()->json(
+            [
+                'sucesso' => false,
+                'mensagem' => 'Não foi possível realizar o lançamento de faltas'
+            ]
+        );
     }
 }

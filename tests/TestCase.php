@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\JWT\JWTWrapper;
+
 abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 {
     protected $currentToken;
+    protected $supervisor;
+
 
     public function authenticated()
     {
@@ -18,6 +22,9 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 
         if ($data->login) {
             $this->currentToken = $data->access_token;
+            $jwtDecode = JWTWrapper::decode($data->access_token);
+            $this->supervisor = $jwtDecode->data;
+
         }
     }
 

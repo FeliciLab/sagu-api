@@ -35,7 +35,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -53,7 +53,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -94,6 +94,16 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                             ],
                             'instituicaoExecutoraPerson' => [
                                 'name'
+                            ],
+                            'faltas' => [
+                                [
+                                    'id',
+                                    'residenteId',
+                                    'ofertaId',
+                                    'tipo',
+                                    'falta',
+                                    'observacao'
+                                ]
                             ]
                         ]
                     ]

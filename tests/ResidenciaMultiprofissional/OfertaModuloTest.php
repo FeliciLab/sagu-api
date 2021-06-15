@@ -2,15 +2,21 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfertaModuloTest extends TestCase
 {
+    private $turmasSupervisor;
+
     public function setUp()
     {
         parent::setUp();
         $this->authenticated();
+
+        $turmaDAO = new TurmaDAO();
+        $this->turmasSupervisor = $turmaDAO->buscarTurmasSupervisor($this->supervisor->supervisorid);
     }
 
 
@@ -36,7 +42,7 @@ class OfertaModuloTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
@@ -54,15 +60,16 @@ class OfertaModuloTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Atributo { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
                 ]
             );
     }
 
     public function testBuscaOfertaModulosSupervisor()
     {
+        $turmaId = $this->turmasSupervisor[0]['id'];
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/13/ofertas',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/ofertas",
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

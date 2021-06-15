@@ -2,15 +2,21 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfertaModuloTest extends TestCase
 {
+    private $turmasSupervisor;
+
     public function setUp()
     {
         parent::setUp();
         $this->authenticated();
+
+        $turmaDAO = new TurmaDAO();
+        $this->turmasSupervisor = $turmaDAO->buscarTurmasSupervisor($this->supervisor->supervisorid);
     }
 
 
@@ -61,8 +67,9 @@ class OfertaModuloTest extends TestCase
 
     public function testBuscaOfertaModulosSupervisor()
     {
+        $turmaId = $this->turmasSupervisor[0]['id'];
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/14/ofertas',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/ofertas",
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

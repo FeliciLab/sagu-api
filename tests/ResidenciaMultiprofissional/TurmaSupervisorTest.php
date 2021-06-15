@@ -31,14 +31,14 @@ class TurmaSupervisorTest extends TestCase
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]
         )
-            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
-            ->seeJsonEquals(
-                [
-                    'error' => true,
-                    'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
-                ]
-            );
+        ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+        ->seeJsonEquals(
+            [
+                'error' => true,
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => 'Parâmetro { page } não é um valor número aceitável.'
+            ]
+        );
     }
 
     public function testBuscaTurmasParametroPaginaNaoNumero()

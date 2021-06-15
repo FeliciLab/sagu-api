@@ -2,15 +2,27 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use App\DAO\ResidenciaMultiprofissional\OfertaModuloDAO;
+use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfertaModuloFaltaTest extends TestCase
 {
+    private $ofertasDoSupervisor;
+    private $turmasSupervisor;
+
     public function setUp()
     {
         parent::setUp();
         $this->authenticated();
+
+        $turmaDAO = new TurmaDAO();
+        $this->turmasSupervisor = $turmaDAO->buscarTurmasSupervisor($this->supervisor->supervisorid);
+        $turmaId = $this->turmasSupervisor[0]['id'];
+
+        $ofertaModuloTurmasDAO = new OfertaModuloDAO();
+        $this->ofertasDoSupervisor = $ofertaModuloTurmasDAO->buscarOfertasModuloSupervisor($this->supervisor->supervisorid, $turmaId);
     }
 
 
@@ -65,9 +77,12 @@ class OfertaModuloFaltaTest extends TestCase
 
     public function testLancamentoDeFaltaOK()
     {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
         $this->json(
             'POST',
-            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/faltas',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
             [
                 'faltas' => [
                     [
@@ -103,9 +118,12 @@ class OfertaModuloFaltaTest extends TestCase
 
     public function testLancamentoDeFaltaCamposInvalidos()
     {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
         $this->json(
             'POST',
-            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/faltas',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
             [
                 'faltas' => [
                     [

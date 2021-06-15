@@ -17,14 +17,15 @@ class ResidenteDAO
     /**
      * @var Residente
      */
-    public $model;
+    private $model;
 
-    /**
-     * @param Residente $model
-     */
+
+    private $ofertaModuloFaltaDAO;
+
     public function __construct()
     {
         $this->model = new Residente();
+        $this->ofertaModuloFaltaDAO = new OfertaModuloFaltaDAO();
     }
 
     public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
@@ -121,8 +122,15 @@ class ResidenteDAO
             ->limit(25);
 
         $this->paginate($query, $page);
-        return $this->removerCamposNulosLista(
+        $residentes = $this->removerCamposNulosLista(
             $this->mapToModel($query->get()->toArray())
         );
+
+        $residentesArray = [];
+        foreach ($residentes as $residente) {
+            $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
+            $residentesArray[] = $residente;
+        }
+        return $residentesArray;
     }
 }

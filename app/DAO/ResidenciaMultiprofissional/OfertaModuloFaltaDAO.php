@@ -2,6 +2,7 @@
 
 namespace App\DAO\ResidenciaMultiprofissional;
 
+use App\Model\BaseModel\BaseModelSagu;
 use App\Model\ResidenciaMultiprofissional\OfertaModuloFalta;
 use Illuminate\Support\Facades\DB;
 
@@ -84,5 +85,26 @@ class OfertaModuloFaltaDAO
         }
 
         return $result;
+    }
+
+    public function getFaltasDoResidenteNaOferta($residenteId, $ofertaId)
+    {
+        $select = DB::select(
+            "SELECT residenteid, ofertadeunidadetematicaid, tipo FROM {$this->model->getTable()} 
+            WHERE residenteid = :residenteid 
+              AND ofertadeunidadetematicaid = :ofertadeunidadetematicaid",
+            [
+                'residenteid' => $residenteId,
+                'ofertadeunidadetematicaid' => $ofertaId
+            ]
+        );
+
+        $residentesFaltas = [];
+        if (count($select)) {
+            foreach ($select as $residenteFalta) {
+                $residentesFaltas[] = $this->get($residenteFalta->residenteid, $residenteFalta->ofertadeunidadetematicaid, $residenteFalta->tipo);
+            }
+        }
+        return $residentesFaltas;
     }
 }

@@ -94,6 +94,16 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                             ],
                             'instituicaoExecutoraPerson' => [
                                 'name'
+                            ],
+                            'faltas' => [
+                                [
+                                    'id',
+                                    'residenteId',
+                                    'ofertaId',
+                                    'tipo',
+                                    'falta',
+                                    'observacao'
+                                ]
                             ]
                         ]
                     ]

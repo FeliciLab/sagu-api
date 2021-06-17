@@ -95,4 +95,31 @@ class OfertaModuloDAO
         }
         return $this->mapToModel($ofertasArray);
     }
+
+    public function get($ofertaId)
+    {
+
+        $select = DB::select(
+            "SELECT * FROM {$this->model->getTable()} 
+            WHERE ofertadeunidadetematicaid = :ofertadeunidadetematicaid",
+            [
+                'ofertadeunidadetematicaid' => $ofertaId
+            ]
+        );
+
+        $ofertaModulo = new OfertaModulo();
+        if (count($select)) {
+            $select = $select[0];
+
+            $ofertaModulo->id = $select->ofertadeunidadetematicaid;
+            $ofertaModulo->moduloId = $select->unidadetematicaid;
+            $ofertaModulo->dataInicio = new \DateTime($select->inicio);
+            $ofertaModulo->dataFim = new \DateTime($select->fim);
+            $ofertaModulo->nome = $select->nome;
+            $ofertaModulo->semestre = $select->semestre;
+            $ofertaModulo->cargaHoraria = $select->cargahoraria;
+        }
+
+        return $ofertaModulo;
+    }
 }

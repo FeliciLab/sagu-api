@@ -2,6 +2,7 @@
 
 namespace App\DAO\ResidenciaMultiprofissional;
 
+use App\Model\BaseModel\BaseModelSagu;
 use App\Model\ResidenciaMultiprofissional\OfertaModuloNota;
 use Illuminate\Support\Facades\DB;
 
@@ -106,7 +107,7 @@ class OfertaModuloNotaDAO
                 'ofertadeunidadetematicaid' => $ofertaId
             ]
         );
-
+        $residentesNotas = null;
         if (count($select)) {
             $residenteNota = $select[0];
             $residentesNotas = $this->get($residenteNota->residenteid, $residenteNota->ofertadeunidadetematicaid);

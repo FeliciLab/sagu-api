@@ -241,6 +241,11 @@ $app->group(
                             '/turma/{turma}/oferta/{oferta}/faltas',
                             'OfertaModuloFaltaController@store'
                         );
+
+                        $app->post(
+                            '/turma/{turma}/oferta/{oferta}/notas',
+                            'OfertaModuloNotaController@store'
+                        );
                     }
                 );
             }

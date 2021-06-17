@@ -17,10 +17,15 @@ use App\Model\BaseModel\BaseModelSagu;
  */
 class OfertaModulo extends BaseModelSagu
 {
+    protected $schema = 'res';
+    protected $table = 'ofertadeunidadetematica';
+
     /**
      * @var int
      */
     public $id;
+
+    public $moduloId;
 
     /**
      * @var date
@@ -61,6 +66,8 @@ class OfertaModulo extends BaseModelSagu
      * @var Modulo
      */
     public $modulo;
+
+    public $cargaHoraria;
 
     /**
      * Configuração para as variáveis de composição do objeto

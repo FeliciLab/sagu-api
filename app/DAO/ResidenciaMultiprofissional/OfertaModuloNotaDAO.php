@@ -107,11 +107,9 @@ class OfertaModuloNotaDAO
             ]
         );
 
-        $residentesNotas = [];
         if (count($select)) {
-            foreach ($select as $residenteNota) {
-                $residentesNotas[] = $this->get($residenteNota->residenteid, $residenteNota->ofertadeunidadetematicaid);
-            }
+            $residenteNota = $select[0];
+            $residentesNotas = $this->get($residenteNota->residenteid, $residenteNota->ofertadeunidadetematicaid);
         }
         return $residentesNotas;
     }

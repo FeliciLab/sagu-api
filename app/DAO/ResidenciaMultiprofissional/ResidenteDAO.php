@@ -131,7 +131,7 @@ class ResidenteDAO
         $residentesArray = [];
         foreach ($residentes as $residente) {
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
-            $residente['notas'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
+            $residente['nota'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
 
             $residentesArray[] = $residente;
         }

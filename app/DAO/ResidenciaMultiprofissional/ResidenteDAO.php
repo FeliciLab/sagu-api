@@ -21,11 +21,13 @@ class ResidenteDAO
 
 
     private $ofertaModuloFaltaDAO;
+    private $ofertaModuloNotaDAO;
 
     public function __construct()
     {
         $this->model = new Residente();
         $this->ofertaModuloFaltaDAO = new OfertaModuloFaltaDAO();
+        $this->ofertaModuloNotaDAO = new OfertaModuloNotaDAO();
     }
 
     public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
@@ -129,6 +131,8 @@ class ResidenteDAO
         $residentesArray = [];
         foreach ($residentes as $residente) {
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
+            $residente['notas'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
+
             $residentesArray[] = $residente;
         }
         return $residentesArray;

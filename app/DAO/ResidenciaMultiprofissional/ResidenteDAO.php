@@ -46,7 +46,8 @@ class ResidenteDAO
                 'public.baslegalperson.name as instituicaoFormadoraPerson.name',
                 'baslegalpersonExecutora.name as instituicaoExecutoraPerson.name',
                 'public.basphysicalperson.name as person.name',
-                'public.basphysicalperson.personid as person.personid'
+                'public.basphysicalperson.personid as person.personid',
+                'public.basphysicalperson.photoid as person.photoid'
             )
             ->join(
                 'public.baslegalperson',
@@ -132,6 +133,7 @@ class ResidenteDAO
         foreach ($residentes as $residente) {
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['nota'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
+            $residente['person']['photourl'] = isset($residente['person']['photoid']) && $residente['person']['photoid'] > 0 ? env('SAGU_URL') . "miolo20/html/index.php?module=basic&action=main:getfile&&fileId={$residente['person']['photoid']}" : null;
 
             $residentesArray[] = $residente;
         }

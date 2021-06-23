@@ -22,12 +22,14 @@ class ResidenteDAO
 
     private $ofertaModuloFaltaDAO;
     private $ofertaModuloNotaDAO;
+    private $cargaHorariaComplementarDAO;
 
     public function __construct()
     {
         $this->model = new Residente();
         $this->ofertaModuloFaltaDAO = new OfertaModuloFaltaDAO();
         $this->ofertaModuloNotaDAO = new OfertaModuloNotaDAO();
+        $this->cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
     }
 
     public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
@@ -134,6 +136,8 @@ class ResidenteDAO
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['nota'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['person']['photourl'] = isset($residente['person']['photoid']) && $residente['person']['photoid'] > 0 ? env('SAGU_URL') . "miolo20/html/index.php?module=basic&action=main:getfile&&fileId={$residente['person']['photoid']}" : null;
+            $residente['cargahorariapendente'] = $this->ofertaModuloFaltaDAO->getCargaHorariaPendente($residente['id'], $ofertaId);
+            $residente['cargahorariacomplementar'] = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residente['id'], $ofertaId);
 
             $residentesArray[] = $residente;
         }

@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class OfertaModuloFaltaDAO
 {
-    public $model;
+    private $model;
+    private $cargaHorariaComplementarDAO;
 
     public function __construct()
     {
         $this->model = new OfertaModuloFalta();
+        $this->cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
     }
 
     public function get($residenteId, $ofertaId, $tipo)
@@ -106,5 +108,20 @@ class OfertaModuloFaltaDAO
             }
         }
         return $residentesFaltas;
+    }
+
+    public function getCargaHorariaPendente($residenteId, $ofertaId)
+    {
+        $faltas = $this->getFaltasDoResidenteNaOferta($residenteId, $ofertaId);
+        $cargaHorariaPendente = 0;
+        foreach ($faltas as $falta) {
+            $cargaHorariaPendente += $falta->falta;
+        }
+
+        $cargaHorariaComplementarDoResidente = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residenteId, $ofertaId);
+        foreach ($cargaHorariaComplementarDoResidente as $cargaHorariaComplementar) {
+            $cargaHorariaPendente -= $cargaHorariaComplementar->cargaHoraria;
+        }
+        return $cargaHorariaPendente;
     }
 }

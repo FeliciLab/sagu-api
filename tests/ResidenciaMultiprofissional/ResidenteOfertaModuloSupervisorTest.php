@@ -35,7 +35,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { residenteId } não é um valor número aceitável.'
                 ]
             );
     }
@@ -53,7 +53,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
                 [
                     'error' => true,
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Parâmetro { page } não é um valor número aceitável.'
+                    'message' => 'Parâmetro { residenteId } não é um valor número aceitável.'
                 ]
             );
     }
@@ -61,7 +61,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaResidentesMatriculadosNaOfertaDeModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes',
+            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/residentes',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

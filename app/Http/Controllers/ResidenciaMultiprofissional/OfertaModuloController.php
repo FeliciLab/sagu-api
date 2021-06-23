@@ -43,11 +43,11 @@ class OfertaModuloController extends Controller
         ResidenteDAO $ResidenteDAO,
         $turma,
         $oferta,
-        $page = null
+        $residenteId = null
     )
     {
-        if ($this->invalidPageParameter($page)) {
-            return $this->responseNumberParameterError();
+        if ($this->invalidPageParameter($residenteId)) {
+            return $this->responseNumberParameterError('residenteId');
         }
 
         return response()->json(
@@ -56,7 +56,7 @@ class OfertaModuloController extends Controller
                     $request->get('usuario')->supervisorid,
                     $turma,
                     $oferta,
-                    $page
+                    $residenteId
                 )
             ]
         );

@@ -237,7 +237,7 @@ $app->group(
                         );
 
                         $app->get(
-                            '/turma/{turma}/oferta/{oferta}/residentes[/{page}]',
+                            '/turma/{turma}/oferta/{oferta}/residentes[/{residenteId}]',
                             'OfertaModuloController@residentes'
                         );
 

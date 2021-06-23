@@ -32,9 +32,9 @@ class ResidenteDAO
         $this->cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
     }
 
-    public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
+    public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId, $residenteId)
     {
-        return DB::table($this->model->getTable())
+        $result = DB::table($this->model->getTable())
             ->distinct()
             ->select(
                 'res.residente.residenteid as residenteid',
@@ -106,27 +106,21 @@ class ResidenteDAO
             )
             ->where('res.ofertadeunidadetematica.ofertadeunidadetematicaid', $ofertaId)
             ->where('res.turma.turmaid', $turmaId)
-            ->where('res.supervisores.supervisorid', $supervisorId)
-            ->orderBy('public.basphysicalperson.name');
+            ->where('res.supervisores.supervisorid', $supervisorId);
+
+        if (isset($residenteId) && $residenteId >= 0) {
+            $result->where('res.residente.residenteid', $residenteId);
+        }
+
+        $result->orderBy('public.basphysicalperson.name');
+
+        return $result;
     }
 
-    public function buscarResidenteNaOfertaTurma($supervisorId, $turmaId, $ofertaId, $residenteId)
+    public function buscarResidentesOfertaModuloSupervisores($supervisorId, $turmaId, $ofertaId, $residenteId)
     {
-        $resultado = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
-            ->where('res.residente.residenteid', $residenteId)
-            ->select('res.residente.residenteid')
-            ->get()
-            ->first();
+        $query = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId, $residenteId);
 
-        return $resultado ? $resultado : [];
-    }
-
-    public function buscarResidentesOfertaModuloSupervisores($supervisorId, $turmaId, $ofertaId, $page = null)
-    {
-        $query = $this->queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId)
-            ->limit(25);
-
-        $this->paginate($query, $page);
         $residentes = $this->removerCamposNulosLista(
             $this->mapToModel($query->get()->toArray())
         );

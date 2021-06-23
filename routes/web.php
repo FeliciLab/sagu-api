@@ -219,6 +219,10 @@ $app->group(
                     'carga-horaria/tipos',
                     'TipoCargaHorariaController@consultarTipos'
                 );
+                $app->get(
+                    'carga-horaria-complementar/tipos',
+                    'TipoCargaHorariaComplementarController@index'
+                );
                 $app->group(
                     ['prefix' => 'supervisores'],
                     function () use ($app) {

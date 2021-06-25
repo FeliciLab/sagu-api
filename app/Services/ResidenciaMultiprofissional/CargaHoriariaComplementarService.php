@@ -8,35 +8,35 @@ use Illuminate\Support\Facades\DB;
 
 class CargaHoriariaComplementarService
 {
-    public function salvar($ofertaId, $cargaHorariaComplementar)
+    public function salvar($ofertaId, $cargaHorariaComplementarParams)
     {
         DB::beginTransaction();
         $cargaHorariaArray = [];
-        try {
-            foreach ($cargaHorariaComplementar as $cargaComplementar) {
-                $cargaHorariaComplementar = new CargaHorariaComplementar();
-                $cargaHorariaComplementar->id = $cargaComplementar['id'];
-                $cargaHorariaComplementar->tipoCargaHorariaComplementar = $cargaComplementar['tipoCargaHorariaComplementar'];
-                $cargaHorariaComplementar->residente = $cargaComplementar['residenteId'];
-                $cargaHorariaComplementar->cargaHoraria = $cargaComplementar['cargaHoraria'];
-                $cargaHorariaComplementar->justificativa = $cargaComplementar['justificativa'];
-                $cargaHorariaComplementar->tipoCargaHoraria = $cargaComplementar['tipoCargaHoraria'];
-                $cargaHorariaComplementar->oferta = $ofertaId;
+       // try {
+
+            $cargaHorariaComplementar = new CargaHorariaComplementar();
+            $cargaHorariaComplementar->id = isset($cargaHorariaComplementarParams['id']) && $cargaHorariaComplementarParams['id'] > 0 ? $cargaHorariaComplementarParams['id'] : null;
+            $cargaHorariaComplementar->tipoCargaHorariaComplementar = $cargaHorariaComplementarParams['tipoCargaHorariaComplementar'];
+            $cargaHorariaComplementar->residente = $cargaHorariaComplementarParams['residenteId'];
+            $cargaHorariaComplementar->cargaHoraria = $cargaHorariaComplementarParams['cargaHoraria'];
+            $cargaHorariaComplementar->justificativa = $cargaHorariaComplementarParams['justificativa'];
+            $cargaHorariaComplementar->tipoCargaHoraria = $cargaHorariaComplementarParams['tipoCargaHoraria'];
+            $cargaHorariaComplementar->oferta = $ofertaId;
 
 
-                $cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
-                $cargaHorariaComplementarLancada = $cargaHorariaComplementarDAO->get($cargaHorariaComplementar->id);
-                if (!$cargaHorariaComplementarLancada->id) {
-                    $cargaHorariaComplementarRetorno = $cargaHorariaComplementarDAO->insert($cargaHorariaComplementar);
-                }
-
-                $cargaHorariaArray[] = $cargaHorariaComplementarRetorno;
+            $cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
+            $cargaHorariaComplementarLancada = $cargaHorariaComplementarDAO->get($cargaHorariaComplementar->id);
+            if (!$cargaHorariaComplementarLancada->id) {
+                $cargaHorariaComplementarRetorno = $cargaHorariaComplementarDAO->insert($cargaHorariaComplementar);
             }
 
+            $cargaHorariaArray[] = $cargaHorariaComplementarRetorno;
+
+
             DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
+//        } catch (\Exception $e) {
+//            DB::rollback();
+//        }
 
         return $cargaHorariaArray;
     }

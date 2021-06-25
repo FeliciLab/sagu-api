@@ -67,6 +67,32 @@ class CargaHorariaComplementarDAO
         return $cargaHorariaComplementarResidente;
     }
 
+    public function getCargaHorariaComplementarDoResidenteNaOfertaPorTipo($residenteId, $ofertaId, $tipoCargaHoraria)
+    {
+        $select = DB::select(
+            "SELECT cargahorariacomplementarid FROM {$this->model->getTable()} 
+            WHERE residenteid = :residenteid 
+              AND ofertadeunidadetematicaid = :ofertadeunidadetematicaid
+              AND tipocargahoraria = :tipocargahoraria
+                
+            ",
+            [
+                'residenteid' => $residenteId,
+                'ofertadeunidadetematicaid' => $ofertaId,
+                'tipocargahoraria' => $tipoCargaHoraria
+            ]
+        );
+
+        $cargaHorariaComplementarResidente = 0;
+        if (count($select)) {
+            foreach ($select as $cargaHorariaComplementar) {
+                $cargaHorariaComplementarResidenteObj = $this->get($cargaHorariaComplementar->cargahorariacomplementarid);
+                $cargaHorariaComplementarResidente += $cargaHorariaComplementarResidenteObj->cargaHoraria;
+            }
+        }
+        return $cargaHorariaComplementarResidente;
+    }
+
     public function insert(CargaHorariaComplementar $cargaHorariaComplementar)
     {
         $result = DB::insert("

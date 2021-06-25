@@ -112,16 +112,24 @@ class OfertaModuloFaltaDAO
 
     public function getCargaHorariaPendente($residenteId, $ofertaId)
     {
+        $ofertaModuloTiposCargaHorariaDAO = new OfertaModuloTiposCargaHorariaDAO();
+        $cargaHorariaMinimaParaAprovacao = $ofertaModuloTiposCargaHorariaDAO->tipoDeCargaHorariaMinimaParaAprovacao($ofertaId);
+
+        $cargaHorariaPendente = [];
         $faltas = $this->getFaltasDoResidenteNaOferta($residenteId, $ofertaId);
-        $cargaHorariaPendente = 0;
         foreach ($faltas as $falta) {
-            $cargaHorariaPendente += $falta->falta;
+            $cargaHorariaComplementarDoResidentePorTipo = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOfertaPorTipo($falta->residenteId, $falta->ofertaId, $falta->tipo);
+
+            $cargaHorariaPorTiposNaOfertaDAO = new OfertaModuloTiposCargaHorariaDAO();
+            $cargaHorariaDaOfertaPorTipo = $cargaHorariaPorTiposNaOfertaDAO->tipoDeCargaHorariaPorTipo($ofertaId, $falta->tipo);
+
+            $cargaHorariaPresente = ($cargaHorariaDaOfertaPorTipo['cargahoraria'] - ($falta->falta - $cargaHorariaComplementarDoResidentePorTipo));
+
+            $cargaHorariaPendenteA['tipo'] = $falta->tipo;
+            $cargaHorariaPendenteA['cargaHorariaPendente'] = ($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente) <= 0 ? 0 : ($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente);
+            $cargaHorariaPendente[] = $cargaHorariaPendenteA;
         }
 
-        $cargaHorariaComplementarDoResidente = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residenteId, $ofertaId);
-        foreach ($cargaHorariaComplementarDoResidente as $cargaHorariaComplementar) {
-            $cargaHorariaPendente -= $cargaHorariaComplementar->cargaHoraria;
-        }
         return $cargaHorariaPendente;
     }
 }

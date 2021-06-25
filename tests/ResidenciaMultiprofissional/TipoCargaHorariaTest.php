@@ -34,7 +34,8 @@ class TipoCargaHorariaTest extends TestCase
             ->seeJsonStructure([
                 [
                     'id',
-                    'descricao'
+                    'descricao',
+                    'frequenciaminima'
                 ]
             ]);
     }

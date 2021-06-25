@@ -6,12 +6,22 @@ namespace App\Http\Controllers\ResidenciaMultiprofissional;
 use App\DAO\ResidenciaMultiprofissional\CargaHorariaComplementarTipoDAO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
+use App\Services\ResidenciaMultiprofissional\CargaHoriariaComplementarService;
+use App\Services\ResidenciaMultiprofissional\OfertaModuloNotaService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CargaHorariaComplementarController extends Controller
 {
     use ParameterValidateRequest;
+
+    private $cargaHorariaComplementarService;
+
+    public function __construct(CargaHoriariaComplementarService $cargaHorariaComplementarService)
+    {
+        $this->cargaHorariaComplementarService = $cargaHorariaComplementarService;
+    }
+
 
     public function store(Request $request, $turma, $oferta)
     {

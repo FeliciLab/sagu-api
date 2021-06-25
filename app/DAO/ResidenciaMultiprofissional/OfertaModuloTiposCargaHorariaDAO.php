@@ -50,7 +50,7 @@ class OfertaModuloTiposCargaHorariaDAO
         return $cargaHorariaMinimaParaAprovacaoNaOferta;
     }
 
-    public function tipoDeCargaHorariaPorTipo($ofertaid, $tipo)
+    public function cargaHorariaPorTipo($ofertaid, $tipo)
     {
         $tiposCargaHorariaDaOferta = $this->tiposCargaHorariaPorOferta($ofertaid);
         foreach ($tiposCargaHorariaDaOferta as $tipoCargaHorariaDaOferta) {

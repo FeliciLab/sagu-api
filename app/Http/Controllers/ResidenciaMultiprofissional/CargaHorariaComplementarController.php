@@ -38,7 +38,7 @@ class CargaHorariaComplementarController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Carga hor·ria complementar È obrigatÛrio'
+                    'mensagem' => 'Carga hor√°ria complementar √© obrigat√≥rio'
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -55,7 +55,7 @@ class CargaHorariaComplementarController extends Controller
         return response()->json(
             [
                 'sucesso' => false,
-                'mensagem' => 'N„o foi possÌvel realizar o lanÁamento de carga hor·ria complementar'
+                'mensagem' => 'N√£o foi poss√≠vel realizar o lan√ßamento de carga hor√°ria complementar'
             ],
             Response::HTTP_BAD_REQUEST
         );

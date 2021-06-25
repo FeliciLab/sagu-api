@@ -28,7 +28,7 @@ class TiposCargasHorariasDAO
         return $this->removerCamposNulosLista(
             $this->mapToModel(
                 DB::table($this->model->getTable())
-                    ->select('descricao', 'tipodeunidadetematicaid')
+                    ->select('descricao', 'tipodeunidadetematicaid', 'frequenciaminima')
                     ->get()
                     ->toArray()
             )

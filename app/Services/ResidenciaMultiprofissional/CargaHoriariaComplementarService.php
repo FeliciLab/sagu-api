@@ -12,8 +12,7 @@ class CargaHoriariaComplementarService
     {
         DB::beginTransaction();
         $cargaHorariaArray = [];
-       // try {
-
+        try {
             $cargaHorariaComplementar = new CargaHorariaComplementar();
             $cargaHorariaComplementar->id = isset($cargaHorariaComplementarParams['id']) && $cargaHorariaComplementarParams['id'] > 0 ? $cargaHorariaComplementarParams['id'] : null;
             $cargaHorariaComplementar->tipoCargaHorariaComplementar = $cargaHorariaComplementarParams['tipoCargaHorariaComplementar'];
@@ -34,9 +33,9 @@ class CargaHoriariaComplementarService
 
 
             DB::commit();
-//        } catch (\Exception $e) {
-//            DB::rollback();
-//        }
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
 
         return $cargaHorariaArray;
     }

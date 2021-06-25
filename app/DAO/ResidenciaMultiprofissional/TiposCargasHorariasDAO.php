@@ -34,4 +34,20 @@ class TiposCargasHorariasDAO
             )
         );
     }
+
+    public function get($id)
+    {
+        $select = DB::select("SELECT * FROM  {$this->model->getTable()}  WHERE tipodeunidadetematicaid = :tipodeunidadetematicaid", ['tipodeunidadetematicaid' => $id]);
+        $tipoCargaHoraria = new TipoCargaHoraria();
+
+        if (count($select)) {
+            $select = $select[0];
+
+            $tipoCargaHoraria->id = $select->tipodeunidadetematicaid;
+            $tipoCargaHoraria->descricao = $select->descricao;
+            $tipoCargaHoraria->frequenciaMinima = $select->frequenciaminima;
+        }
+
+        return $tipoCargaHoraria;
+    }
 }

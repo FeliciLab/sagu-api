@@ -251,7 +251,7 @@ $app->group(
                             'CargaHorariaComplementarController@store'
                         );
                         $app->put(
-                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar[/{id}]',
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar/{id}',
                             'CargaHorariaComplementarController@store'
                         );
                         $app->delete(

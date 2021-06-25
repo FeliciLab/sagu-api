@@ -250,6 +250,10 @@ $app->group(
                             '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar',
                             'CargaHorariaComplementarController@store'
                         );
+                        $app->put(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar[/{id}]',
+                            'CargaHorariaComplementarController@store'
+                        );
                     }
                 );
             }

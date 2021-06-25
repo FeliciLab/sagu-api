@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class CargaHoriariaComplementarService
 {
-    public function salvar($ofertaId, $cargaHorariaComplementarParams)
+    public function salvar($ofertaId, $cargaHorariaComplementarParams, $id = null)
     {
         DB::beginTransaction();
-        $cargaHorariaArray = [];
+        $cargaHorariaComplementarRetorno = null;
         try {
             $cargaHorariaComplementar = new CargaHorariaComplementar();
-            $cargaHorariaComplementar->id = isset($cargaHorariaComplementarParams['id']) && $cargaHorariaComplementarParams['id'] > 0 ? $cargaHorariaComplementarParams['id'] : null;
+            $cargaHorariaComplementar->id = $id;
             $cargaHorariaComplementar->tipoCargaHorariaComplementar = $cargaHorariaComplementarParams['tipoCargaHorariaComplementar'];
             $cargaHorariaComplementar->residente = $cargaHorariaComplementarParams['residenteId'];
             $cargaHorariaComplementar->cargaHoraria = $cargaHorariaComplementarParams['cargaHoraria'];
@@ -22,20 +22,20 @@ class CargaHoriariaComplementarService
             $cargaHorariaComplementar->tipoCargaHoraria = $cargaHorariaComplementarParams['tipoCargaHoraria'];
             $cargaHorariaComplementar->oferta = $ofertaId;
 
-
             $cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
             $cargaHorariaComplementarLancada = $cargaHorariaComplementarDAO->get($cargaHorariaComplementar->id);
-            if (!$cargaHorariaComplementarLancada->id) {
-                $cargaHorariaComplementarRetorno = $cargaHorariaComplementarDAO->insert($cargaHorariaComplementar);
-            }
 
-            $cargaHorariaArray[] = $cargaHorariaComplementarRetorno;
+            if (is_null($cargaHorariaComplementarLancada->id)) {
+                $cargaHorariaComplementarRetorno = $cargaHorariaComplementarDAO->insert($cargaHorariaComplementar);
+            } else {
+                $cargaHorariaComplementarRetorno = $cargaHorariaComplementarDAO->update($cargaHorariaComplementar);
+            }
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
         }
 
-        return $cargaHorariaArray;
+        return $cargaHorariaComplementarRetorno;
     }
 }

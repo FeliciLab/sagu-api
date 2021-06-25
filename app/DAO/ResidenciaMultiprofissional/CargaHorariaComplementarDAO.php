@@ -89,4 +89,33 @@ class CargaHorariaComplementarDAO
 
         return $result;
     }
+
+    public function update(CargaHorariaComplementar $cargaHorariaComplementar)
+    {
+        $result = DB::update("
+            UPDATE {$this->model->getTable()}
+            SET 
+                tipodecargahorariacomplementarid = ?, 
+                residenteid = ?, 
+                cargahoraria = ?, 
+                tipocargahoraria = ?, 
+                ofertadeunidadetematicaid = ?, 
+                justificativa = ?
+            WHERE cargahorariacomplementarid = ?",
+            [
+                $cargaHorariaComplementar->tipoCargaHorariaComplementar,
+                $cargaHorariaComplementar->residente,
+                $cargaHorariaComplementar->cargaHoraria,
+                $cargaHorariaComplementar->tipoCargaHoraria,
+                $cargaHorariaComplementar->oferta,
+                $cargaHorariaComplementar->justificativa,
+                $cargaHorariaComplementar->id
+            ]);
+
+        if ($result) {
+            return $this->get($cargaHorariaComplementar->id);
+        }
+
+        return $result;
+    }
 }

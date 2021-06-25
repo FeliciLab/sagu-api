@@ -32,7 +32,7 @@ class CargaHorariaComplementarController extends Controller
         }
 
         $cargaHoraria = $request->input('cargaHoraria');
-        if (isset($cargaHoraria) && count($cargaHoraria) == 0) {
+        if (!isset($cargaHoraria)) {
             return response()->json(
                 [
                     'sucesso' => false,

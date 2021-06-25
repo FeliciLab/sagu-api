@@ -254,6 +254,10 @@ $app->group(
                             '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar[/{id}]',
                             'CargaHorariaComplementarController@store'
                         );
+                        $app->delete(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar/{id}',
+                            'CargaHorariaComplementarController@delete'
+                        );
                     }
                 );
             }

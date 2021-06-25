@@ -31,7 +31,7 @@ class CargaHorariaComplementarController extends Controller
             return $this->responseNumberParameterError('oferta');
         }
 
-        $cargaHoraria = $request->input('cargahoraria');
+        $cargaHoraria = $request->input('cargaHoraria');
         if (isset($cargaHoraria) && count($cargaHoraria) == 0) {
             return response()->json(
                 [
@@ -42,20 +42,20 @@ class CargaHorariaComplementarController extends Controller
             );
         }
 
-        $cargas = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria);
-        if ($cargas) {
-            return response()->json([
-                'sucesso' => true,
-                'notas' => $cargas
-            ]);
+        $carga = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria);
+        if (!$carga) {
+            return response()->json(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
-        return response()->json(
-            [
-                'sucesso' => false,
-                'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
+        return response()->json([
+            'sucesso' => true,
+            'notas' => $carga
+        ]);
     }
 }

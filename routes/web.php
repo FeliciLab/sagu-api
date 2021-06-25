@@ -246,6 +246,10 @@ $app->group(
                             '/turma/{turma}/oferta/{oferta}/notas',
                             'OfertaModuloNotaController@store'
                         );
+                        $app->post(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar',
+                            'CargaHorariaComplementarController@store'
+                        );
                     }
                 );
             }

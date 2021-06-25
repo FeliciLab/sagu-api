@@ -64,4 +64,35 @@ class CargaHorariaComplementarController extends Controller
             'cargaHorariaComplementar' => $carga
         ], Response::HTTP_OK);
     }
+
+    public function delete($turma, $oferta, $id)
+    {
+        if ($this->invalidIntegerParameter($turma)) {
+            return $this->responseNumberParameterError('turma');
+        }
+
+        if ($this->invalidIntegerParameter($oferta)) {
+            return $this->responseNumberParameterError('oferta');
+        }
+
+        if ($this->invalidIntegerParameter($id)) {
+            return $this->responseNumberParameterError('id');
+        }
+
+        $delete = $this->cargaHorariaComplementarService->delete($id);
+
+        if (!$delete) {
+            return response()->json(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Não foi possível remover a carga horária complementar'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        return response()->json([
+            'sucesso' => true
+        ], Response::HTTP_OK);
+    }
 }

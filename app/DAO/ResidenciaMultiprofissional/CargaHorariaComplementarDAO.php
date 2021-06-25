@@ -118,4 +118,16 @@ class CargaHorariaComplementarDAO
 
         return $result;
     }
+
+    public function delete(CargaHorariaComplementar $cargaHorariaComplementar)
+    {
+        $result = DB::update("
+            DELETE FROM {$this->model->getTable()}
+            WHERE cargahorariacomplementarid = ?",
+            [
+                $cargaHorariaComplementar->id
+            ]);
+
+        return $result;
+    }
 }

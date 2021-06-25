@@ -38,4 +38,24 @@ class CargaHoriariaComplementarService
 
         return $cargaHorariaComplementarRetorno;
     }
+
+    public function delete($id)
+    {
+        $ok = false;
+        DB::beginTransaction();
+        try {
+            $cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
+            $cargaHorariaComplementar = $cargaHorariaComplementarDAO->get($id);
+            if (!isset($cargaHorariaComplementar)) {
+                return $ok;
+            }
+
+            $ok = $cargaHorariaComplementarDAO->delete($cargaHorariaComplementar);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
+
+        return $ok;
+    }
 }

@@ -130,7 +130,7 @@ class ResidenteDAO
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['nota'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['person']['photourl'] = isset($residente['person']['photoid']) && $residente['person']['photoid'] > 0 ? env('SAGU_URL') . "miolo20/html/index.php?module=basic&action=main:getfile&&fileId={$residente['person']['photoid']}" : null;
-            $residente['cargahorariapendente'] = $this->ofertaModuloFaltaDAO->getCargaHorariaPendente($residente['id'], $ofertaId);
+            $residente['cargaHorariaPendente'] = $this->ofertaModuloFaltaDAO->getCargaHorariaPendente($residente['id'], $ofertaId);
             $residente['cargahorariacomplementar'] = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residente['id'], $ofertaId);
 
             $residentesArray[] = $residente;

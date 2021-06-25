@@ -21,8 +21,14 @@ class CargaHorariaComplementarController extends Controller
     }
 
 
-    public function store(Request $request, $turma, $oferta)
+    public function store(Request $request, $turma, $oferta, $id = null)
     {
+        if (!is_null($id)) {
+            if ($this->invalidIntegerParameter($id)) {
+                return $this->responseNumberParameterError('id');
+            }
+        }
+
         if ($this->invalidIntegerParameter($turma)) {
             return $this->responseNumberParameterError('turma');
         }
@@ -42,7 +48,7 @@ class CargaHorariaComplementarController extends Controller
             );
         }
 
-        $carga = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria);
+        $carga = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria, $id);
         if (!$carga) {
             return response()->json(
                 [
@@ -55,7 +61,7 @@ class CargaHorariaComplementarController extends Controller
 
         return response()->json([
             'sucesso' => true,
-            'notas' => $carga
+            'cargaHorariaComplementar' => $carga
         ], Response::HTTP_OK);
     }
 }

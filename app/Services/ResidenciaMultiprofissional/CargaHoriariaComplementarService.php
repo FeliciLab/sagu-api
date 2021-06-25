@@ -31,7 +31,6 @@ class CargaHoriariaComplementarService
 
             $cargaHorariaArray[] = $cargaHorariaComplementarRetorno;
 
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

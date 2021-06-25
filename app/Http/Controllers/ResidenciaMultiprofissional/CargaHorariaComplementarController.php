@@ -56,6 +56,6 @@ class CargaHorariaComplementarController extends Controller
         return response()->json([
             'sucesso' => true,
             'notas' => $carga
-        ]);
+        ], Response::HTTP_OK);
     }
 }

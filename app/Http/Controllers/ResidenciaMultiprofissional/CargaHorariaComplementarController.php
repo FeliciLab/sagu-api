@@ -3,11 +3,9 @@
 
 namespace App\Http\Controllers\ResidenciaMultiprofissional;
 
-use App\DAO\ResidenciaMultiprofissional\CargaHorariaComplementarTipoDAO;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResidenciaMultiprofissional\Traits\ParameterValidateRequest;
 use App\Services\ResidenciaMultiprofissional\CargaHoriariaComplementarService;
-use App\Services\ResidenciaMultiprofissional\OfertaModuloNotaService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

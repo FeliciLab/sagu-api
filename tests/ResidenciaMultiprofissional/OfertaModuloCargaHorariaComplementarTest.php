@@ -116,36 +116,37 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
                 ]
             );
     }
-//
-//    public function testLancamentoDeFaltaCamposInvalidos()
-//    {
-//        $turmaId = $this->turmasSupervisor[0]['id'];
-//        $ofertaId = $this->ofertasDoSupervisor[0]->id;
-//
-//        $this->json(
-//            'POST',
-//            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
-//            [
-//                'faltas' => [
-//                    [
-//                        'campo1' => 845,
-//                        'campo2' => 10,
-//                        'campo3' => 'P',
-//                        'campo4' => 'teste',
-//                    ]
-//                ]
-//            ],
-//            [
-//                'Authorization' => 'Bearer ' . $this->currentToken,
-//                'Content-Type' => 'application/json'
-//            ]
-//        )
-//            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
-//            ->seeJsonEquals(
-//                [
-//                    'sucesso' => false,
-//                    'mensagem' => 'Não foi possível realizar o lançamento de faltas'
-//                ]
-//            );
-//    }
+
+    public function testLancamentoDeCargaHorariaCamposInvalidos()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar",
+            [
+                'cargaHoraria' => [
+                    [
+                        'campo1' => 1,
+                        'campo2' => 2,
+                        'campo3' => 3,
+                        'campo4' => 4,
+                        'campo5' => 5,
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                ]
+            );
+    }
 }

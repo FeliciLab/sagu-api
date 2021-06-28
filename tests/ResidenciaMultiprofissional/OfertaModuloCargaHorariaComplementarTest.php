@@ -83,13 +83,14 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
     {
         $turmaId = $this->turmasSupervisor[0]['id'];
         $ofertaId = $this->ofertasDoSupervisor[0]->id;
+        $residenteId = 751;
 
         $this->json(
             'POST',
             "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar",
             [
                 'cargaHoraria' => [
-                    'residenteId' => 751,
+                    'residenteId' => $residenteId,
                     'tipoCargaHorariaComplementar' => 2,
                     'cargaHoraria' => 30,
                     'justificativa' => 'Plantão',
@@ -192,15 +193,16 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
     {
         $turmaId = $this->turmasSupervisor[0]['id'];
         $ofertaId = $this->ofertasDoSupervisor[0]->id;
+        $residenteId = 751;
 
-        $chComplementar = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta(751, $ofertaId);
+        $chComplementar = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residenteId, $ofertaId);
 
         $this->json(
             'PUT',
             "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar/{$chComplementar['0']->id}",
             [
                 'cargaHoraria' => [
-                    'residenteId' => 751,
+                    'residenteId' => $residenteId,
                     'tipoCargaHorariaComplementar' => 2,
                     'cargaHoraria' => 30,
                     'justificativa' => 'Plantão',
@@ -228,6 +230,29 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
                         'justificativa',
                         'tipoCargaHoraria',
                     ]
+                ]
+            );
+    }
+
+    public function testDeleteLancamentoDeCargaHorariaSemId()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+        $residenteId = 751;
+
+        $chComplementar = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residenteId, $ofertaId);
+
+        $this->delete(
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar/{$chComplementar['0']->id}",
+            [],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_OK)
+            ->seeJsonStructure(
+                [
+                    'sucesso'
                 ]
             );
     }

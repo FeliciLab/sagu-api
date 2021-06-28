@@ -55,24 +55,24 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
             );
     }
 
-//    public function testLancamentoDeFaltaSemDadosDeFalta()
-//    {
-//        $this->post(
-//            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/faltas',
-//            [],
-//            [
-//                'Authorization' => 'Bearer ' . $this->currentToken,
-//                'Content-Type' => 'application/json'
-//            ]
-//        )
-//            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
-//            ->seeJsonEquals(
-//                [
-//                    'sucesso' => false,
-//                    'mensagem' => 'Não foi possível realizar o lançamento de faltas'
-//                ]
-//            );
-//    }
+    public function testLancamentoDeCargaHorariaComplementarSemDados()
+    {
+        $this->post(
+            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/cargahoraria-complementar',
+            [],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Carga horária complementar é obrigatório'
+                ]
+            );
+    }
 //
 //
 //    public function testLancamentoDeFaltaOK()

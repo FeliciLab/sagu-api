@@ -2,6 +2,7 @@
 
 namespace Tests\ResidenciaMultiprofissional;
 
+use App\DAO\ResidenciaMultiprofissional\CargaHorariaComplementarDAO;
 use App\DAO\ResidenciaMultiprofissional\OfertaModuloDAO;
 use App\DAO\ResidenciaMultiprofissional\TurmaDAO;
 use TestCase;
@@ -11,6 +12,7 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
 {
     private $ofertasDoSupervisor;
     private $turmasSupervisor;
+    private $cargaHorariaComplementarDAO;
 
     public function setUp()
     {
@@ -23,6 +25,8 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
 
         $ofertaModuloTurmasDAO = new OfertaModuloDAO();
         $this->ofertasDoSupervisor = $ofertaModuloTurmasDAO->buscarOfertasModuloSupervisor($this->supervisor->supervisorid, $turmaId);
+
+        $this->cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
     }
 
 
@@ -146,6 +150,84 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
                 [
                     'sucesso' => false,
                     'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                ]
+            );
+    }
+
+    public function testLancamentoDeCargaHorariaUpdateCamposInvalidos()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'PUT',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar/56",
+            [
+                'cargaHoraria' => [
+                    [
+                        'campo1' => 1,
+                        'campo2' => 2,
+                        'campo3' => 3,
+                        'campo4' => 4,
+                        'campo5' => 5,
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                ]
+            );
+    }
+
+
+    public function testUpdateLancamentoDeCargaHorariaOK()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $chComplementar = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta(751, $ofertaId);
+
+        $this->json(
+            'PUT',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar/{$chComplementar['0']->id}",
+            [
+                'cargaHoraria' => [
+                    'residenteId' => 751,
+                    'tipoCargaHorariaComplementar' => 2,
+                    'cargaHoraria' => 30,
+                    'justificativa' => 'Plantão',
+                    'tipoCargaHoraria' => 'C',
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_OK)
+            ->seeJsonStructure(
+                [
+                    'sucesso',
+                    'cargaHorariaComplementar' => [
+                        'id',
+                        'tipoCargaHorariaComplementar' => [
+                            'id',
+                            'descricao'
+                        ],
+                        'residente',
+                        'oferta',
+                        'cargaHoraria',
+                        'justificativa',
+                        'tipoCargaHoraria',
+                    ]
                 ]
             );
     }

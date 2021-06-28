@@ -73,48 +73,49 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
                 ]
             );
     }
-//
-//
-//    public function testLancamentoDeFaltaOK()
-//    {
-//        $turmaId = $this->turmasSupervisor[0]['id'];
-//        $ofertaId = $this->ofertasDoSupervisor[0]->id;
-//
-//        $this->json(
-//            'POST',
-//            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
-//            [
-//                'faltas' => [
-//                    [
-//                        'residenteid' => 845,
-//                        'falta' => 10,
-//                        'tipo' => 'P',
-//                        'observacao' => 'teste',
-//                    ]
-//                ]
-//            ],
-//            [
-//                'Authorization' => 'Bearer ' . $this->currentToken,
-//                'Content-Type' => 'application/json'
-//            ]
-//        )
-//            ->seeStatusCode(Response::HTTP_OK)
-//            ->seeJsonStructure(
-//                [
-//                    'sucesso',
-//                    'faltas' => [
-//                        [
-//                            'id',
-//                            'residenteId',
-//                            'ofertaId',
-//                            'tipo',
-//                            'falta',
-//                            'observacao',
-//                        ]
-//                    ]
-//                ]
-//            );
-//    }
+
+
+    public function testLancamentoDeCargaHorariaOK()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar",
+            [
+                'cargaHoraria' => [
+                    'residenteId' => 751,
+                    'tipoCargaHorariaComplementar' => 2,
+                    'cargaHoraria' => 30,
+                    'justificativa' => 'Plantão',
+                    'tipoCargaHoraria' => 'C',
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_OK)
+            ->seeJsonStructure(
+                [
+                    'sucesso',
+                    'cargaHorariaComplementar' => [
+                        'id',
+                        'tipoCargaHorariaComplementar' => [
+                            'id',
+                            'descricao'
+                        ],
+                        'residente',
+                        'oferta',
+                        'cargaHoraria',
+                        'justificativa',
+                        'tipoCargaHoraria',
+                    ]
+                ]
+            );
+    }
 //
 //    public function testLancamentoDeFaltaCamposInvalidos()
 //    {

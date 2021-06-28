@@ -35,26 +35,26 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
             ->seeStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 
-//    public function testLancamentoDeFaltaParametrosNumeroFloat()
-//    {
-//        $this->post(
-//            '/residencia-multiprofissional/supervisores/turma/13.18/oferta/3.14/faltas',
-//            [],
-//            [
-//                'Authorization' => 'Bearer ' . $this->currentToken,
-//                'Content-Type' => 'application/json'
-//            ]
-//        )
-//            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
-//            ->seeJsonEquals(
-//                [
-//                    'error' => true,
-//                    'status' => Response::HTTP_BAD_REQUEST,
-//                    'message' => 'Parâmetro { turma } não é um valor número aceitável.'
-//                ]
-//            );
-//    }
-//
+    public function testLancamentoDeCargaHorariaComplementarParametrosNumeroFloat()
+    {
+        $this->post(
+            '/residencia-multiprofissional/supervisores/turma/13.18/oferta/3.14/cargahoraria-complementar',
+            [],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'error' => true,
+                    'status' => Response::HTTP_BAD_REQUEST,
+                    'message' => 'Parâmetro { turma } não é um valor número aceitável.'
+                ]
+            );
+    }
+
 //    public function testLancamentoDeFaltaSemDadosDeFalta()
 //    {
 //        $this->post(

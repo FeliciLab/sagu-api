@@ -9,6 +9,7 @@ use App\DAO\Traits\PaginationQuery;
 use App\DAO\Traits\RemoverCamposNulos;
 use App\Model\ResidenciaMultiprofissional\Residente;
 use Illuminate\Support\Facades\DB;
+use App\Repository\ResidenciaMultiprofissional\ResidenteRepository;
 
 class ResidenteDAO
 {
@@ -23,6 +24,7 @@ class ResidenteDAO
     private $ofertaModuloFaltaDAO;
     private $ofertaModuloNotaDAO;
     private $cargaHorariaComplementarDAO;
+    private $residenteRepository;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class ResidenteDAO
         $this->ofertaModuloFaltaDAO = new OfertaModuloFaltaDAO();
         $this->ofertaModuloNotaDAO = new OfertaModuloNotaDAO();
         $this->cargaHorariaComplementarDAO = new CargaHorariaComplementarDAO();
+        $this->residenteRepository = new ResidenteRepository();
     }
 
     public function queryBuscarResidentesOfertaModuloSupervisoresy($supervisorId, $turmaId, $ofertaId, $residenteId)
@@ -130,7 +133,7 @@ class ResidenteDAO
             $residente['faltas'] = $this->ofertaModuloFaltaDAO->getFaltasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['nota'] = $this->ofertaModuloNotaDAO->getNotasDoResidenteNaOferta($residente['id'], $ofertaId);
             $residente['person']['photourl'] = isset($residente['person']['photoid']) && $residente['person']['photoid'] > 0 ? env('SAGU_URL') . "miolo20/html/index.php?module=basic&action=main:getfile&&fileId={$residente['person']['photoid']}" : null;
-            $residente['cargahorariapendente'] = $this->ofertaModuloFaltaDAO->getCargaHorariaPendente($residente['id'], $ofertaId);
+            $residente['cargaHorariaPendente'] = $this->residenteRepository->getCargaHorariaPendente($residente['id'], $ofertaId);
             $residente['cargahorariacomplementar'] = $this->cargaHorariaComplementarDAO->getCargaHorariaComplementarDoResidenteNaOferta($residente['id'], $ofertaId);
 
             $residentesArray[] = $residente;

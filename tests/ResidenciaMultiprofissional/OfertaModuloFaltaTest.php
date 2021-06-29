@@ -69,7 +69,7 @@ class OfertaModuloFaltaTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de faltas'
+                    'mensagem' => 'Faltas é obrigatório'
                 ]
             );
     }
@@ -116,7 +116,7 @@ class OfertaModuloFaltaTest extends TestCase
             );
     }
 
-    public function testLancamentoDeFaltaCamposInvalidos()
+    public function testLancamentoDeFaltaMaiorQuePrevista()
     {
         $turmaId = $this->turmasSupervisor[0]['id'];
         $ofertaId = $this->ofertasDoSupervisor[0]->id;
@@ -127,10 +127,10 @@ class OfertaModuloFaltaTest extends TestCase
             [
                 'faltas' => [
                     [
-                        'campo1' => 845,
-                        'campo2' => 10,
-                        'campo3' => 'P',
-                        'campo4' => 'teste',
+                        'residenteid' => 845,
+                        'falta' => 1000,
+                        'tipo' => 'P',
+                        'observacao' => 'teste',
                     ]
                 ]
             ],
@@ -143,8 +143,8 @@ class OfertaModuloFaltaTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de faltas'
+                    'mensagem' => 'Quantidade de faltas lançada \'1000h\' é maior que carga horária definida no tipo P - para o residente de  ID: #845'
                 ]
-            );
+            );;
     }
 }

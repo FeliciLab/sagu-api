@@ -18,4 +18,5 @@ class TipoCargaHoraria extends BaseModelSagu
     public $datetime;
     public $id;
     public $descricao;
+    public $frequenciaMinima;
 }

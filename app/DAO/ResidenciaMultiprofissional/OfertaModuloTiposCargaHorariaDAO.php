@@ -35,4 +35,28 @@ class OfertaModuloTiposCargaHorariaDAO
             )
         );
     }
+
+    public function tipoDeCargaHorariaMinimaParaAprovacao($ofertaid)
+    {
+        $cargaHorariaMinimaParaAprovacaoNaOferta = [];
+
+        $tiposCargaHorariaDaOferta = $this->tiposCargaHorariaPorOferta($ofertaid);
+        foreach ($tiposCargaHorariaDaOferta as $tipoCargaHorariaDaOferta) {
+            $tiposCargaHorariaDAO = new TiposCargasHorariasDAO();
+            $tipo = $tiposCargaHorariaDAO->get($tipoCargaHorariaDaOferta['tipo']);
+            $cargaHorariaMinimaParaAprovacaoNaOferta[$tipoCargaHorariaDaOferta['tipo']] = ($tipoCargaHorariaDaOferta['cargahoraria'] / 100) * $tipo->frequenciaMinima;
+        }
+
+        return $cargaHorariaMinimaParaAprovacaoNaOferta;
+    }
+
+    public function cargaHorariaPorTipo($ofertaid, $tipo)
+    {
+        $tiposCargaHorariaDaOferta = $this->tiposCargaHorariaPorOferta($ofertaid);
+        foreach ($tiposCargaHorariaDaOferta as $tipoCargaHorariaDaOferta) {
+            if ($tipoCargaHorariaDaOferta['tipo'] == $tipo) {
+                return $tipoCargaHorariaDaOferta;
+            }
+        }
+    }
 }

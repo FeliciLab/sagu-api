@@ -230,25 +230,33 @@ $app->group(
                             '/turmas[/{page}]',
                             'TurmaSupervisorController@turmasSupervisor'
                         );
-
                         $app->get(
                             '/turma/{turma}/ofertas[/{page}]',
                             'OfertaModuloController@index'
                         );
-
                         $app->get(
                             '/turma/{turma}/oferta/{oferta}/residentes[/{residenteId}]',
                             'OfertaModuloController@residentes'
                         );
-
                         $app->post(
                             '/turma/{turma}/oferta/{oferta}/faltas',
                             'OfertaModuloFaltaController@store'
                         );
-
                         $app->post(
                             '/turma/{turma}/oferta/{oferta}/notas',
                             'OfertaModuloNotaController@store'
+                        );
+                        $app->post(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar',
+                            'CargaHorariaComplementarController@store'
+                        );
+                        $app->put(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar/{id}',
+                            'CargaHorariaComplementarController@store'
+                        );
+                        $app->delete(
+                            '/turma/{turma}/oferta/{oferta}/cargahoraria-complementar/{id}',
+                            'CargaHorariaComplementarController@delete'
                         );
                     }
                 );

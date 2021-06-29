@@ -34,7 +34,7 @@ class ResidenteRepository
             $cargaHorariaPresente = ($cargaHorariaDaOfertaPorTipo['cargahoraria'] - ($falta->falta - $cargaHorariaComplementarDoResidentePorTipo));
 
             $cargaHorariaPendenteA['tipo'] = $falta->tipo;
-            $cargaHorariaPendenteA['cargaHorariaPendente'] = number_format(($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente) <= 0 ? 0 : ($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente), 2);
+            $cargaHorariaPendenteA['cargaHorariaPendente'] = round(($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente) <= 0 ? 0 : ($cargaHorariaMinimaParaAprovacao[$falta->tipo] - $cargaHorariaPresente));
 
 
             $cargaHorariaPendente[] = $cargaHorariaPendenteA;

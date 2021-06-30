@@ -23,6 +23,8 @@ class CargaHorariaComplementarController extends Controller
 
     public function store(Request $request, $turma, $oferta, $id = null)
     {
+        $cargaHoraria = $request->input('cargaHoraria');
+
         if (!is_null($id)) {
             if ($this->invalidIntegerParameter($id)) {
                 return $this->responseNumberParameterError('id');
@@ -37,32 +39,47 @@ class CargaHorariaComplementarController extends Controller
             return $this->responseNumberParameterError('oferta');
         }
 
-        $cargaHoraria = $request->input('cargaHoraria');
-        if (!isset($cargaHoraria)) {
+        try {
+            $this->validacao($oferta, $cargaHoraria);
+
+            $carga = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria, $id);
+            if (!$carga) {
+                throw new \Exception('Não foi possível realizar o lançamento de carga horária complementar');
+            }
+
+            return response()->json([
+                'sucesso' => true,
+                'cargaHorariaComplementar' => $carga
+            ], Response::HTTP_OK);
+
+        } catch (\Exception $e) {
             return response()->json(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Carga horária complementar é obrigatório'
+                    'mensagem' => $e->getMessage()
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
+    }
 
-        $carga = $this->cargaHorariaComplementarService->salvar($oferta, $cargaHoraria, $id);
-        if (!$carga) {
-            return response()->json(
-                [
-                    'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
+    private function validacao($oferta, $cargaHoraria)
+    {
+        if (is_null($cargaHoraria) || count($cargaHoraria) == 0) {
+            throw new \Exception('Carga horária complementar é obrigatório');
         }
 
-        return response()->json([
-            'sucesso' => true,
-            'cargaHorariaComplementar' => $carga
-        ], Response::HTTP_OK);
+        if (!isset($cargaHoraria['residenteId'])
+            || !isset($cargaHoraria['tipoCargaHorariaComplementar'])
+            || !isset($cargaHoraria['cargaHoraria'])
+            || !isset($cargaHoraria['justificativa'])
+            || !isset($cargaHoraria['tipoCargaHoraria'])) {
+            throw new \Exception('Campo(s) inválido(s)');
+        }
+
+        if ($cargaHoraria['cargaHoraria'] <= 0) {
+            throw new \Exception('Carga horária complementar não pode ser menor ou igual a 0');
+        }
     }
 
     public function delete($turma, $oferta, $id)

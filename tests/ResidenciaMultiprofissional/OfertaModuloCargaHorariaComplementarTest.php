@@ -150,7 +150,7 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                    'mensagem' => 'Campo(s) inválido(s)'
                 ]
             );
     }
@@ -183,7 +183,7 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de carga horária complementar'
+                    'mensagem' => 'Campo(s) inválido(s)'
                 ]
             );
     }
@@ -253,6 +253,38 @@ class OfertaModuloCargaHorariaComplementarTest extends TestCase
             ->seeJsonStructure(
                 [
                     'sucesso'
+                ]
+            );
+    }
+
+    public function testLancamentoDeCargaHorariaComHorasMenorQueZero()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+        $residenteId = 751;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/cargahoraria-complementar",
+            [
+                'cargaHoraria' => [
+                    'residenteId' => $residenteId,
+                    'tipoCargaHorariaComplementar' => 2,
+                    'cargaHoraria' => -5,
+                    'justificativa' => 'Plantão',
+                    'tipoCargaHoraria' => 'C',
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Carga horária complementar não pode ser menor ou igual a 0'
                 ]
             );
     }

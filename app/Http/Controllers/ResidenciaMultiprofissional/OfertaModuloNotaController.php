@@ -21,6 +21,8 @@ class OfertaModuloNotaController extends Controller
 
     public function store(Request $request, $turma, $oferta)
     {
+        $notas = $request->input('notas');
+
         if ($this->invalidIntegerParameter($turma)) {
             return $this->responseNumberParameterError('turma');
         }
@@ -29,31 +31,48 @@ class OfertaModuloNotaController extends Controller
             return $this->responseNumberParameterError('oferta');
         }
 
-        $notas = $request->input('notas');
-        if (isset($notas) && count($notas) == 0) {
+        try {
+            $this->validacao($oferta, $notas);
+
+            $notas = $this->ofertaModuloNotaService->salvarNotas($oferta, $notas);
+            if (!$notas) {
+                throw new \Exception('Não foi possível realizar o lançamento de notas');
+            }
+
+            return response()->json([
+                'sucesso' => true,
+                'notas' => $notas
+            ]);
+
+        } catch (\Exception $e) {
             return response()->json(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Notas é obrigatório'
+                    'mensagem' => $e->getMessage()
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
 
-        $notas = $this->ofertaModuloNotaService->salvarNotas($oferta, $notas);
-        if ($notas) {
-            return response()->json([
-                'sucesso' => true,
-                'notas' => $notas
-            ]);
+
+    }
+
+    private function validacao($oferta, $notas)
+    {
+        if (is_null($notas) || count($notas) == 0) {
+            throw new \Exception('Notas é obrigatório');
         }
 
-        return response()->json(
-            [
-                'sucesso' => false,
-                'mensagem' => 'Não foi possível realizar o lançamento de notas'
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
+
+        foreach ($notas as $nota) {
+            if (!isset($nota['residenteid']) || !isset($nota['notadeatividadedeproduto']) || !isset($nota['notadeavaliacaodedesempenho'])) {
+                throw new \Exception('Campo(s) inválido(s)');
+            }
+
+            if (($nota['notadeatividadedeproduto'] < 0 || $nota['notadeatividadedeproduto'] > 10) ||  ($nota['notadeavaliacaodedesempenho'] < 0 || $nota['notadeavaliacaodedesempenho'] > 10)) {
+                throw new \Exception('Nota não pode ser menor que 0 e maior que 10');
+            }
+        }
+
     }
 }

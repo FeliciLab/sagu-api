@@ -76,7 +76,6 @@ class OfertaModuloFaltaController extends Controller
             $tipoCargaHorariaQueFaltou = $falta['tipo'];
             $residenteId = $falta['residenteid'];
 
-
             $cargaHorariaPorTipo = $this->ofertaModuloTiposCargaHorariaDAO->cargaHorariaPorTipo($oferta, $tipoCargaHorariaQueFaltou);
 
             if ($cargaHorariaQueFaltou > $cargaHorariaPorTipo['cargahoraria']) {

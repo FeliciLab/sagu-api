@@ -69,7 +69,7 @@ class OfertaModuloNotaTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de notas'
+                    'mensagem' => 'Notas é obrigatório'
                 ]
             );
     }
@@ -141,7 +141,69 @@ class OfertaModuloNotaTest extends TestCase
             ->seeJsonEquals(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Não foi possível realizar o lançamento de notas'
+                    'mensagem' => 'Campo(s) inválido(s)'
+                ]
+            );
+    }
+
+    public function testLancamentoDeNotasMenorQueZero()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/notas",
+            [
+                'notas' => [
+                    [
+                        'residenteid' => 845,
+                        'notadeatividadedeproduto' => -5,
+                        'notadeavaliacaodedesempenho' => -6
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Nota não pode ser menor que 0 e maior que 10'
+                ]
+            );
+    }
+
+    public function testLancamentoDeNotasMaiorQueZero()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/notas",
+            [
+                'notas' => [
+                    [
+                        'residenteid' => 845,
+                        'notadeatividadedeproduto' => 15,
+                        'notadeavaliacaodedesempenho' => 20
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Nota não pode ser menor que 0 e maior que 10'
                 ]
             );
     }

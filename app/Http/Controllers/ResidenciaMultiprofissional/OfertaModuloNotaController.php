@@ -65,10 +65,6 @@ class OfertaModuloNotaController extends Controller
 
 
         foreach ($notas as $nota) {
-            if (!isset($nota['residenteid']) || !isset($nota['notadeatividadedeproduto']) || !isset($nota['notadeavaliacaodedesempenho'])) {
-                throw new \Exception('Campo(s) inválido(s)');
-            }
-
             if (($nota['notadeatividadedeproduto'] < 0 || $nota['notadeatividadedeproduto'] > 10) ||  ($nota['notadeavaliacaodedesempenho'] < 0 || $nota['notadeavaliacaodedesempenho'] > 10)) {
                 throw new \Exception('Nota não pode ser menor que 0 e maior que 10');
             }

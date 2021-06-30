@@ -115,37 +115,6 @@ class OfertaModuloNotaTest extends TestCase
             );
     }
 
-    public function testLancamentoDeNotasCamposInvalidos()
-    {
-        $turmaId = $this->turmasSupervisor[0]['id'];
-        $ofertaId = $this->ofertasDoSupervisor[0]->id;
-
-        $this->json(
-            'POST',
-            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/notas",
-            [
-                'notas' => [
-                    [
-                        'campo1' => 845,
-                        'campo2' => 10,
-                        'campo3' => 'P'
-                    ]
-                ]
-            ],
-            [
-                'Authorization' => 'Bearer ' . $this->currentToken,
-                'Content-Type' => 'application/json'
-            ]
-        )
-            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
-            ->seeJsonEquals(
-                [
-                    'sucesso' => false,
-                    'mensagem' => 'Campo(s) inválido(s)'
-                ]
-            );
-    }
-
     public function testLancamentoDeNotasMenorQueZero()
     {
         $turmaId = $this->turmasSupervisor[0]['id'];

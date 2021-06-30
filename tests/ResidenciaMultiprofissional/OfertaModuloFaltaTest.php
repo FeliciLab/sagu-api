@@ -147,4 +147,100 @@ class OfertaModuloFaltaTest extends TestCase
                 ]
             );;
     }
+
+    public function testLancamentoDeFaltaCamposInvalidos()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
+            [
+                'faltas' => [
+                    [
+                        'campo1' => 845,
+                        'campo2' => 10,
+                        'campo3' => 'P',
+                        'campo4' => 'teste',
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Campo(s) inválido(s)'
+                ]
+            );
+    }
+
+    public function testLancamentoDeFaltaComValorZeroInvalido()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
+            [
+                'faltas' => [
+                    [
+                        'residenteid' => 845,
+                        'falta' => 0,
+                        'tipo' => 'P',
+                        'observacao' => 'teste',
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Falta não pode ser menor ou igual a 0'
+                ]
+            );
+    }
+
+    public function testLancamentoDeFaltaComValorMenorQueZeroInvalido()
+    {
+        $turmaId = $this->turmasSupervisor[0]['id'];
+        $ofertaId = $this->ofertasDoSupervisor[0]->id;
+
+        $this->json(
+            'POST',
+            "/residencia-multiprofissional/supervisores/turma/{$turmaId}/oferta/{$ofertaId}/faltas",
+            [
+                'faltas' => [
+                    [
+                        'residenteid' => 845,
+                        'falta' => -10,
+                        'tipo' => 'P',
+                        'observacao' => 'teste',
+                    ]
+                ]
+            ],
+            [
+                'Authorization' => 'Bearer ' . $this->currentToken,
+                'Content-Type' => 'application/json'
+            ]
+        )
+            ->seeStatusCode(Response::HTTP_BAD_REQUEST)
+            ->seeJsonEquals(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'Falta não pode ser menor ou igual a 0'
+                ]
+            );
+    }
 }

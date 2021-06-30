@@ -23,7 +23,8 @@ class OfertaModuloFaltaController extends Controller
     }
 
     public function store(Request $request, $turma, $oferta)
-    {   $faltas = $request->input('faltas');
+    {
+        $faltas = $request->input('faltas');
 
         if ($this->invalidIntegerParameter($turma)) {
             return $this->responseNumberParameterError('turma');
@@ -33,17 +34,44 @@ class OfertaModuloFaltaController extends Controller
             return $this->responseNumberParameterError('oferta');
         }
 
-        if (is_null($faltas) || count($faltas) == 0) {
+        try {
+            $this->validadao($oferta, $faltas);
+
+            $faltas = $this->ofertaModuloFaltaService->salvarFaltas($oferta, $faltas);
+            if (!$faltas) {
+                throw new \Exception('Não foi possível realizar o lançamento de faltas');
+            }
+
+            return response()->json([
+                'sucesso' => true,
+                'faltas' => $faltas
+            ]);
+        } catch (\Exception $e) {
             return response()->json(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'Faltas é obrigatório'
+                    'mensagem' => $e->getMessage()
                 ],
                 Response::HTTP_BAD_REQUEST
             );
         }
+    }
+
+    private function validadao($oferta, $faltas)
+    {
+        if (is_null($faltas) || count($faltas) == 0) {
+            throw new \Exception('Faltas é obrigatório');
+        }
 
         foreach ($faltas as $falta) {
+            if (!isset($falta['falta']) || !isset($falta['tipo']) || !isset($falta['residenteid'])) {
+                throw new \Exception('Campo(s) inválido(s)');
+            }
+
+            if ($falta['falta'] <= 0) {
+                throw new \Exception('Falta não pode ser menor ou igual a 0');
+            }
+
             $cargaHorariaQueFaltou = $falta['falta'];
             $tipoCargaHorariaQueFaltou = $falta['tipo'];
             $residenteId = $falta['residenteid'];
@@ -52,30 +80,8 @@ class OfertaModuloFaltaController extends Controller
             $cargaHorariaPorTipo = $this->ofertaModuloTiposCargaHorariaDAO->cargaHorariaPorTipo($oferta, $tipoCargaHorariaQueFaltou);
 
             if ($cargaHorariaQueFaltou > $cargaHorariaPorTipo['cargahoraria']) {
-                return response()->json(
-                    [
-                        'sucesso' => false,
-                        'mensagem' => "Quantidade de faltas lançada '{$cargaHorariaQueFaltou}h' é maior que carga horária definida no tipo {$falta['tipo']} - para o residente de  ID: #{$residenteId}"
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
+                throw new \Exception("Quantidade de faltas lançada '{$cargaHorariaQueFaltou}h' é maior que carga horária definida no tipo {$falta['tipo']} - para o residente de  ID: #{$residenteId}");
             }
         }
-
-        $faltas = $this->ofertaModuloFaltaService->salvarFaltas($oferta, $faltas);
-        if ($faltas) {
-            return response()->json([
-                'sucesso' => true,
-                'faltas' => $faltas
-            ]);
-        }
-
-        return response()->json(
-            [
-                'sucesso' => false,
-                'mensagem' => 'Não foi possível realizar o lançamento de faltas'
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
     }
 }

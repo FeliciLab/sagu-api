@@ -61,7 +61,7 @@ class ResidenteOfertaModuloSupervisorTest extends TestCase
     public function testBuscaResidentesMatriculadosNaOfertaDeModulosSupervisor()
     {
         $this->get(
-            '/residencia-multiprofissional/supervisores/turma/13/oferta/314/residentes',
+            '/residencia-multiprofissional/supervisores/turma/14/oferta/422/residentes',
             [
                 'Authorization' => 'Bearer ' . $this->currentToken
             ]

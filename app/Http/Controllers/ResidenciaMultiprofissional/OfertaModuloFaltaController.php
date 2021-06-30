@@ -68,8 +68,8 @@ class OfertaModuloFaltaController extends Controller
                 throw new \Exception('Campo(s) inválido(s)');
             }
 
-            if ($falta['falta'] <= 0) {
-                throw new \Exception('Falta não pode ser menor ou igual a 0');
+            if ($falta['falta'] < 0) {
+                throw new \Exception('Falta não pode ser menor que 0');
             }
 
             $cargaHorariaQueFaltou = $falta['falta'];

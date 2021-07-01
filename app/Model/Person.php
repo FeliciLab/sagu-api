@@ -2,10 +2,13 @@
 
 namespace App\Model;
 
-class Person
+use App\Model\BaseModel\BaseModelSagu;
+
+class Person extends BaseModelSagu
 {
     const PERFIL_RESIDENTE = 1;
     const PERFIL_PRECEPTOR = 2;
+    const PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR = 22;
 
     public $id;
     public $name;
@@ -32,6 +35,10 @@ class Person
     public $celular;
     public $email;
     private $senha;
+
+    protected $mapFieldModel = [
+        'personid' => 'id'
+    ];
 
     /**
      * @return mixed

@@ -55,6 +55,4 @@ class Especialidade
     {
         $this->abreviatura = $abreviatura;
     }
-
-
 }

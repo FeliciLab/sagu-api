@@ -55,6 +55,4 @@ class CategoriaProfissional
     {
         $this->abreviatura = $abreviatura;
     }
-
-
 }

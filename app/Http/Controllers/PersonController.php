@@ -103,9 +103,9 @@ class PersonController extends Controller
 
                 //Content
                 $mail->isHTML(true);                                  // Set email format to HTML
-                $mail->Subject = 'Aplicativo resmedica - Recuperação de senha';
+                $mail->Subject = 'ESP Residência - Recuperação de senha';
                 $mail->Body    = '
-                                    Acesse o link a seguir para recuperar sua senha de acesso ao aplicativo <a href="http://academico.esp.ce.gov.br/miolo20/html/index.php?module=admin&action=forgottenPassword">(clique aqui para continuar)</a>.<br>
+                                    Acesse o link a seguir para recuperar sua senha <a href="http://academico.esp.ce.gov.br/miolo20/html/index.php?module=admin&action=forgottenPassword">(clique aqui para continuar)</a>.<br>
                                     <p>Para dúvidas e sugestões entre em contato com a Secretaria Escolar da Escola de Saúde Pública do Ceará - ESPC/CE.</p>
                                     ';
 
@@ -121,10 +121,6 @@ class PersonController extends Controller
                     'messagem'=> $mail->ErrorInfo
                 );
             }
-
-
-
-
         } else {
             $retorno = array(
                 'sucesso' => false

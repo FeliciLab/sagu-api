@@ -96,6 +96,7 @@ class ResidenteDAO
                 'res.ofertadeunidadetematicasupervisoresinstituicoes', function ($join) {
                 $join->on('res.ofertadeunidadetematicasupervisoresinstituicoes.ofertadeunidadetematicaid', '=', 'res.ofertadeunidadetematica.ofertadeunidadetematicaid');
                 $join->on('res.ofertadeunidadetematicasupervisoresinstituicoes.enfaseid', '=', 'res.residente.enfaseid');
+                $join->on('res.ofertadeunidadetematicasupervisoresinstituicoes.instituicaoexecutoraid', '=', 'res.residente.instituicaoexecutora');
             })
             ->join(
                 'res.supervisores',

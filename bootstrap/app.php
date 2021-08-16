@@ -64,7 +64,8 @@ $app->singleton(
  ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\AuthMiddleware::class
+     'auth' => App\Http\Middleware\AuthMiddleware::class,
+     'authMapaDaSaude' => App\Http\Middleware\AuthMapaDaSaude::class
  ]);
 
 /*

@@ -106,4 +106,17 @@ class PersonDAO
 
         return false;
     }
+
+
+    public function retornaPessoas()
+    {
+        return DB::select('
+            SELECT DISTINCT BP.personid, BP.name, BC.ibgeid, BC.name as cidade, BS.name as estado,
+                            BP.zipcode as cep, BP.location as logradouro, BP.number, BP.complement, BP.neighborhood as bairro,
+                            BP.email
+                FROM basphysicalperson BP INNER JOIN 
+                    bascity BC ON BP.cityid = BC.cityid INNER JOIN 
+                    basstate BS ON BC.stateid = BS.stateid
+                    ');
+    }
 }

@@ -129,4 +129,11 @@ class PersonController extends Controller
 
         return \response()->json($retorno);
     }
+
+    public function all()
+    {
+        $personDao = new PersonDAO();
+        $pessoas = $personDao->retornaPessoas();
+        return \response()->json($pessoas);
+    }
 }

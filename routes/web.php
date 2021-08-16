@@ -264,3 +264,14 @@ $app->group(
         );
     }
 );
+
+
+$app->group(
+    ['middleware' => ['authMapaDaSaude']],
+    function () use ($app) {
+        $app->get(
+            'persons',
+            'PersonController@all'
+        );
+    }
+);

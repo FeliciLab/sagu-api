@@ -9,6 +9,7 @@
 -  Depois da permissão nas pasta storage com os seguintes comandos
     - `docker exec -it saguapi bash`
     - `chown -R $USER:www-data storage`
+    - `chown -R $USER:www-data bootstrap`
     - `chmod -R 775 storage`
     - `chmod -R 775 bootstrap`
 

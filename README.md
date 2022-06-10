@@ -1,3 +1,10 @@
+# Instrução para instalação
+- clonar projeto com git clone https://github.com/EscolaDeSaudePublica/sagu-api.git
+- cd sagu-api.
+- rodar o comando docker-compose exec php-fpm composer install para instalar as dependencias do composer
+- Abrir navegador em http://localhost:8085/
+
+
 # Lumen PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)

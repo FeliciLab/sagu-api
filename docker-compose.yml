@@ -20,7 +20,7 @@ services:
 
     php-fpm:
       build: phpdocker/php-fpm
-      container_name: sagu-api-php-fpm
+      container_name: saguapi
       working_dir: /var/www
       volumes:
         - .:/var/www

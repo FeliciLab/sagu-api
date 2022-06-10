@@ -1,8 +1,8 @@
 # Instrução para instalação
 - clonar projeto com git clone https://github.com/EscolaDeSaudePublica/sagu-api.git
-- cd sagu-api.
-- rodar o comando docker-compose exec php-fpm composer install para instalar as dependencias do composer
-- Abrir navegador em http://localhost:8085/
+- `cd sagu-api`.
+- rodar o comando `docker-compose exec php-fpm composer install `para instalar as **dependências do composer**
+- Abrir navegador em _http://localhost:8085/_
 
 
 # Lumen PHP Framework

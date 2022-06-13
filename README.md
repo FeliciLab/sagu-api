@@ -5,7 +5,8 @@
 - Abrir navegador em _http://localhost:8085/_
 
 # Configuração
--  `docker-compose exec php-fpm php artisan key:generate`. Se não ouver o pacote lumem-generate instalar seguindo as instruções do [link](https://github.com/flipboxstudio/lumen-generator/tree/6.0)
+- criar um arquivo .env com base no .env.example
+- `docker-compose exec php-fpm php artisan key:generate`. Se não ouver o pacote lumem-generate instalar seguindo as instruções do [link](https://github.com/flipboxstudio/lumen-generator/tree/6.0)
 -  Depois da permissão nas pasta storage com os seguintes comandos
     - `docker exec -it saguapi bash`
     - `chown -R $USER:www-data storage`

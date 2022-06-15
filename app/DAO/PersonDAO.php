@@ -106,4 +106,74 @@ class PersonDAO
 
         return false;
     }
+
+    public function insert(Person $person)
+    {
+        $fields = 'name, email';
+        $values = '?,?';
+        $data = [ 
+            $person->getName(),
+            $person->getEmail()
+        ];
+
+        if ($person->getCep()) {
+            $fields .= ', zipcode';
+            $values .= ',?';
+            $data[] = $person->getCep();
+        }
+
+        if ($person->getLogradouro()) {
+            $fields .= ', location';
+            $values .= ',?';
+            $data[] = $person->getLogradouro();
+        }
+
+        if ($person->getNumero()) {
+            $fields .= ', number';
+            $values .= ',?';
+            $data[] = $person->getNumero();
+        }
+
+        if ($person->getComplemento()) {
+            $fields .= ', complement';
+            $values .= ',?';
+            $data[] = $person->getComplemento();
+        }
+
+        if ($person->getBairro()) {
+            $fields .= ', neighborhood';
+            $values .= ',?';
+            $data[] = $person->getBairro();
+        }
+
+        $result = DB::insert("insert into basperson ($fields) values ($values)", $data);
+
+        if ($result) {
+            $lastPersonId = DB::connection()->getPdo()->lastInsertId();
+
+            if ($lastPersonId) {
+                $fields .= ', personid';
+                $values .= ',?';
+                $data[] = $lastPersonId;
+            }
+
+            if ($person->getSexo()) {
+                $fields .= ', sex';
+                $values .= ',?';
+                $data[] = $person->getSexo();
+            }
+    
+            
+            if ($person->getDatebirth()) {
+                $fields .= ', datebirth';
+                $values .= ',?';
+                $data[] = $person->getDatebirth();
+            }
+           
+            $result = DB::insert("insert into basphysicalperson ($fields) values ($values)", $data);
+
+            $lastPhysicalPersonId = DB::connection()->getPdo()->lastInsertId();
+            return $this->get($lastPhysicalPersonId);
+        }
+    }
 }

@@ -34,11 +34,55 @@ class Person extends BaseModelSagu
     public $telefoneResidencial;
     public $celular;
     public $email;
+    private $sexo; 
+    private $datebirth; 
+    private $cpf; 
+    private $rh; 
     private $senha;
 
     protected $mapFieldModel = [
         'personid' => 'id'
     ];
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+    }
+
+    public function getRg()
+    {
+        return $this->rg;
+    }
+
+    public function setRg($rg)
+    {
+        $this->rg = $rg;
+    }
+    
+    public function getSexo()
+    {
+        return $this->sexo;
+    }
+
+    public function setSexo($sexo)
+    {
+        $this->sexo = $sexo;
+    }
+
+    public function getDatebirth()
+    {
+        return $this->datebirth;
+    }
+
+    public function setDatebirth($datebirth)
+    {
+        $this->datebirth = $datebirth;
+    }
 
     /**
      * @return mixed

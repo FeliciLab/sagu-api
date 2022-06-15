@@ -7,6 +7,7 @@ use App\DAO\UserDAO;
 use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use App\Services\Basic\PersonService;
 
 class PersonController extends Controller
 {
@@ -128,5 +129,12 @@ class PersonController extends Controller
         }
 
         return \response()->json($retorno);
+    }
+
+    public function saveAll(Request $request)
+    {
+        $data = $request->all();
+        $personService = new PersonService();
+        $personService->save($data);
     }
 }

@@ -29,6 +29,11 @@ $app->post(
     'PersonController@enviarEmailDeRecuperacaoDeSenha'
 );
 
+$app->post(
+    'persons',
+    'PersonController@saveAll'
+);
+
 $app->group(
     ['middleware' => ['auth']],
     function () use ($app) {

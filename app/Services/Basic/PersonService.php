@@ -15,7 +15,7 @@ class PersonService
             $person->setName($data['nome']);
             $person->setEmail($data['email']);
             $person->setSexo($data['sexo']);
-            $person->setDataNascimento($data['DataNascimento']);
+            $person->setDataNascimento($data['dataNascimento']);
             $person->setCpf($data['cpf']);
             $person->setUserName(str_replace(['.', '-'], ['', ''], $data['cpf']));
             $person->setRg($data['rg']);

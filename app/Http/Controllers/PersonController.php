@@ -143,7 +143,7 @@ class PersonController extends Controller
             'cpf' => 'required|size:14|unique:basdocument,content',
             'rg' => 'required|unique:basdocument,content',
             'sexo' => 'alpha|size:1',
-            'DataNascimento' => 'date_format:Y-m-d',
+            'dataNascimento' => 'date_format:Y-m-d',
         ]);
 
         if ($validator->fails()) {

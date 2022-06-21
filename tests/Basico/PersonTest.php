@@ -1,5 +1,5 @@
 <?php
-namespace Tests\ResidenciaMultiprofissional;
+namespace Tests;
 
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;

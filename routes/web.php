@@ -30,8 +30,8 @@ $app->post(
 );
 
 $app->post(
-    'persons',
-    'PersonController@saveAll'
+    'person',
+    'PersonController@save'
 );
 
 $app->group(

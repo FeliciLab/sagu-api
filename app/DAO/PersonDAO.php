@@ -36,7 +36,11 @@ class PersonDAO
             $person->setTelefoneResidencial($select->residentialphone);
             $person->setCelular($select->cellphone);
             $person->setEmail($select->email);
-            //$person->setSenha($select->password);
+            $person->setSexo($select->sex);
+            $person->setDataNascimento($select->datebirth);
+
+            $person->setCpf(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_CPF));
+            $person->setRg(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_IDENTIDADE));
         }
 
         return $person;
@@ -158,22 +162,50 @@ class PersonDAO
             }
 
             if ($person->getSexo()) {
+                $fields .= ', miolousername';
+                $values .= ',?';
+                $data[] = $person->getUserName();
+            }
+
+            if ($person->getSexo()) {
                 $fields .= ', sex';
                 $values .= ',?';
                 $data[] = $person->getSexo();
             }
     
             
-            if ($person->getDatebirth()) {
+            if ($person->getDataNascimento()) {
                 $fields .= ', datebirth';
                 $values .= ',?';
-                $data[] = $person->getDatebirth();
+                $data[] = $person->getDataNascimento();
+            }
+
+            if ($person->getCelular()) {
+                $fields .= ', cellphone';
+                $values .= ',?';
+                $data[] = $person->getCelular();
+            }
+
+            if ($person->getTelefoneResidencial()) {
+                $fields .= ', residentialphone';
+                $values .= ',?';
+                $data[] = $person->getTelefoneResidencial();
             }
            
             $result = DB::insert("insert into basphysicalperson ($fields) values ($values)", $data);
 
-            $lastPhysicalPersonId = DB::connection()->getPdo()->lastInsertId();
+            $lastPhysicalPersonId = $this->getLastPersonId();
+
+            DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_IDENTIDADE, $person->getRg());
+            DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_CPF, $person->getCpf());
+
             return $this->get($lastPhysicalPersonId);
         }
+    }
+
+    private function getLastPersonId()
+    {
+        $select = DB::select('SELECT personid FROM basphysicalperson ORDER BY personid DESC LIMIT 1');
+        return $select[0]->personid;
     }
 }

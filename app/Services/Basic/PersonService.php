@@ -4,49 +4,54 @@ namespace App\Services\Basic;
 
 use App\DAO\PersonDAO;
 use App\Model\Person;
+use Exception;
 
 class PersonService
 {
     public function save($data)
     {
-        if (is_array($data)) {
-            foreach ($data['persons'] as $_person) {
+        try {
+            $person = new Person();
+            $person->setName($data['nome']);
+            $person->setEmail($data['email']);
+            $person->setSexo($data['sexo']);
+            $person->setDataNascimento($data['DataNascimento']);
+            $person->setCpf($data['cpf']);
+            $person->setUserName(str_replace(['.', '-'], ['', ''], $data['cpf']));
+            $person->setRg($data['rg']);
+            $person->setCelular($data['celular']);
+            $person->setTelefoneResidencial($data['telefoneResidencial']);
 
-                $person = new Person();
-                $person->setName($_person['nome']);
-                $person->setEmail($_person['email']);
-                $person->setSexo($_person['sexo']);
-                $person->setDatebirth($_person['DataNascimento']);
-                $person->setCpf($_person['cpf']);
-                $person->setRg($_person['rg']);
+            if ($data['endereco']) {
+                if ($data['endereco']['cep']) {
+                    $person->setCep($data['endereco']['cep']);
+                } 
+                
+                if ($data['endereco']['logradouro']) {
+                    $person->setLogradouro($data['endereco']['logradouro']);
+                } 
 
-            
+                if ($data['endereco']['numero']) {
+                    $person->setNumero($data['endereco']['numero']);
+                } 
 
-                if ($_person['endereco']) {
-                    if ($_person['endereco']['cep']) {
-                        $person->setCep($_person['endereco']['cep']);
-                    } 
-                    
-                    if ($_person['endereco']['logradouro']) {
-                        $person->setLogradouro($_person['endereco']['logradouro']);
-                    } 
+                if ($data['endereco']['complemento']) {
+                    $person->setComplemento($data['endereco']['complemento']);
+                } 
 
-                    if ($_person['endereco']['numero']) {
-                        $person->setNumero($_person['endereco']['numero']);
-                    } 
-
-                    if ($_person['endereco']['complemento']) {
-                        $person->setComplemento($_person['endereco']['complemento']);
-                    } 
-
-                    if ($_person['endereco']['bairro']) {
-                        $person->setBairro($_person['endereco']['bairro']);
-                    } 
-                }
-
-                $personDAO = new PersonDAO();
-                $personDAO->insert($person);
+                if ($data['endereco']['bairro']) {
+                    $person->setBairro($data['endereco']['bairro']);
+                } 
             }
-        }
+
+            $personDAO = new PersonDAO();
+            return $personDAO->insert($person);   
+        } catch (Exception $e) {
+            return [
+                'error' => [
+                    'message' => $e->getMessage()
+                ]
+            ];
+        } 
     }
 }

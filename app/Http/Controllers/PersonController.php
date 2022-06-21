@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Services\Basic\PersonService;
+use Illuminate\Support\Facades\Validator;
+
 
 class PersonController extends Controller
 {
@@ -131,10 +133,27 @@ class PersonController extends Controller
         return \response()->json($retorno);
     }
 
-    public function saveAll(Request $request)
+    public function save(Request $request)
     {
         $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'nome' => 'required|min:3',
+            'email' => 'required|unique:basphysicalperson|min:3',
+            'cpf' => 'required|size:14|unique:basdocument,content',
+            'rg' => 'required|unique:basdocument,content',
+            'sexo' => 'alpha|size:1',
+            'DataNascimento' => 'date_format:Y-m-d',
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json([
+                'error' => $validator->errors()->all()
+            ], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+        }
+
         $personService = new PersonService();
-        $personService->save($data);
+        $result = $personService->save($data);
+        return \response()->json($result);
     }
 }

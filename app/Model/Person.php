@@ -10,6 +10,9 @@ class Person extends BaseModelSagu
     const PERFIL_PRECEPTOR = 2;
     const PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR = 22;
 
+    const DOCUMENTO_IDENTIDADE = 1;
+    const DOCUMENTO_CPF = 2;
+
     public $id;
     public $name;
     public $perfil;
@@ -34,10 +37,10 @@ class Person extends BaseModelSagu
     public $telefoneResidencial;
     public $celular;
     public $email;
-    private $sexo; 
-    private $datebirth; 
-    private $cpf; 
-    private $rh; 
+    public $sexo; 
+    public $dataNascimento; 
+    public $cpf; 
+    public $rg; 
     private $senha;
 
     protected $mapFieldModel = [
@@ -74,14 +77,14 @@ class Person extends BaseModelSagu
         $this->sexo = $sexo;
     }
 
-    public function getDatebirth()
+    public function getDataNascimento()
     {
-        return $this->datebirth;
+        return $this->dataNascimento;
     }
 
-    public function setDatebirth($datebirth)
+    public function setDataNascimento($dataNascimento)
     {
-        $this->datebirth = $datebirth;
+        $this->dataNascimento = $dataNascimento;
     }
 
     /**

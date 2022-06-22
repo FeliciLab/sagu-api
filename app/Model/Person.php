@@ -22,7 +22,7 @@ class Person extends BaseModelSagu
     /**
      * @var $estado Estado
      */
-    public $estado;
+    private $estado;
 
     /**
      * @var $cidade Cidade
@@ -42,10 +42,21 @@ class Person extends BaseModelSagu
     public $cpf; 
     public $rg; 
     private $senha;
+    public $estadoCivil;
 
     protected $mapFieldModel = [
         'personid' => 'id'
     ];
+
+    public function getEstadoCivil()
+    {
+        return !empty($this->estadoCivil) ? $this->estadoCivil : 'N';
+    }
+
+    public function setEstadoCivil($estadoCivil)
+    {
+        $this->estadoCivil = $estadoCivil;
+    }
 
     public function getCpf()
     {

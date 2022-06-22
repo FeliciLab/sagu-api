@@ -13,7 +13,7 @@ class PersonTest extends TestCase
 
     private function data()
     {
-        $rand = rand(1, 999999);
+        $rand = rand(90000, 99999);
 
         return [
             'nome' => 'Nome da pessoa - ' . $rand,
@@ -32,6 +32,7 @@ class PersonTest extends TestCase
             'dataNascimento' => '2000-01-01',
             'celular' => '859999'.$rand,
             'telefoneResidencial' => '859999'.$rand,
+            'estadoCivil' => 'N'
         ];
     }
 
@@ -58,7 +59,8 @@ class PersonTest extends TestCase
                 'logradouro' => $data['endereco']['logradouro'],
                 'numero' => $data['endereco']['numero'],
                 'complemento' => $data['endereco']['complemento'],
-                'bairro' => $data['endereco']['bairro']
+                'bairro' => $data['endereco']['bairro'],
+                'estadoCivil' => $data['estadoCivil']
             ]
         );
     }

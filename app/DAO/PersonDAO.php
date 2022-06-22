@@ -38,6 +38,7 @@ class PersonDAO
             $person->setEmail($select->email);
             $person->setSexo($select->sex);
             $person->setDataNascimento($select->datebirth);
+            $person->setEstadoCivil($select->maritalstatusid);
 
             $person->setCpf(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_CPF));
             $person->setRg(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_IDENTIDADE));
@@ -120,6 +121,12 @@ class PersonDAO
             $person->getEmail()
         ];
 
+        if ($person->getCidade()) {
+            $fields .= ', cityid';
+            $values .= ',?';
+            $data[] = $person->getCidade()->getId();
+        }
+
         if ($person->getCep()) {
             $fields .= ', zipcode';
             $values .= ',?';
@@ -190,6 +197,12 @@ class PersonDAO
                 $fields .= ', residentialphone';
                 $values .= ',?';
                 $data[] = $person->getTelefoneResidencial();
+            }
+
+            if ($person->getEstadoCivil()) {
+                $fields .= ', maritalstatusid';
+                $values .= ',?';
+                $data[] = $person->getEstadoCivil();
             }
            
             $result = DB::insert("insert into basphysicalperson ($fields) values ($values)", $data);

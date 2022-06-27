@@ -8,6 +8,7 @@ class Person extends BaseModelSagu
 {
     const PERFIL_RESIDENTE = 1;
     const PERFIL_PRECEPTOR = 2;
+    const PERFIL_PADRAO = 6;
     const PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR = 22;
 
     const DOCUMENTO_IDENTIDADE = 1;

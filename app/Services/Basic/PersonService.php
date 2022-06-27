@@ -5,8 +5,10 @@ namespace App\Services\Basic;
 use App\DAO\CidadeDAO;
 use App\DAO\LocationDAO;
 use App\DAO\PersonDAO;
+use App\DAO\UserDAO;
 use App\Model\Cidade;
 use App\Model\Person;
+use App\Model\User;
 use Exception;
 
 class PersonService
@@ -67,7 +69,18 @@ class PersonService
             }
 
             $personDAO = new PersonDAO();
-            return $personDAO->insert($person);   
+            $_person = $personDAO->insert($person);   
+
+            $user = new User();
+            $user->setName($person->getName());
+            $user->setLogin($person->getUserName());
+            $user->setSenha($person->getUserName());
+
+            $userDAO = new UserDAO();
+            $userDAO->insert($user);
+
+            return $_person;
+
         } catch (Exception $e) {
             return [
                 'error' => [

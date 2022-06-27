@@ -29,10 +29,18 @@ $app->post(
     'PersonController@enviarEmailDeRecuperacaoDeSenha'
 );
 
-$app->post(
-    'person',
-    'PersonController@save'
+
+$app->group(
+    ['middleware' => ['ApiKeyPublicAuth']],
+    function () use ($app) {
+        $app->post(
+            'person',
+            'PersonController@save'
+        );
+    }
 );
+
+
 
 $app->group(
     ['middleware' => ['auth']],

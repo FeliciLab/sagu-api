@@ -41,7 +41,10 @@ class PersonTest extends TestCase
         $data = $this->data();
         $result = $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         );
 
         $result->seeStatusCode(Response::HTTP_OK);
@@ -72,7 +75,10 @@ class PersonTest extends TestCase
 
         $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         );
 
         $novoData = $this->data();
@@ -81,7 +87,10 @@ class PersonTest extends TestCase
         $data['rg'] = $novoData['rg'];
         $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         )
         ->seeStatusCode(Response::HTTP_BAD_REQUEST)
         ->seeJsonEquals([
@@ -97,7 +106,10 @@ class PersonTest extends TestCase
 
         $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         );
 
         $novoData = $this->data();
@@ -106,7 +118,10 @@ class PersonTest extends TestCase
         $data['rg'] = $novoData['rg'];
         $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         )
         ->seeStatusCode(Response::HTTP_BAD_REQUEST)
         ->seeJsonEquals([
@@ -121,7 +136,10 @@ class PersonTest extends TestCase
         $data = $this->data();
         $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         );
 
        
@@ -131,7 +149,10 @@ class PersonTest extends TestCase
         $data['cpf'] = $novoData['cpf'];
         $result = $this->post(
             '/person',
-            $data
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         )
         ->seeStatusCode(Response::HTTP_BAD_REQUEST)
         ->seeJsonEquals([
@@ -145,7 +166,10 @@ class PersonTest extends TestCase
     {
         $this->post(
             '/person',
-            []
+            [],
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
         )
         ->seeStatusCode(Response::HTTP_BAD_REQUEST)
         ->seeJsonEquals([

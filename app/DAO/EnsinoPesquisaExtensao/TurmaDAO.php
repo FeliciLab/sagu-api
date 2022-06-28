@@ -10,7 +10,7 @@ class TurmaDAO
 {
     public function getTurmasPorOferta($ofertaId)
     {
-        $select = DB::select("SELECT * FROM acpofertaturma WHERE situacao = 'A' AND ofertacursoid = :ofertacursoid", ['ofertacursoid' => $ofertaId]);
+        $select = DB::select("SELECT * FROM acpofertaturma WHERE situacao = 'A' AND ofertacursoid = :ofertacursoid ORDER BY descricao", ['ofertacursoid' => $ofertaId]);
 
         $turmas = [];
         foreach ($select as $_turma) {

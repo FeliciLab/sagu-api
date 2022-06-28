@@ -9,7 +9,7 @@ class OfertaCursoDAO
 {
     public function getOfertasAtivas()
     {
-        $select = DB::select("SELECT ofertacursoid, descricao, situacao FROM acpofertacurso WHERE situacao = 'A'");
+        $select = DB::select("SELECT ofertacursoid, descricao, situacao FROM acpofertacurso WHERE situacao = 'A' ORDER BY descricao");
 
         $ofertas = [];
         foreach ($select as $oferta) {

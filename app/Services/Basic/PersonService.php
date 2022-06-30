@@ -19,11 +19,17 @@ class PersonService
             $person = new Person();
             $person->setName($data['nome']);
             $person->setEmail($data['email']);
-            $person->setSexo($data['sexo']);
-            $person->setDataNascimento($data['dataNascimento']);
             $person->setCpf($data['cpf']);
             $person->setUserName(str_replace(['.', '-'], ['', ''], $data['cpf']));
             $person->setRg($data['rg']);
+
+            if (isset($data['sexo'])) {
+                $person->setSexo($data['sexo']);
+            }
+
+            if (isset($data['dataNascimento'])) {
+                $person->setDataNascimento($data['dataNascimento']);
+            }
             
             if (isset($data['celular'])) {
                 $person->setCelular($data['celular']);

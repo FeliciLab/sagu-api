@@ -155,6 +155,14 @@ class PersonController extends Controller
 
         $personService = new PersonService();
         $result = $personService->save($data);
+
+        if (!$result) {
+            return \response()->json([
+                'error' => 'Não foi possível cadastrar a pessoa.'
+            ], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+        }
+
         return \response()->json($result);
+        
     }
 }

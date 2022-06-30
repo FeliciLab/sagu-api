@@ -88,11 +88,7 @@ class PersonService
             return $_person;
 
         } catch (Exception $e) {
-            return [
-                'error' => [
-                    'message' => $e->getMessage()
-                ]
-            ];
+            return false;
         } 
     }
 }

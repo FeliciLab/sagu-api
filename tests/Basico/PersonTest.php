@@ -1,5 +1,5 @@
 <?php
-namespace Tests;
+namespace Tests\Basico;
 
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;

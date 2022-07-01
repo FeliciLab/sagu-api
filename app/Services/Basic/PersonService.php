@@ -2,6 +2,7 @@
 
 namespace App\Services\Basic;
 
+use Illuminate\Support\Facades\DB;
 use App\DAO\CidadeDAO;
 use App\DAO\LocationDAO;
 use App\DAO\PersonDAO;
@@ -16,6 +17,7 @@ class PersonService
     public function save($data)
     {
         try {
+            DB::beginTransaction();
             $person = new Person();
             $person->setName($data['nome']);
             $person->setEmail($data['email']);
@@ -85,9 +87,11 @@ class PersonService
             $userDAO = new UserDAO();
             $userDAO->insert($user);
 
+            DB::commit();
             return $_person;
 
         } catch (Exception $e) {
+            DB::rollback();
             return false;
         } 
     }

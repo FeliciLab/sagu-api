@@ -7,7 +7,6 @@ use App\DAO\CidadeDAO;
 use App\DAO\LocationDAO;
 use App\DAO\PersonDAO;
 use App\DAO\UserDAO;
-use App\Model\Cidade;
 use App\Model\Person;
 use App\Model\User;
 use Exception;
@@ -16,8 +15,8 @@ class PersonService
 {
     public function save($data)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             $person = new Person();
             $person->setName($data['nome']);
             $person->setEmail($data['email']);

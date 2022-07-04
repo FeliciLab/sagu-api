@@ -157,6 +157,12 @@ class PersonDAO
             $data[] = $person->getBairro();
         }
 
+        if ($person->getUserName()) {
+            $fields .= ', miolousername';
+            $values .= ',?';
+            $data[] = $person->getUserName();
+        }
+
         $result = DB::insert("insert into basperson ($fields) values ($values)", $data);
 
         if ($result) {
@@ -166,12 +172,6 @@ class PersonDAO
                 $fields .= ', personid';
                 $values .= ',?';
                 $data[] = $lastPersonId;
-            }
-
-            if ($person->getSexo()) {
-                $fields .= ', miolousername';
-                $values .= ',?';
-                $data[] = $person->getUserName();
             }
 
             if ($person->getSexo()) {

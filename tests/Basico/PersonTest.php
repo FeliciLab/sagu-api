@@ -35,10 +35,10 @@ class PersonTest extends TestCase
             ],
             'sexo' => 'M',
             'cpf' => $fakerBrasil->cpf,
-            'rg' => $fakerBrasil->rg,
+            'rg' => $fakerBrasil->rg(false),
             'dataNascimento' => '2000-01-01',
-            'celular' => $faker->phoneNumber,
-            'telefoneResidencial' => $faker->phoneNumber,
+            'celular' => '11000000000',
+            'telefoneResidencial' => '11000000000',
             'estadoCivil' => 'N'
         ];
     }
@@ -46,6 +46,7 @@ class PersonTest extends TestCase
     public function testCadastroPersonOK()
     {
         $data = $this->data();
+        
         $result = $this->post(
             '/person',
             $data,

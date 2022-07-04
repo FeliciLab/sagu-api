@@ -4,6 +4,9 @@ namespace Tests\Basico;
 use TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+use Faker\Factory;
+use Faker\Generator;
+
 class PersonTest extends TestCase
 {
     public function setUp()
@@ -13,11 +16,15 @@ class PersonTest extends TestCase
 
     private function data()
     {
+        $fakerBrasil = new Generator();
+        $fakerBrasil->addProvider(new \Faker\Provider\pt_BR\Person($fakerBrasil));
+        $faker = Factory::create();
+
         $rand = rand(90000, 99999);
 
         return [
-            'nome' => 'Nome da pessoa - ' . $rand,
-            'email' => 'mail.' . $rand . '@mail.com',
+            'nome' => $fakerBrasil->name,
+            'email' => $faker->email,
             'endereco' => [
                 'cep' => '600' . $rand,
                 'logradouro' => 'Logradouro ' . $rand,
@@ -27,11 +34,11 @@ class PersonTest extends TestCase
                 'cidade'=> 'Fortaleza' . $rand
             ],
             'sexo' => 'M',
-            'cpf' => '123.' . rand(100, 999) . '.'.rand(100, 999) . '-00',
-            'rg' => '1234567'.rand(1000, 9999),
+            'cpf' => $fakerBrasil->cpf,
+            'rg' => $fakerBrasil->rg,
             'dataNascimento' => '2000-01-01',
-            'celular' => '859999'.$rand,
-            'telefoneResidencial' => '859999'.$rand,
+            'celular' => $faker->phoneNumber,
+            'telefoneResidencial' => $faker->phoneNumber,
             'estadoCivil' => 'N'
         ];
     }
@@ -181,5 +188,29 @@ class PersonTest extends TestCase
             ]
         ]);
     }
+
+    public function testCadastroCpfInvalido()
+    {
+        $data = $this->data();
+        
+        $data['cpf'] = '000.000.000-00';
+        $result = $this->post(
+            '/person',
+            $data,
+            [
+                'x-api-key' => env('API_KEY_PUBLIC')
+            ]
+        );
+
+        $result->seeStatusCode(Response::HTTP_BAD_REQUEST);
+        $result->seeJson(
+            [
+                'error' => [
+                    'O campo cpf não é um CPF válido'
+                ]
+            ]
+        );
+    }
+    
   
 }

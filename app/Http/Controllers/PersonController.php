@@ -140,7 +140,7 @@ class PersonController extends Controller
         $validator = Validator::make($data, [
             'nome' => 'required|min:3',
             'email' => 'required|email:rfc|unique:basphysicalperson',
-            'cpf' => 'required|size:14|unique:basdocument,content',
+            'cpf' => 'required|size:14|formato_cpf|cpf|unique:basdocument,content',
             'rg' => 'required|unique:basdocument,content',
             'sexo' => 'alpha|size:1',
             'dataNascimento' => 'date_format:Y-m-d',

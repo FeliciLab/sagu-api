@@ -211,6 +211,10 @@ class PersonDAO
 
             DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_IDENTIDADE, $person->getRg());
             DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_CPF, $person->getCpf());
+            if ($person->getCategoriaProfissional()) {
+                MioloCustomValueDAO::insert($lastPhysicalPersonId, $person->getCategoriaProfissional());
+            }
+            
 
             return $this->get($lastPhysicalPersonId);
         }

@@ -24,6 +24,10 @@ class PersonService
             $person->setUserName(str_replace(['.', '-'], ['', ''], $data['cpf']));
             $person->setRg($data['rg']);
 
+            if (isset($data['categoriaProfissional'])) {
+                $person->setCategoriaProfissional($data['categoriaProfissional']);
+            }
+
             if (isset($data['sexo'])) {
                 $person->setSexo($data['sexo']);
             }

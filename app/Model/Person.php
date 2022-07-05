@@ -44,10 +44,21 @@ class Person extends BaseModelSagu
     public $rg; 
     private $senha;
     public $estadoCivil;
+    public $categoriaProfissional;
 
     protected $mapFieldModel = [
         'personid' => 'id'
     ];
+
+    public function getCategoriaProfissional()
+    {
+        return $this->categoriaProfissional;
+    }
+
+    public function setCategoriaProfissional($categoriaProfissional)
+    {
+        $this->categoriaProfissional = $categoriaProfissional;
+    }
 
     public function getEstadoCivil()
     {

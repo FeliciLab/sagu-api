@@ -39,7 +39,8 @@ class PersonTest extends TestCase
             'dataNascimento' => '2000-01-01',
             'celular' => '11000000000',
             'telefoneResidencial' => '11000000000',
-            'estadoCivil' => 'N'
+            'estadoCivil' => 'N',
+            'categoriaProfissional' => 'Medico'
         ];
     }
 
@@ -71,7 +72,8 @@ class PersonTest extends TestCase
                 'numero' => $data['endereco']['numero'],
                 'complemento' => $data['endereco']['complemento'],
                 'bairro' => $data['endereco']['bairro'],
-                'estadoCivil' => $data['estadoCivil']
+                'estadoCivil' => $data['estadoCivil'],
+                'categoriaProfissional' => $data['categoriaProfissional']
             ]
         );
     }

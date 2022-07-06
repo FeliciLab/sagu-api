@@ -4,10 +4,10 @@ namespace App\DAO;
 
 use App\Model\Person;
 use Illuminate\Support\Facades\DB;
+use App\DAO\Basico\MioloCustomValueDAO;
 
 class PersonDAO
 {
-
     /**
      * @param $id
      * @return Person
@@ -42,6 +42,8 @@ class PersonDAO
 
             $person->setCpf(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_CPF));
             $person->setRg(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_IDENTIDADE));
+
+            $person->setCategoriaProfissional(MioloCustomValueDAO::getContent($select->personid, MioloCustomValueDAO::FIELD1));
         }
 
         return $person;

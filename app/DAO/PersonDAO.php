@@ -4,10 +4,10 @@ namespace App\DAO;
 
 use App\Model\Person;
 use Illuminate\Support\Facades\DB;
+use App\DAO\Basico\MioloCustomValueDAO;
 
 class PersonDAO
 {
-
     /**
      * @param $id
      * @return Person
@@ -36,7 +36,14 @@ class PersonDAO
             $person->setTelefoneResidencial($select->residentialphone);
             $person->setCelular($select->cellphone);
             $person->setEmail($select->email);
-            //$person->setSenha($select->password);
+            $person->setSexo($select->sex);
+            $person->setDataNascimento($select->datebirth);
+            $person->setEstadoCivil($select->maritalstatusid);
+
+            $person->setCpf(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_CPF));
+            $person->setRg(DocumentoDAO::getContent($select->personid, Person::DOCUMENTO_IDENTIDADE));
+
+            $person->setCategoriaProfissional(MioloCustomValueDAO::getContent($select->personid, MioloCustomValueDAO::FIELD1));
         }
 
         return $person;
@@ -105,5 +112,119 @@ class PersonDAO
         }
 
         return false;
+    }
+
+    public function insert(Person $person)
+    {
+        $fields = 'name, email';
+        $values = '?,?';
+        $data = [ 
+            $person->getName(),
+            $person->getEmail()
+        ];
+
+        if ($person->getCidade()) {
+            $fields .= ', cityid';
+            $values .= ',?';
+            $data[] = $person->getCidade()->getId();
+        }
+
+        if ($person->getCep()) {
+            $fields .= ', zipcode';
+            $values .= ',?';
+            $data[] = $person->getCep();
+        }
+
+        if ($person->getLogradouro()) {
+            $fields .= ', location';
+            $values .= ',?';
+            $data[] = $person->getLogradouro();
+        }
+
+        if ($person->getNumero()) {
+            $fields .= ', number';
+            $values .= ',?';
+            $data[] = $person->getNumero();
+        }
+
+        if ($person->getComplemento()) {
+            $fields .= ', complement';
+            $values .= ',?';
+            $data[] = $person->getComplemento();
+        }
+
+        if ($person->getBairro()) {
+            $fields .= ', neighborhood';
+            $values .= ',?';
+            $data[] = $person->getBairro();
+        }
+
+        if ($person->getUserName()) {
+            $fields .= ', miolousername';
+            $values .= ',?';
+            $data[] = $person->getUserName();
+        }
+
+        $result = DB::insert("insert into basperson ($fields) values ($values)", $data);
+
+        if ($result) {
+            $lastPersonId = DB::connection()->getPdo()->lastInsertId();
+
+            if ($lastPersonId) {
+                $fields .= ', personid';
+                $values .= ',?';
+                $data[] = $lastPersonId;
+            }
+
+            if ($person->getSexo()) {
+                $fields .= ', sex';
+                $values .= ',?';
+                $data[] = $person->getSexo();
+            }
+    
+            
+            if ($person->getDataNascimento()) {
+                $fields .= ', datebirth';
+                $values .= ',?';
+                $data[] = $person->getDataNascimento();
+            }
+
+            if ($person->getCelular()) {
+                $fields .= ', cellphone';
+                $values .= ',?';
+                $data[] = $person->getCelular();
+            }
+
+            if ($person->getTelefoneResidencial()) {
+                $fields .= ', residentialphone';
+                $values .= ',?';
+                $data[] = $person->getTelefoneResidencial();
+            }
+
+            if ($person->getEstadoCivil()) {
+                $fields .= ', maritalstatusid';
+                $values .= ',?';
+                $data[] = $person->getEstadoCivil();
+            }
+           
+            $result = DB::insert("insert into basphysicalperson ($fields) values ($values)", $data);
+
+            $lastPhysicalPersonId = $this->getLastPersonId();
+
+            DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_IDENTIDADE, $person->getRg());
+            DocumentoDAO::insertDocumento($lastPhysicalPersonId, Person::DOCUMENTO_CPF, $person->getCpf());
+            if ($person->getCategoriaProfissional()) {
+                MioloCustomValueDAO::insert($lastPhysicalPersonId, $person->getCategoriaProfissional());
+            }
+            
+
+            return $this->get($lastPhysicalPersonId);
+        }
+    }
+
+    private function getLastPersonId()
+    {
+        $select = DB::select('SELECT personid FROM basphysicalperson ORDER BY personid DESC LIMIT 1');
+        return $select[0]->personid;
     }
 }

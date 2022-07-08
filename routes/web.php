@@ -29,6 +29,32 @@ $app->post(
     'PersonController@enviarEmailDeRecuperacaoDeSenha'
 );
 
+
+$app->group(
+    ['middleware' => ['ApiKeyPublicAuth']],
+    function () use ($app) {
+        $app->post(
+            'person',
+            'PersonController@save'
+        );
+
+        $app->group(
+            ['prefix' => 'ensino-pesquisa-extensao', 'namespace' => 'EnsinoPesquisaExtensao'],
+            function () use ($app) {
+                $app->get(
+                    'ofertas',
+                    'OfertaCursoController@ofertas'
+                );
+        
+                $app->get(
+                    'ofertas/{ofertaId}/turmas',
+                    'TurmaController@turma'
+                );
+            }
+        );
+    }
+);
+
 $app->group(
     ['middleware' => ['auth']],
     function () use ($app) {

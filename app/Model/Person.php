@@ -8,7 +8,11 @@ class Person extends BaseModelSagu
 {
     const PERFIL_RESIDENTE = 1;
     const PERFIL_PRECEPTOR = 2;
+    const PERFIL_PADRAO = 6;
     const PERFIL_RESIDENCIA_MULTIPROFISSIONAL_SUPERVISOR = 22;
+
+    const DOCUMENTO_IDENTIDADE = 1;
+    const DOCUMENTO_CPF = 2;
 
     public $id;
     public $name;
@@ -19,7 +23,7 @@ class Person extends BaseModelSagu
     /**
      * @var $estado Estado
      */
-    public $estado;
+    private $estado;
 
     /**
      * @var $cidade Cidade
@@ -34,11 +38,77 @@ class Person extends BaseModelSagu
     public $telefoneResidencial;
     public $celular;
     public $email;
+    public $sexo; 
+    public $dataNascimento; 
+    public $cpf; 
+    public $rg; 
     private $senha;
+    public $estadoCivil;
+    public $categoriaProfissional;
 
     protected $mapFieldModel = [
         'personid' => 'id'
     ];
+
+    public function getCategoriaProfissional()
+    {
+        return $this->categoriaProfissional;
+    }
+
+    public function setCategoriaProfissional($categoriaProfissional)
+    {
+        $this->categoriaProfissional = $categoriaProfissional;
+    }
+
+    public function getEstadoCivil()
+    {
+        return !empty($this->estadoCivil) ? $this->estadoCivil : 'N';
+    }
+
+    public function setEstadoCivil($estadoCivil)
+    {
+        $this->estadoCivil = $estadoCivil;
+    }
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+    }
+
+    public function getRg()
+    {
+        return $this->rg;
+    }
+
+    public function setRg($rg)
+    {
+        $this->rg = $rg;
+    }
+    
+    public function getSexo()
+    {
+        return $this->sexo;
+    }
+
+    public function setSexo($sexo)
+    {
+        $this->sexo = $sexo;
+    }
+
+    public function getDataNascimento()
+    {
+        return $this->dataNascimento;
+    }
+
+    public function setDataNascimento($dataNascimento)
+    {
+        $this->dataNascimento = $dataNascimento;
+    }
 
     /**
      * @return mixed

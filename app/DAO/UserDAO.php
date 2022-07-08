@@ -133,4 +133,33 @@ class UserDAO
         );
         return $user;
     }
+
+    public function insert(User $user)
+    {
+        $result = DB::insert(
+            'insert into public.miolo_user (login, name, m_password, confirm_hash) values (?, ?, ?, ?)',
+            [
+                $user->getLogin(),
+                $user->getName(),
+                $user->getSenha(),
+                $user->getSenha(),
+                
+            ]
+        );
+
+        if ( $result )  {
+            $rowId = DB::connection()->getPdo()->lastInsertId();
+
+            DB::insert(
+                'insert into public.miolo_groupuser (iduser, idgroup, unitid) values (?, ?, ?)',
+                [
+                    $rowId,
+                    Person::PERFIL_PADRAO,
+                    1                    
+                ]
+            );
+        }
+        
+        return $result;
+    }
 }

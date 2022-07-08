@@ -10,10 +10,11 @@
         "vlucas/phpdotenv": "~2.2",
         "firebase/php-jwt": "^5.0",
         "palanik/lumen-cors": "dev-master",
-        "phpmailer/phpmailer": "~6.0"
+        "phpmailer/phpmailer": "~6.0",
+        "laravellegends/pt-br-validator": "5.1.*"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
+        "fzaninotto/faker": "^1.9",
         "phpunit/phpunit": "^7.0",
         "mockery/mockery": "~0.9"
     },
@@ -34,5 +35,10 @@
         ]
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    }
 }

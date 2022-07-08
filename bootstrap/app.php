@@ -64,7 +64,8 @@ $app->singleton(
  ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\AuthMiddleware::class
+    'auth' => App\Http\Middleware\AuthMiddleware::class,
+    'ApiKeyPublicAuth' => App\Http\Middleware\ApiKeyPublicAuthMiddleware::class,
  ]);
 
 /*
@@ -78,7 +79,7 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(LaravelLegends\PtBrValidator\ValidatorProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 

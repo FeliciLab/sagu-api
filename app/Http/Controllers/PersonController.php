@@ -7,6 +7,9 @@ use App\DAO\UserDAO;
 use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use App\Services\Basic\PersonService;
+use Illuminate\Support\Facades\Validator;
+
 
 class PersonController extends Controller
 {
@@ -128,5 +131,38 @@ class PersonController extends Controller
         }
 
         return \response()->json($retorno);
+    }
+
+    public function save(Request $request)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'nome' => 'required|min:3',
+            'email' => 'required|email:rfc|unique:basphysicalperson',
+            'cpf' => 'required|size:14|formato_cpf|cpf|unique:basdocument,content',
+            'rg' => 'required|unique:basdocument,content',
+            'sexo' => 'alpha|size:1',
+            'dataNascimento' => 'date_format:Y-m-d',
+            'endereco.cep' => 'size:8'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json([
+                'error' => $validator->errors()->all()
+            ], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+        }
+
+        $personService = new PersonService();
+        $result = $personService->save($data);
+
+        if (!$result) {
+            return \response()->json([
+                'error' => 'Não foi possível cadastrar a pessoa.'
+            ], \Illuminate\Http\Response::HTTP_BAD_REQUEST);
+        }
+
+        return \response()->json($result);
+        
     }
 }

@@ -5,6 +5,7 @@ namespace App\Model;
 class User
 {
     private $idUser;
+    private $name;
     private $login;
     private $senha;
 
@@ -22,6 +23,16 @@ class User
     public function setIdUser($idUser)
     {
         $this->idUser = $idUser;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

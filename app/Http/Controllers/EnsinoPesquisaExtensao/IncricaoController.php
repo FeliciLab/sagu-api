@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers\EnsinoPesquisaExtensao;
 
-use App\DAO\EnsinoPesquisaExtensao\PersonDAO;
-use App\DAO\EnsinoPesquisaExtensao\CursoDAO;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Services\EnsinoPesquisaExtensao\InscricaoService;
+use Exception;
 
 class IncricaoController extends Controller
 {
+    private $inscricaoService;
+
+    public function __construct(
+        InscricaoService $inscricaoService
+    ) {
+        $this->inscricaoService = $inscricaoService;
+    }
+
     public function index(Request $request, $turmaId)
     {
-
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'cpf_aluno' => 'required|cpf',
+            'cpf' => 'required|cpf',
         ]);
 
         try {
@@ -32,20 +39,13 @@ class IncricaoController extends Controller
                 );
             }
 
-            $personid = (new PersonDAO())->getPersonId($data['cpf_aluno']);
+            $inscricao = $this->inscricaoService->subscribeAndEnrollToCourse(
+                $data['cpf'],
+                $turmaId
+            );
 
-            $inscricao = (new CursoDAO())->inscreveAluno($turmaId, $personid);
-
-            if (!$inscricao) {
-                return response()->json(
-                    [
-                        'sucesso' => false,
-                        'mensagem' => 'Não foi possível inscrever a pessoa.'
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
-        } catch (\Exception $e) {
+            if (!$inscricao) throw new Exception("Não foi possível inscrever a pessoa");
+        } catch (Exception $e) {
             return response()->json(
                 [
                     'sucesso' => false,
@@ -58,7 +58,7 @@ class IncricaoController extends Controller
         return response()->json(
             [
                 'sucesso' => true,
-                'inscricao_id' => $inscricao['inscricao_id']
+                'inscricao' => $inscricao
             ],
             Response::HTTP_OK
         );

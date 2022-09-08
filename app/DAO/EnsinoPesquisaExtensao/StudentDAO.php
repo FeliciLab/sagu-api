@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class StudentDAO
 {
-
+    /**
+     * Busca Pessoa Física Estudante
+     *
+     * @param string $personid
+     * @return \stdClass|object|null
+     */
     public function findByPersonId($personid)
     {
         $result = DB::table('public.basphysicalpersonstudent')
@@ -19,11 +24,22 @@ class StudentDAO
         return $result;
     }
 
+    /**
+     * Adiciona o perfil de Pessoa Física Estudante
+     *
+     * @param Student $student
+     *
+     * @throws Exception
+     *
+     * @return string
+     */
     public function insert(Student $student)
     {
         $studentExists = $this->findByPersonId($student->personid);
 
         if ($studentExists) {
+            // A tabela basphysicalpersonstudent não gera um novo id,
+            // herda o mesmo personid da tabela basperson
             return $student->personid;
         }
 
@@ -49,14 +65,15 @@ class StudentDAO
                     'miolousername' => $student->miolousername,
                     'namesearch' => $student->namesearch
                 ]);
-            if (!$insertStudent) throw new Exception("Não foi possível inserir Estudante");
+
+            if (!$insertStudent) throw new Exception("Não foi possível inserir Estudante", 500);
 
             $result = $student->personid;
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
-            throw new \Exception('Erro: ' . $e->getMessage());
+            throw new Exception('Erro: ' . $e->getMessage(), 500);
         }
 
         return $result;

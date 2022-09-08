@@ -35,7 +35,7 @@ class IncricaoController extends Controller
                         'sucesso' => false,
                         'mensagem' => $validator->errors()->first()
                     ],
-                    Response::HTTP_BAD_REQUEST
+                    Response::HTTP_INTERNAL_SERVER_ERROR
                 );
             }
 
@@ -44,14 +44,16 @@ class IncricaoController extends Controller
                 $turmaId
             );
 
-            if (!$inscricao) throw new Exception("Não foi possível inscrever a pessoa");
+            if (!$inscricao) throw new Exception("Não foi possível inscrever a pessoa", 500);
         } catch (Exception $e) {
             return response()->json(
                 [
                     'sucesso' => false,
                     'mensagem' => $e->getMessage()
                 ],
-                Response::HTTP_BAD_REQUEST
+                $e->getCode() === 500
+                    ? Response::HTTP_INTERNAL_SERVER_ERROR
+                    : Response::HTTP_BAD_REQUEST
             );
         }
 

@@ -8,6 +8,12 @@ use App\Model\EnsinoPesquisaExtensao\Person;
 class PersonDAO
 {
 
+    /**
+     * Deixa somente números no cpf
+     *
+     * @param string $cpf
+     * @return string
+     */
     private function limpaCPF($cpf)
     {
         $regexApenasNum = '/[^0-9]/';
@@ -16,6 +22,12 @@ class PersonDAO
         return $valor;
     }
 
+    /**
+     * Busca cadastro da pessoa via cpf
+     *
+     * @param string $cpf
+     * @return string
+     */
     public function getPersonId($cpf)
     {
         $_miolousername = $this->limpaCPF($cpf);
@@ -29,6 +41,12 @@ class PersonDAO
         return $result;
     }
 
+    /**
+     * Retorna Pessoa Física
+     *
+     * @param string $personid
+     * @return Person
+     */
     public function getPhysicalPerson($personid)
     {
         $result = DB::table('public.basphysicalperson')

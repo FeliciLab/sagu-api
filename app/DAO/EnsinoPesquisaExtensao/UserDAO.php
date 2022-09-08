@@ -4,10 +4,15 @@ namespace App\DAO\EnsinoPesquisaExtensao;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class UserDAO
 {
+    /**
+     * Encontra o User (Login)
+     *
+     * @param string $login é o cpf nas regras atuais
+     * @return object
+     */
     public function getUser($login)
     {
         $mioloUser = DB::table('public.miolo_user')
@@ -18,6 +23,13 @@ class UserDAO
         return $mioloUser;
     }
 
+    /**
+     * Adiciona User ao Grupo solicitado
+     *
+     * @param string $login
+     * @param string $idgroup
+     * @return boolean
+     */
     public function addGroupUser($login, $idgroup)
     {
         $unitEspId = 1;
@@ -25,7 +37,7 @@ class UserDAO
         $user = $this->getUser($login);
 
         if (!$user) {
-            throw new Exception("Login não existente na base de dados");
+            throw new Exception("Login não existente na base de dados", 500);
         }
 
         $userBelongsToGroup = DB::table('public.miolo_groupuser')
@@ -34,6 +46,7 @@ class UserDAO
             ->where('miolo_groupuser.idgroup', $idgroup)
             ->exists();
 
+        // Se já pertencer ao grupo, retorna true, evitando novo insert
         if ($userBelongsToGroup) {
             return $userBelongsToGroup;
         }
@@ -45,7 +58,7 @@ class UserDAO
                     'idgroup' => $idgroup,
                     'unitid' => $unitEspId
                 ]);
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             throw $e;
         }
 

@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\DB;
 class CursoDAO
 {
 
+    /**
+     * Busca inscrição ou matrícula ativa da pessoa na turma informada
+     *
+     * @param string $turmaid
+     * @param string $personid
+     * @return boolean
+     */
     public function verificaInscricaoAtivaNaTurma($turmaid, $personid)
     {
         $queryInscricao = DB::select(
@@ -29,12 +36,18 @@ class CursoDAO
         );
 
         if ($queryInscricao || $queryMatricula) {
-            throw new Exception('Pessoa possui Inscrição ou Matrícula ativa.');
+            throw new Exception('Pessoa possui Inscrição ou Matrícula ativa.', 400);
         }
 
         return false;
     }
 
+    /**
+     * Pega dados necessários para inscrição e matrícula no SAGU via id da turma
+     *
+     * @param string $turmaId
+     * @return array Array de objetos
+     */
     public function getCursoDados($turmaId)
     {
         $cursoDados = DB::table('public.acpofertaturma')
@@ -103,7 +116,10 @@ class CursoDAO
             )
             ->first();
 
-        if (!$cursoDados) throw new Exception("Dados do Curso insuficientes, verificar situação e período de oferta e turma");
+        if (!$cursoDados) throw new Exception(
+            "Dados de curso insuficientes, verificar oferta e turma.",
+            500
+        );
 
         // Matriz Curricular pode ter 1 ou mais resultados
         $matrizCurricularDados = DB::table('public.acpmatrizcurricular')
@@ -123,7 +139,7 @@ class CursoDAO
             )
             ->get();
 
-        if (!$matrizCurricularDados) throw new Exception("Dados da Matriz Curricular insuficientes");
+        if (!$matrizCurricularDados) throw new Exception("Dados da Matriz Curricular insuficientes", 500);
 
         // Componente Curricular (ou Unidade) pode ter 1 ou mais resultados
         $componenteCurricularDados = DB::table('public.acpofertacomponentecurricular')
@@ -156,7 +172,7 @@ class CursoDAO
             )
             ->get();
 
-        if (!$componenteCurricularDados) throw new Exception("Dados do Componente Curricular insuficientes");
+        if (!$componenteCurricularDados) throw new Exception("Dados do Componente Curricular insuficientes", 500);
 
         return [
             'cursoDados' => $cursoDados,
@@ -166,6 +182,13 @@ class CursoDAO
     }
 
     // Inserts
+    /**
+     * Salva Inscrição
+     *
+     * @param object $cursoDados
+     * @param string $personid
+     * @return string
+     */
     private function salvaInscricao($cursoDados, $personid)
     {
         $result = DB::table('public.acpinscricao')
@@ -186,6 +209,14 @@ class CursoDAO
         return $result;
     }
 
+    /**
+     * Salva Vínculo de Inscrição do Estudante no Curso.
+     * Utilizado no SAGU para consulta da situação final do estudante.
+     *
+     * @param object $cursoDados
+     * @param string $personid
+     * @return string
+     */
     private function salvaInscricaoCurso($cursoDados, $personid)
     {
         $result = DB::table('public.acpcursoinscricao')
@@ -201,6 +232,16 @@ class CursoDAO
         return $result;
     }
 
+    /**
+     * Salva dados necessários inscrição caso curso permiteinscricaoporgrupo
+     *
+     * @param string $inscricaoId
+     * @param string $personid
+     * @param object $cursoDados
+     * @param object $matrizCurricularDados
+     * @param object $componenteCurricularDados
+     * @return array
+     */
     private function salvaInscricaoPorGrupo(
         $inscricaoId,
         $personid,
@@ -251,6 +292,16 @@ class CursoDAO
         return $inscricaoCompCurricularIds;
     }
 
+    /**
+     * Salva dados necessários inscrição caso curso não possua
+     * permiteinscricaoporgrupo como verdadeiro
+     *
+     * @param string $inscricaoId
+     * @param string $personid
+     * @param object $cursoDados
+     * @param object $componenteCurricularDados
+     * @return array
+     */
     private function salvaInscricaoPorUnidade(
         $inscricaoId,
         $personid,
@@ -292,6 +343,16 @@ class CursoDAO
         return $inscricaoCompCurricularIds;
     }
 
+    /**
+     * Inscreve aluno na turma informada
+     *
+     * @param string $turmaId
+     * @param string $personid
+     *
+     * @throws Exception
+     *
+     * @return array
+     */
     public function inscreveAluno($turmaId, $personid)
     {
         $verificaInscricaoAtivaNaTurma = $this->verificaInscricaoAtivaNaTurma(
@@ -341,7 +402,7 @@ class CursoDAO
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            throw new Exception('Não foi possível realizar a inscrição. ' . $e->getMessage());
+            throw new Exception('Não foi possível concluir o processo de inscrição. ' . $e->getMessage(), 500);
         }
 
         $result = [

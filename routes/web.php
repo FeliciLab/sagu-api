@@ -45,10 +45,14 @@ $app->group(
                     'ofertas',
                     'OfertaCursoController@ofertas'
                 );
-        
                 $app->get(
                     'ofertas/{ofertaId}/turmas',
                     'TurmaController@turma'
+                );
+                // Inscrições
+                $app->post(
+                    'turma/{turmaId}/inscricao',
+                    'IncricaoController@index'
                 );
             }
         );
@@ -93,7 +97,8 @@ $app->group(
             'diariodecampo/{residenteId}/{ofertaDeRodizioId}',
             'DiarioDeCampoController@lista'
         );
-        $app->post('diariodecampo',
+        $app->post(
+            'diariodecampo',
             'DiarioDeCampoController@salvar'
         );
         $app->put(

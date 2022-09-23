@@ -80,6 +80,7 @@ $app->singleton(
 */
 
 $app->register(LaravelLegends\PtBrValidator\ValidatorProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 

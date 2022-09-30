@@ -56,12 +56,12 @@ $app->group(
                 );
                 // Certificados
                 $app->get(
-                    'turma/{turmaId}/inscricao/{inscricaoid}/certificados',
-                    'CertificateController@certificates'
+                    'turma/{turmaId}/certificados',
+                    'CertificateController@generateCertificateByClass'
                 );
                 $app->get(
-                    'turma/{turmaId}/certificados',
-                    'CertificateController@certificates'
+                    'turma/{turmaId}/inscricao/{inscricaoid}/certificados',
+                    'CertificateController@generateCertificateByStudent'
                 );
 
                 $app->get('certificates', '');

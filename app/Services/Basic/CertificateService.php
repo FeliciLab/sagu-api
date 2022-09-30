@@ -45,19 +45,26 @@ class CertificateService
                 'orientation' => 'L',
                 'fontDir' => array_merge($fontDirs, [
                     '/var/www/public/assets/fonts/archivo',
+                    '/var/www/public/assets/fonts/open-sans'
                 ]),
                 'fontdata' => $fontData + [
-                    'roboto' => [
+                    'archivo' => [
                         'R' => 'Archivo-Regular.ttf'
+                    ],
+                    'open-sans' => [
+                        'R' => 'OpenSans-Regular.ttf'
                     ]
                 ]
             ]);
 
             $mpdf->SetImportUse();
-            $mpdf->SetDocTemplate('/var/www/public/assets/docs/certificate-template.pdf', true);
+            $mpdf->SetDocTemplate('/var/www/public/assets/docs/certificate/template.pdf');
             $mpdf->WriteHTML($this->PDFInfo());
+            $mpdf->AddPage('P');
+            $mpdf->WriteHTML($this->renderCurriculumMatrix());
 
             $content = $mpdf->Output('', 'S');
+            $mpdf->Output();
 
             $zip->addFromString("{$student["name"]}.pdf", $content);
         }
@@ -86,5 +93,10 @@ class CertificateService
         ];
 
         return view('certificate.info', $info);
+    }
+
+    private function renderCurriculumMatrix()
+    {
+        return view('certificate.curriculum-matrix');
     }
 }

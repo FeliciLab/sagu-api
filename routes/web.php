@@ -55,6 +55,17 @@ $app->group(
                     'turma/{turmaId}/inscricao',
                     'IncricaoController@index'
                 );
+                // Certificados
+                $app->get(
+                    'turma/{turmaId}/certificados',
+                    'CertificateController@generateCertificateByClass'
+                );
+                $app->get(
+                    'turma/{turmaId}/inscricao/{inscricaoid}/certificados',
+                    'CertificateController@generateCertificateByStudent'
+                );
+
+                $app->get('certificates', '');
             }
         );
 

@@ -9,6 +9,13 @@ use App\DAO\EnsinoPesquisaExtensao\CertificadoDAO;
 
 class CertificateController extends Controller
 {
+    private $certificate_service;
+
+    function __construct()
+    {
+        $this->certificate_service = new CertificateService();
+    }
+
     public function generateCertificateByStudent($incricaoid, $turmaId)
     {
         return $this->generateCertificate($incricaoid, $turmaId);
@@ -16,14 +23,9 @@ class CertificateController extends Controller
 
     public function generateCertificateByClass($turmaId)
     {
-        return $this->generateCertificate($turmaId);
-    }
+        $info = $this->generateCertificate($turmaId);
 
-    public function download()
-    {
-        $certificate_service = new CertificateService();
-
-        $certificate_service->generatePDF();
+        $this->certificate_service->generatePDF($info);
     }
 
     private function generateCertificate($turmaId, $incricaoid = null)
@@ -44,14 +46,20 @@ class CertificateController extends Controller
             );
         }
 
-        return response()->json(
-            [
-                'sucesso' => true,
-                'curso' => $cursoMatrizCurricular['curso'],
-                'modulos' => $cursoMatrizCurricular['modulos'],
-                'estudantes' => $estudantes,
-            ],
-            Response::HTTP_OK
-        );
+        return [
+            'curso' => $cursoMatrizCurricular['curso'],
+            'modulos' => $cursoMatrizCurricular['modulos'],
+            'estudantes' => $estudantes,
+        ];
+
+        // return response()->json(
+        //     [
+        //         'sucesso' => true,
+        //         'curso' => $cursoMatrizCurricular['curso'],
+        //         'modulos' => $cursoMatrizCurricular['modulos'],
+        //         'estudantes' => $estudantes,
+        //     ],
+        //     Response::HTTP_OK
+        // );
     }
 }

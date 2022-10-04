@@ -6,33 +6,38 @@ use ZipArchive;
 
 class CertificateService
 {
-    public function generatePDF()
+    public function generatePDF($info)
     {
-        $course = [
-            "name" => "",
-            "period" => "",
-            "workload" => "",
-            "curriculum" => [
-                "name" => "",
-                [
-                    [
-                        "module" => "",
-                        "didactic_unit_code" => "",
-                        "didactic_unit" => ""
-                    ]
-                ]
-            ],
-            "students" => [
-                [
-                    "name" => ""
-                ]
-            ]
-        ];
+        // dump(mb_strtolower($info["curso"]["curso"]));
+        // die;
+        // $course = [
+        //     "name" => "",
+        //     "period" => "",
+        //     "workload" => "",
+        //     "curriculum" => [
+        //         "name" => "",
+        //         [
+        //             [
+        //                 "module" => "",
+        //                 "didactic_unit_code" => "",
+        //                 "didactic_unit" => ""
+        //             ]
+        //         ]
+        //     ],
+        //     "students" => [
+        //         [
+        //             "name" => ""
+        //         ]
+        //     ]
+        // ];
         $zip = new ZipArchive();
+        $course_name = str_replace(" ", "_", $info["curso"]["curso"]);
 
-        $zip->open("/tmp/mpdf/{$course["name"]}.zip", ZipArchive::CREATE);
+        $zip->open("/tmp/mpdf/test.zip", ZipArchive::CREATE);
 
-        foreach ($course["students"] as $student) {
+        foreach ($info["estudantes"] as $student) {
+            // dump(ucwords(strtolower($student->nome)));
+            // die;
             $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
             $fontDirs = $defaultConfig['fontDir'];
             $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
@@ -64,21 +69,22 @@ class CertificateService
             $mpdf->WriteHTML($this->renderCurriculumMatrix());
 
             $content = $mpdf->Output('', 'S');
-            $mpdf->Output();
+            // $mpdf->Output();
 
-            $zip->addFromString("{$student["name"]}.pdf", $content);
+            $student_name = str_replace(" ", "_", $student->nome);
+            $zip->addFromString("{$student_name}.pdf", $content);
         }
 
         $zip->close();
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename('/tmp/mpdf/certificates.zip') . '"');
+        header('Content-Disposition: attachment; filename="' . basename('/tmp/mpdf/test.zip') . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize('/tmp/mpdf/certificates.zip'));
-        readfile('/tmp/mpdf/certificates.zip');
+        header('Content-Length: ' . filesize('/tmp/mpdf/test.zip'));
+        readfile('/tmp/mpdf/test.zip');
         exit;
     }
 

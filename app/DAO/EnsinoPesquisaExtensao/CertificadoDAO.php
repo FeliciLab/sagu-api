@@ -96,36 +96,33 @@ class CertificadoDAO
 
             foreach ($select as $item) {
 
-                $modulos[] = [
-                    'id_modulo' => $item->id_modulo,
-                    'descricao_modulo' => $item->descricao_modulo,
-                    'cargahoraria_modulo' => 0,
+                // --- usando chaves
+                if (!array_key_exists($item->id_modulo, $modulos)) {
+
+                    $modulos[$item->id_modulo] = [
+                        'id_modulo' => $item->id_modulo,
+                        'descricao_modulo' => $item->descricao_modulo,
+                        'carga_horaria_modulo' => 0,
+                        'unidadedidatica' => [],
+                    ];
+                }
+
+                $modulos[$item->id_modulo]['unidadedidatica'][] = [
                     'cod_unidadedidatica' => $item->cod_unidadedidatica,
                     'nome_unidadedidatica' => $item->nome_unidadedidatica,
-                    'cargahoraria_presencial_unidade' => $item->cargahorariapresencial,
-                    'cargahoraria_extraclasse_unidade' => $item->cargahorariaextraclasse,
+                    'cargahoraria_presencial' => $item->cargahorariapresencial,
+                    'cargahoraria_extraclasse' => $item->cargahorariaextraclasse,
                 ];
 
-                if (!array_key_exists($item->id_modulo, $cargaHorariaModulo)) {
-                    $cargaHorariaModulo[$item->id_modulo] = 0;
-                }
-
-                $cargaHorariaModulo[$item->id_modulo] += $item->cargahoraria;
+                $modulos[$item->id_modulo]['carga_horaria_modulo'] += $item->cargahoraria;
 
                 $cargaHorariaCurso += $item->cargahoraria;
-            }
-
-            // Atualiza a key 'cargahoraria_modulo' de cada unidade didática no array 'modulos'
-            foreach ($modulos as &$item) {
-                if (isset($item['id_modulo'], $cargaHorariaModulo)) {
-                    $item['cargahoraria_modulo'] =
-                        $cargaHorariaModulo[$item['id_modulo']];
-                }
             }
 
             $curso = [
                 'id_curso' => $cursoid,
                 'curso' => $select[0]->nome_curso,
+                'descricao_matriz' => $select[0]->descricao_matriz,
                 'datainicial' => $ofertaCursoTurma['datainicialoferta'],
                 'datafinal' => $ofertaCursoTurma['datafinaloferta'],
                 'cargahoraria_curso' => $cargaHorariaCurso

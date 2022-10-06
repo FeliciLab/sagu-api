@@ -64,12 +64,8 @@ $app->group(
                     'turma/{turmaId}/inscricao/{inscricaoid}/certificados',
                     'CertificateController@generateCertificateByStudent'
                 );
-
-                $app->get('certificates', '');
             }
         );
-
-        $app->get('certificate', 'CertificateController@download');
     }
 );
 

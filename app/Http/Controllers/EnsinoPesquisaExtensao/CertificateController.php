@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\EnsinoPesquisaExtensao;
 
-use App\Http\Controllers\Controller;
-use App\Services\Basic\CertificateService;
 use App\DAO\EnsinoPesquisaExtensao\CertificadoDAO;
+use App\Http\Controllers\Controller;
+use App\Services\EnsinoPesquisaExtensao\CertificateService;
 
 class CertificateController extends Controller
 {

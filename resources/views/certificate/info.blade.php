@@ -32,7 +32,7 @@
         <p class="info">
             Certificamos que <span>{{ $student_name }}</span> concluiu com aproveitamento o curso <span>{{ $course_name }}</span>
             da Escola de Saúde Pública do Ceará Paulo Marcelo Martins Rodrigues (ESP/CE), realizado no período de <span>{{ $course_period }}</span>,
-            com carga horária total de <span>{{ $course_workload }}</span>.
+            com carga horária total de <span>{{ $course_workload }} horas</span>.
         </p>
         <p class="date">
             Fortaleza, {{ $today_date }}

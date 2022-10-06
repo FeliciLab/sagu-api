@@ -40,7 +40,7 @@
         .details-wrapper table td {
             border: 1px solid #D3D3D3;
         }
-        
+
         .matrix-info-wrapper thead th {
             color: white;
             font-size: 16px;
@@ -99,6 +99,7 @@
         .total-wrapper td {
             text-align: center;
         }
+
     </style>
 </head>
 
@@ -117,56 +118,58 @@
             <tbody>
                 <tr>
                     <td class="title">CURSO:</td>
-                    <td>FUNDAMENTOS EM GERONTOLOGIA</td>
+                    <td>{{ $course_name }}</td>
                 </tr>
                 <tr>
                     <td class="title">MATRIZ:</td>
-                    <td>FUNDAMENTOS EM GERONTOLOGIA</td>
+                    <td>{{ $matrix_name }}</td>
                 </tr>
                 <tr>
                     <td class="title">PERÍODO:</td>
-                    <td>01/07/2022 a 31/07/2022</td>
+                    <td>{{ $course_period }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+    @foreach ($modules as $module)
     <div class="details-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th class="module-name" colspan="2">Módulo I: Envelhecimento, Velhice e Sociedade</th>
+                    <th class="module-name">{{ $module['descricao_modulo'] }}</th>
                     <th colspan="2">CARGA HORÁRIA</th>
                 </tr>
                 <tr>
-                    <th>CÓDIGO</th>
                     <th>UNIDADE DIDÁTICA</th>
                     <th>P</th>
                     <th>E.C</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach ($module['unidadedidatica'] as $didactic_unit)
                 <tr>
-                    <td style="width: 20%;">GERONTO M1 U1</td>
-                    <td style="width: 60%;">O PROCESSO DE ENVELHECIMENTO A PARTIR DE UMA VISÃO BIOPSICOSSOCIAL</td>
-                    <td class="module-workload">4</td>
-                    <td class="module-workload"></td>
+                    <td style="width: 80%;">{{ $didactic_unit['nome_unidadedidatica'] }}</td>
+                    <td class="module-workload">{{ $didactic_unit['cargahoraria_presencial'] }}</td>
+                    <td class="module-workload">{{ $didactic_unit['cargahoraria_extraclasse'] }}</td>
                 </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="2">TOTAL DO MÓDULO</th>
-                    <td colspan="2">8</td>
+                    <th>TOTAL DO MÓDULO</th>
+                    <td colspan="2">{{ $module['carga_horaria_modulo'] }}</td>
                 </tr>
             </tfoot>
         </table>
     </div>
+    @endforeach
 
     <div class="total-wrapper">
         <table>
             <tr>
                 <th>TOTAL DA MATRIZ</th>
-                <td>40</td>
+                <td>{{ $course_workload }}</td>
             </tr>
         </table>
     </div>

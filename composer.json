@@ -13,7 +13,9 @@
         "phpmailer/phpmailer": "~6.0",
         "laravellegends/pt-br-validator": "5.1.*",
         "flipbox/lumen-generator": "^6.0",
-        "mpdf/mpdf": "7.1.7"
+        "mpdf/mpdf": "7.1.7",
+        "nesbot/carbon": "2.61.0 as 1.39.0",
+        "kylekatarnls/laravel-carbon-2": "^1.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9",

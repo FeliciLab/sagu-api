@@ -10,11 +10,12 @@ class CertificateService
 {
     public function generatePDF($info)
     {
+        $zip = new ZipArchive();
         $initial_date = new DateTime($info["curso"]["datainicial"]);
         $final_date = new DateTime($info["curso"]["datafinal"]);
-        $period = "{$initial_date->format('d/m/Y')} a {$final_date->format('d/m/Y')}";
 
-        $zip = new ZipArchive();
+        $period = "{$initial_date->format('d/m/Y')} a {$final_date->format('d/m/Y')}";
+        $curriculum_matrix_info = $this->mountCurriculumMatrixInfo($info, $period);
         $course_name_doc = str_replace(" ", "_", $info["curso"]["curso"]);
 
         $zip->open("/tmp/mpdf/{$course_name_doc}.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
@@ -22,7 +23,6 @@ class CertificateService
         foreach ($info["estudantes"] as $student) {
             $mpdf = $this->setMPDFSettings();
             $pdf_info = $this->mountInfoPDF($student, $info, $period);
-            $curriculum_matrix_info = $this->mountCurriculumMatrixInfo($info, $period);
             $student_name_doc = str_replace(" ", "_", $student->nome);
 
             $mpdf->SetImportUse();

@@ -31,8 +31,8 @@ $app->post(
 
 
 $app->group(
-    // ['middleware' => ['ApiKeyPublicAuth']],
-    [],
+    ['middleware' => ['ApiKeyPublicAuth']],
+    // [],
     function () use ($app) {
         $app->post(
             'person',

@@ -91,12 +91,10 @@ class CertificadoDAO
 
         if (count($select)) {
 
-            $cargaHorariaModulo = [];
             $cargaHorariaCurso = 0;
 
             foreach ($select as $item) {
 
-                // --- usando chaves
                 if (!array_key_exists($item->id_modulo, $modulos)) {
 
                     $modulos[$item->id_modulo] = [
@@ -178,7 +176,7 @@ class CertificadoDAO
         $select = DB::select(
             "SELECT DISTINCT
                 ITG.inscricaoid,
-                PERSON.name,
+                PERSON.name as nome,
                 acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) as situacaoaluno
             FROM acpinscricaoturmagrupo ITG
             LEFT JOIN acpmatricula MAT

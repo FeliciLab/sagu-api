@@ -16,14 +16,15 @@ class CertificateService
 
         $period = "{$initial_date->format('d/m/Y')} a {$final_date->format('d/m/Y')}";
         $curriculum_matrix_info = $this->mountCurriculumMatrixInfo($info, $period);
-        $course_name_doc = str_replace(" ", "_", $info["curso"]["curso"]);
+        $charToFilter = array('+', '-', ',', '\\', '/', ' ');
+        $course_name_doc = str_replace($charToFilter, '_', trim($info["curso"]["curso"]));
 
         $zip->open("/tmp/mpdf/{$course_name_doc}.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         foreach ($info["estudantes"] as $student) {
             $mpdf = $this->setMPDFSettings();
             $pdf_info = $this->mountInfoPDF($student, $info, $period);
-            $student_name_doc = str_replace(" ", "_", $student->nome);
+            $student_name_doc = str_replace($charToFilter, '_', trim($student->nome));
 
             $mpdf->SetImportUse();
             $mpdf->SetDocTemplate('/var/www/public/assets/docs/certificate/template.pdf');
@@ -44,7 +45,10 @@ class CertificateService
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize('/tmp/mpdf/' . $course_name_doc . '.zip'));
+
+        // Comentado o Content-Lenght para deixar o cliente http calcular o tamanho
+        // header('Content-Length: ' . filesize('/tmp/mpdf/' . $course_name_doc . '.zip'));
+
         readfile('/tmp/mpdf/' . $course_name_doc . '.zip');
         exit;
     }

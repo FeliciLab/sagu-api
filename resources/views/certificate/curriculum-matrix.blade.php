@@ -44,8 +44,9 @@
         .matrix-info-wrapper thead th {
             color: white;
             font-size: 16px;
-            padding: 3px 0;
-            background-color: #2f4f4f;
+            padding: 4px 0;
+            background-color: #0A8A4B;
+            border: 1px solid #0A8A4B;
         }
 
         .matrix-info-wrapper tbody .title {
@@ -105,6 +106,7 @@
 
 <body>
     <header>
+        <div style="width: 80%; height: 15px; background: #0A8A4B; border-radius: 0 0 16px 16px; margin-left: 10%; margin-bottom: 30px;"></div>
         <img width="350" src="/var/www/public/assets/images/certificate/esp-gov-ceara-logos.png" alt="Logotipos">
     </header>
 

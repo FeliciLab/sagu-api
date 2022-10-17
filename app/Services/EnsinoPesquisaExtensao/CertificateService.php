@@ -45,11 +45,8 @@ class CertificateService
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-
-        // Comentado o Content-Lenght para deixar o cliente http calcular o tamanho
-        // header('Content-Length: ' . filesize('/tmp/mpdf/' . $course_name_doc . '.zip'));
-
         readfile('/tmp/mpdf/' . $course_name_doc . '.zip');
+
         exit;
     }
 
@@ -65,6 +62,7 @@ class CertificateService
             'mode' => 'utf-8',
             'format' => [210, 297],
             'orientation' => 'L',
+            'margin_top' => 0,
             'fontDir' => array_merge($fontDirs, [
                 '/var/www/public/assets/fonts/archivo',
                 '/var/www/public/assets/fonts/open-sans'

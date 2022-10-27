@@ -32,6 +32,7 @@ $app->post(
 
 $app->group(
     ['middleware' => ['ApiKeyPublicAuth']],
+    // [],
     function () use ($app) {
         $app->post(
             'person',
@@ -53,6 +54,15 @@ $app->group(
                 $app->post(
                     'turma/{turmaId}/inscricao',
                     'IncricaoController@index'
+                );
+                // Certificados
+                $app->get(
+                    'turma/{turmaId}/certificados',
+                    'CertificateController@generateCertificateByClass'
+                );
+                $app->get(
+                    'turma/{turmaId}/inscricao/{inscricaoid}/certificados',
+                    'CertificateController@generateCertificateByStudent'
                 );
             }
         );

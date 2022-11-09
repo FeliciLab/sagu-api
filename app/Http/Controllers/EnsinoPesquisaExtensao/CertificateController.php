@@ -19,14 +19,14 @@ class CertificateController extends Controller
     {
         $info = $this->generateCertificate($turmaId, $incricaoid);
 
-        $this->certificate_service->generatePDF($info);
+        return $this->certificate_service->generatePDF($info);
     }
 
     public function generateCertificateByClass($turmaId)
     {
         $info = $this->generateCertificate($turmaId);
 
-        $this->certificate_service->generatePDF($info);
+        return $this->certificate_service->generatePDF($info);
     }
 
     private function generateCertificate($turmaId, $incricaoid = null)
@@ -40,6 +40,7 @@ class CertificateController extends Controller
         return [
             'curso' => $cursoMatrizCurricular['curso'],
             'modulos' => $cursoMatrizCurricular['modulos'],
+            'oferta' => $cursoMatrizCurricular['oferta'],
             'estudantes' => $estudantes
         ];
     }

@@ -130,6 +130,7 @@ class CertificadoDAO
         return [
             'curso' => $curso,
             'modulos' => $modulos,
+            'oferta' => $ofertaCursoTurma,
         ];
     }
 
@@ -147,12 +148,16 @@ class CertificadoDAO
         $situacaoaluno = 'Aprovado'
     ) {
 
+        $basdocumentTypeCPF = 2;
+
         // sem inscricaoid
         if (is_null($inscricaoid)) {
 
             $select = DB::select(
                 "SELECT DISTINCT
                     ITG.inscricaoid,
+                    unmaskcpf(DOC.content) as cpf,
+                    PERSON.miolousername,
                     PERSON.name as nome,
                     acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) as situacaoaluno
                 FROM acpinscricaoturmagrupo ITG
@@ -160,6 +165,8 @@ class CertificadoDAO
                     ON (ITG.inscricaoturmagrupoid = MAT.inscricaoturmagrupoid)
                 LEFT JOIN ONLY basperson PERSON
                     ON (MAT.personid = PERSON.personid)
+                LEFT JOIN basdocument DOC
+                    ON (PERSON.personid = DOC.personid) and DOC.documenttypeid = $basdocumentTypeCPF
                 WHERE ITG.ofertaturmaid = :ofertaturmaid
                 AND acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) = :situacaoaluno
                 ORDER BY PERSON.name",
@@ -175,14 +182,18 @@ class CertificadoDAO
         // com inscricaoid
         $select = DB::select(
             "SELECT DISTINCT
-                ITG.inscricaoid,
-                PERSON.name as nome,
-                acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) as situacaoaluno
+                    ITG.inscricaoid,
+                    unmaskcpf(DOC.content) as cpf,
+                    PERSON.miolousername,
+                    PERSON.name as nome,
+                    acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) as situacaoaluno
             FROM acpinscricaoturmagrupo ITG
             LEFT JOIN acpmatricula MAT
                 ON (ITG.inscricaoturmagrupoid = MAT.inscricaoturmagrupoid)
             LEFT JOIN ONLY basperson PERSON
                 ON (MAT.personid = PERSON.personid)
+            LEFT JOIN basdocument DOC
+                ON (PERSON.personid = DOC.personid) and DOC.documenttypeid = $basdocumentTypeCPF
             WHERE ITG.ofertaturmaid = :ofertaturmaid
             AND ITG.inscricaoid = :inscricaoid
             AND acp_obtersituacaopedagogicadainscricao(ITG.inscricaoid) = :situacaoaluno

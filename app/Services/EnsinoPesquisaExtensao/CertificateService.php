@@ -16,15 +16,31 @@ class CertificateService
 
         $period = "{$initial_date->format('d/m/Y')} a {$final_date->format('d/m/Y')}";
         $curriculum_matrix_info = $this->mountCurriculumMatrixInfo($info, $period);
-        $charToFilter = array('+', '-', ',', '\\', '/', ' ');
-        $course_name_doc = str_replace($charToFilter, '_', trim($info["curso"]["curso"]));
+        $charToFilter = array(';', '+', ',', '\\', '/', ' ');
+
+        $course_name = $this->limitString($info["curso"]["curso"], 60);
+        $class_name = $this->limitString($info['oferta']['descricao_turma'], 40);
+
+        $course_name_doc = str_replace(
+            $charToFilter,
+            '_',
+            $course_name . '(' . $class_name . ')'
+        );
 
         $zip->open("/tmp/mpdf/{$course_name_doc}.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        $zip->addEmptyDir($course_name_doc);
 
         foreach ($info["estudantes"] as $student) {
             $mpdf = $this->setMPDFSettings();
             $pdf_info = $this->mountInfoPDF($student, $info, $period);
-            $student_name_doc = str_replace($charToFilter, '_', trim($student->nome));
+
+            $student_cpf = trim($student->cpf);
+            $student_name = trim($student->nome);
+
+            $student_name_doc = empty($student_cpf)
+                ? str_replace($charToFilter, '_', $student_name)
+                : str_replace($charToFilter, '_', $student_name . '(' . $student_cpf . ')');
 
             $mpdf->SetImportUse();
             $mpdf->SetDocTemplate('/var/www/public/assets/docs/certificate/template.pdf');
@@ -34,7 +50,7 @@ class CertificateService
 
             $content = $mpdf->Output('', 'S');
 
-            $zip->addFromString("{$student_name_doc}.pdf", $content);
+            $zip->addFromString("{$course_name_doc}/{$student_name_doc}.pdf", $content);
         }
 
         $zip->close();
@@ -48,6 +64,18 @@ class CertificateService
         readfile('/tmp/mpdf/' . $course_name_doc . '.zip');
 
         exit;
+    }
+
+    private function limitString($string, $length)
+    {
+        $start = 0;
+        $maxLength = $length + strlen('...');
+
+        if (strlen(trim($string)) > $maxLength) {
+            return mb_substr(trim($string), $start, $length) . '...';
+        }
+
+        return mb_substr(trim($string), $start, $length);
     }
 
     private function setMPDFSettings()

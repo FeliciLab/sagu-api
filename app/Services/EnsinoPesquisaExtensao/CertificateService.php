@@ -43,7 +43,7 @@ class CertificateService
                 : str_replace($charToFilter, '_', $student_name . '(' . $student_cpf . ')');
 
             $mpdf->SetImportUse();
-            $mpdf->SetDocTemplate('/var/www/public/assets/docs/certificate/template.pdf');
+            $mpdf->SetDocTemplate('assets/docs/certificate/template.pdf');
             $mpdf->WriteHTML($this->PDFInfo($pdf_info));
             $mpdf->AddPage('P');
             $mpdf->WriteHTML($this->renderCurriculumMatrix($curriculum_matrix_info));
@@ -92,15 +92,11 @@ class CertificateService
             'orientation' => 'L',
             'margin_top' => 0,
             'fontDir' => array_merge($fontDirs, [
-                '/var/www/public/assets/fonts/archivo',
-                '/var/www/public/assets/fonts/open-sans'
+                'assets/fonts/archivo'
             ]),
             'fontdata' => $fontData + [
                 'archivo' => [
                     'R' => 'Archivo-Regular.ttf'
-                ],
-                'open-sans' => [
-                    'R' => 'OpenSans-Regular.ttf'
                 ]
             ]
         ]);

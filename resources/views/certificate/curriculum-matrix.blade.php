@@ -101,6 +101,12 @@
             text-align: center;
         }
 
+        .footer-text {
+            text-align: center;
+            color: #878787;
+            font-size: 10px;
+        }
+
     </style>
 </head>
 

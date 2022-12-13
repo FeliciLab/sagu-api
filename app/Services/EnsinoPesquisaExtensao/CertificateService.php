@@ -47,6 +47,7 @@ class CertificateService
             $mpdf->WriteHTML($this->PDFInfo($pdf_info));
             $mpdf->AddPage('P');
             $mpdf->WriteHTML($this->renderCurriculumMatrix($curriculum_matrix_info));
+            $mpdf->SetHTMLFooter('<p class="footer-text">Matriz Curricular validada pela Secretaria Acadêmica (Secac) da ESP/CE</p>');
 
             $content = $mpdf->Output('', 'S');
 

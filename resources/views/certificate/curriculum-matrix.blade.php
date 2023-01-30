@@ -43,7 +43,7 @@
 
         .matrix-info-wrapper thead th {
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             padding: 4px 0;
             background-color: #0A8A4B;
             border: 1px solid #0A8A4B;
@@ -55,7 +55,7 @@
         }
 
         .matrix-info-wrapper tbody td {
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .details-wrapper thead .module-name {
@@ -64,22 +64,22 @@
         }
 
         .details-wrapper thead th {
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .details-wrapper tbody td {
-            font-size: 13px;
+            font-size: 11px;
         }
 
         .details-wrapper tfoot th {
             text-align: right;
-            font-size: 13px;
+            font-size: 12px;
             padding-right: 7px;
         }
 
         .details-wrapper tfoot td {
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .details-wrapper tbody .module-workload {
@@ -88,7 +88,7 @@
         }
 
         .total-wrapper table {
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .total-wrapper th {
@@ -111,8 +111,9 @@
 </head>
 
 <body>
+    <div style="width: 70%; height: 15px; background: #0A8A4B; position: absolute; top: 0; left: 15%; border-radius: 0 0 16px 16px;"></div>
+
     <header>
-        <div style="width: 80%; height: 15px; background: #0A8A4B; border-radius: 0 0 16px 16px; margin-left: 10%; margin-bottom: 30px;"></div>
         <img width="350" src="assets/images/certificate/esp-gov-ceara-logos.png" alt="Logotipos">
     </header>
 

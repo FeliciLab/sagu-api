@@ -91,7 +91,7 @@ class CertificateService
             'mode' => 'utf-8',
             'format' => [210, 297],
             'orientation' => 'L',
-            'margin_top' => 0,
+            'margin_top' => 10,
             'fontDir' => array_merge($fontDirs, [
                 'assets/fonts/archivo'
             ]),
